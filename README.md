@@ -56,6 +56,7 @@ ln -s ~/pi-skills/gmcli ~/.claude/skills/gmcli
 ln -s ~/pi-skills/transcribe ~/.claude/skills/transcribe
 ln -s ~/pi-skills/vscode ~/.claude/skills/vscode
 ln -s ~/pi-skills/youtube-transcript ~/.claude/skills/youtube-transcript
+ln -s ~/pi-skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
 
 # Or project-level
 mkdir -p .claude/skills
@@ -67,6 +68,7 @@ ln -s ~/pi-skills/gmcli .claude/skills/gmcli
 ln -s ~/pi-skills/transcribe .claude/skills/transcribe
 ln -s ~/pi-skills/vscode .claude/skills/vscode
 ln -s ~/pi-skills/youtube-transcript .claude/skills/youtube-transcript
+ln -s ~/pi-skills/nano-banana-pro .claude/skills/nano-banana-pro
 ```
 
 ## Available Skills
@@ -81,6 +83,7 @@ ln -s ~/pi-skills/youtube-transcript .claude/skills/youtube-transcript
 | [transcribe](transcribe/SKILL.md) | Speech-to-text transcription via Groq Whisper API |
 | [vscode](vscode/SKILL.md) | VS Code integration for diffs and file comparison |
 | [youtube-transcript](youtube-transcript/SKILL.md) | Fetch YouTube video transcripts |
+| [nano-banana-pro](nano-banana-pro/SKILL.md) | Generate images using Google's Nano Banana Pro via Replicate |
 
 ## Skill Format
 
@@ -112,6 +115,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **transcribe**: Requires curl and a Groq API key.
 - **vscode**: Requires VS Code with `code` CLI in PATH.
 - **youtube-transcript**: Requires Node.js. Run `npm install` in the skill directory.
+- **nano-banana-pro**: Standalone binary. Requires `REPLICATE_API_TOKEN` env var.
 
 ## License
 
