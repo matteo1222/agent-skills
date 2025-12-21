@@ -1,0 +1,4 @@
+#!/bin/bash
+# mdview - Open markdown files in a beautiful viewer
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+exec "$SCRIPT_DIR/mdview-bin" "$@"
