@@ -1,0 +1,97 @@
+#!/bin/bash
+# Kling v2.1 Video Generation
+# Usage: ./generate "prompt" start_image.png [end_image.png]
+
+set -e
+
+PROMPT="$1"
+START_IMAGE="$2"
+END_IMAGE="$3"
+
+if [ -z "$PROMPT" ] || [ -z "$START_IMAGE" ]; then
+  echo "Usage: ./generate \"prompt\" start_image.png [end_image.png]" >&2
+  exit 1
+fi
+
+# Load token
+source ~/.zshrc 2>/dev/null
+
+if [ -z "$REPLICATE_API_TOKEN" ]; then
+  echo "Error: REPLICATE_API_TOKEN not set" >&2
+  exit 1
+fi
+
+# Base64 encode images
+START_B64=$(base64 -i "$START_IMAGE" | tr -d '\n')
+
+# Build input JSON
+if [ -n "$END_IMAGE" ]; then
+  END_B64=$(base64 -i "$END_IMAGE" | tr -d '\n')
+  INPUT_JSON=$(cat << EOF
+{
+  "prompt": "$PROMPT",
+  "start_image": "data:image/png;base64,$START_B64",
+  "end_image": "data:image/png;base64,$END_B64",
+  "duration": 5,
+  "mode": "pro"
+}
+EOF
+)
+else
+  INPUT_JSON=$(cat << EOF
+{
+  "prompt": "$PROMPT",
+  "start_image": "data:image/png;base64,$START_B64",
+  "duration": 5,
+  "mode": "standard"
+}
+EOF
+)
+fi
+
+# Create prediction
+echo "Creating Kling prediction..." >&2
+RESPONSE=$(curl -s -X POST "https://api.replicate.com/v1/predictions" \
+  -H "Authorization: Bearer $REPLICATE_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"version\": \"daad218feb714b03e2a1ac445986aebb9d05243cd00da2af17be2e4049f48f69\", \"input\": $INPUT_JSON}")
+
+PRED_ID=$(echo "$RESPONSE" | jq -r '.id')
+
+if [ "$PRED_ID" = "null" ]; then
+  echo "Error creating prediction:" >&2
+  echo "$RESPONSE" | jq >&2
+  exit 1
+fi
+
+echo "Prediction ID: $PRED_ID" >&2
+
+# Poll for completion
+for i in {1..120}; do
+  RESULT=$(curl -s "https://api.replicate.com/v1/predictions/$PRED_ID" \
+    -H "Authorization: Bearer $REPLICATE_API_TOKEN")
+  STATUS=$(echo "$RESULT" | jq -r '.status')
+
+  echo "[$i] Status: $STATUS" >&2
+
+  if [ "$STATUS" = "succeeded" ]; then
+    VIDEO_URL=$(echo "$RESULT" | jq -r '.output')
+
+    # Download to temp
+    OUTFILE="/tmp/kling-$(date +%Y-%m-%dT%H-%M-%S).mp4"
+    echo "Downloading to $OUTFILE..." >&2
+    curl -s -o "$OUTFILE" "$VIDEO_URL"
+
+    echo "$OUTFILE"
+    exit 0
+  elif [ "$STATUS" = "failed" ]; then
+    echo "Failed:" >&2
+    echo "$RESULT" | jq -r '.error' >&2
+    exit 1
+  fi
+
+  sleep 5
+done
+
+echo "Timeout waiting for prediction" >&2
+exit 1

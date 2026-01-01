@@ -40,7 +40,7 @@ async function createPrediction(input: PredictionInput): Promise<Prediction> {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'google/nano-banana-pro',
+      version: 'b48b194183021abdb3e82f3e7b5686f9fd76e20b1d9360e90bd9e19c2d7c6fa1',
       input,
     }),
   });
@@ -102,6 +102,18 @@ if (imageInput) {
   }
 }
 
+async function downloadImage(url: string): Promise<string> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to download: ${res.statusText}`);
+
+  const buffer = await res.arrayBuffer();
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const outPath = `/tmp/nano-banana-${timestamp}.png`;
+
+  await Bun.write(outPath, buffer);
+  return outPath;
+}
+
 try {
   console.error('Creating prediction...');
   const prediction = await createPrediction(input);
@@ -109,7 +121,11 @@ try {
   console.error(`Waiting for prediction ${prediction.id}...`);
   const result = await waitForPrediction(prediction.id);
 
-  console.log(result.output);
+  if (result.output) {
+    console.error('Downloading image...');
+    const localPath = await downloadImage(result.output);
+    console.log(localPath);
+  }
 } catch (error) {
   console.error('Error:', (error as Error).message);
   process.exit(1);

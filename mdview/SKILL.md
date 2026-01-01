@@ -12,6 +12,7 @@ Opens markdown file in browser with:
 - Beautiful typography (Cormorant Garamond serif)
 - Syntax highlighted code blocks
 - GFM support (tables, task lists, etc.)
+- Mermaid diagrams (flowcharts, ER diagrams, sequence diagrams, etc.)
 - Relative image support
 
 ## Examples

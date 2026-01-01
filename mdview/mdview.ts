@@ -49,6 +49,7 @@ const HTML_CONTENT = `<!DOCTYPE html>
     footer{max-width:var(--content-width);margin:0 auto;padding:40px 24px;border-top:1px solid var(--border);text-align:center}
     footer p{font-family:var(--font-sans);font-size:13px;color:var(--text-muted)}
     .hljs-keyword{color:#569cd6}.hljs-string{color:#ce9178}.hljs-number{color:#b5cea8}.hljs-comment{color:#6a9955;font-style:italic}.hljs-function{color:#dcdcaa}.hljs-class{color:#4ec9b0}.hljs-variable{color:#9cdcfe}
+    .mermaid{margin:32px 0;text-align:center}.mermaid svg{max-width:100%}
     @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
     @media(max-width:768px){.article-content h1{font-size:36px}.article-content h2{font-size:28px}.article-content p,.article-content ul,.article-content ol{font-size:18px}}
   </style>
@@ -64,17 +65,27 @@ const HTML_CONTENT = `<!DOCTYPE html>
   <footer><p>mdview - A beautiful markdown viewer</p></footer>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
+    mermaid.initialize({startOnLoad:false,theme:'neutral'});
     marked.setOptions({breaks:true,gfm:true,highlight:(code,lang)=>{if(lang&&hljs.getLanguage(lang)){try{return hljs.highlight(code,{language:lang}).value}catch(e){}}return hljs.highlightAuto(code).value}});
     const urlParams=new URLSearchParams(window.location.search);
     const fileParam=urlParams.get('file');
     if(fileParam){
-      fetch(fileParam).then(r=>r.text()).then(md=>{
+      fetch(fileParam).then(r=>r.text()).then(async md=>{
         document.getElementById('articleContent').innerHTML=marked.parse(md);
         document.getElementById('articleDate').textContent=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
         const h1=document.querySelector('.article-content h1');
         if(h1)document.title=h1.textContent+' — Markdown Viewer';
         document.querySelectorAll('pre code').forEach(b=>{if(!b.classList.contains('hljs'))hljs.highlightElement(b)});
+        document.querySelectorAll('pre code.language-mermaid').forEach(async(el,i)=>{
+          const code=el.textContent;
+          const div=document.createElement('div');
+          div.className='mermaid';
+          const{svg}=await mermaid.render('mermaid-'+i,code);
+          div.innerHTML=svg;
+          el.closest('pre').replaceWith(div);
+        });
       });
     }
   </script>
