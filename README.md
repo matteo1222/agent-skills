@@ -1,6 +1,8 @@
-# pi-skills
+# agent-skills
 
 A collection of skills for [pi-coding-agent](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent), compatible with Claude Code, Codex CLI, Amp, and Droid.
+
+> **Attribution:** Forked from [badlogic/pi-skills](https://github.com/badlogic/pi-skills)
 
 ## Installation
 
@@ -8,16 +10,16 @@ A collection of skills for [pi-coding-agent](https://github.com/badlogic/pi-mono
 
 ```bash
 # User-level (available in all projects)
-git clone https://github.com/badlogic/pi-skills ~/.pi/agent/skills/pi-skills
+git clone https://github.com/matteo1222/agent-skills ~/.pi/agent/skills/agent-skills
 
 # Or project-level
-git clone https://github.com/badlogic/pi-skills .pi/skills/pi-skills
+git clone https://github.com/matteo1222/agent-skills .pi/skills/agent-skills
 ```
 
 ### Codex CLI
 
 ```bash
-git clone https://github.com/badlogic/pi-skills ~/.codex/skills/pi-skills
+git clone https://github.com/matteo1222/agent-skills ~/.codex/skills/agent-skills
 ```
 
 ### Amp
@@ -25,17 +27,17 @@ git clone https://github.com/badlogic/pi-skills ~/.codex/skills/pi-skills
 Amp finds skills recursively in toolboxes:
 
 ```bash
-git clone https://github.com/badlogic/pi-skills ~/.config/amp/tools/pi-skills
+git clone https://github.com/matteo1222/agent-skills ~/.config/amp/tools/agent-skills
 ```
 
 ### Droid (Factory)
 
 ```bash
 # User-level
-git clone https://github.com/badlogic/pi-skills ~/.factory/skills/pi-skills
+git clone https://github.com/matteo1222/agent-skills ~/.factory/skills/agent-skills
 
 # Or project-level
-git clone https://github.com/badlogic/pi-skills .factory/skills/pi-skills
+git clone https://github.com/matteo1222/agent-skills .factory/skills/agent-skills
 ```
 
 ### Claude Code
@@ -44,38 +46,49 @@ Claude Code only looks one level deep for `SKILL.md` files, so each skill folder
 
 ```bash
 # Clone to a convenient location
-git clone https://github.com/badlogic/pi-skills ~/pi-skills
+git clone https://github.com/matteo1222/agent-skills ~/agent-skills
 
 # Symlink individual skills (user-level)
 mkdir -p ~/.claude/skills
-ln -s ~/pi-skills/brave-search ~/.claude/skills/brave-search
-ln -s ~/pi-skills/browser-tools ~/.claude/skills/browser-tools
-ln -s ~/pi-skills/gccli ~/.claude/skills/gccli
-ln -s ~/pi-skills/gdcli ~/.claude/skills/gdcli
-ln -s ~/pi-skills/gmcli ~/.claude/skills/gmcli
-ln -s ~/pi-skills/transcribe ~/.claude/skills/transcribe
-ln -s ~/pi-skills/vscode ~/.claude/skills/vscode
-ln -s ~/pi-skills/youtube-transcript ~/.claude/skills/youtube-transcript
-ln -s ~/pi-skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
-ln -s ~/pi-skills/twitter-tools ~/.claude/skills/twitter-tools
-ln -s ~/pi-skills/create-cli ~/.claude/skills/create-cli
-ln -s ~/pi-skills/delightful-ui ~/.claude/skills/delightful-ui
+ln -s ~/agent-skills/brave-search ~/.claude/skills/brave-search
+ln -s ~/agent-skills/browser-tools ~/.claude/skills/browser-tools
+ln -s ~/agent-skills/gccli ~/.claude/skills/gccli
+ln -s ~/agent-skills/gdcli ~/.claude/skills/gdcli
+ln -s ~/agent-skills/gmcli ~/.claude/skills/gmcli
+ln -s ~/agent-skills/transcribe ~/.claude/skills/transcribe
+ln -s ~/agent-skills/vscode ~/.claude/skills/vscode
+ln -s ~/agent-skills/youtube-transcript ~/.claude/skills/youtube-transcript
+ln -s ~/agent-skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
+ln -s ~/agent-skills/twitter-tools ~/.claude/skills/twitter-tools
+ln -s ~/agent-skills/create-cli ~/.claude/skills/create-cli
+ln -s ~/agent-skills/delightful-ui ~/.claude/skills/delightful-ui
 
 # Or project-level
 mkdir -p .claude/skills
-ln -s ~/pi-skills/brave-search .claude/skills/brave-search
-ln -s ~/pi-skills/browser-tools .claude/skills/browser-tools
-ln -s ~/pi-skills/gccli .claude/skills/gccli
-ln -s ~/pi-skills/gdcli .claude/skills/gdcli
-ln -s ~/pi-skills/gmcli .claude/skills/gmcli
-ln -s ~/pi-skills/transcribe .claude/skills/transcribe
-ln -s ~/pi-skills/vscode .claude/skills/vscode
-ln -s ~/pi-skills/youtube-transcript .claude/skills/youtube-transcript
-ln -s ~/pi-skills/nano-banana-pro .claude/skills/nano-banana-pro
-ln -s ~/pi-skills/twitter-tools .claude/skills/twitter-tools
-ln -s ~/pi-skills/create-cli .claude/skills/create-cli
-ln -s ~/pi-skills/delightful-ui .claude/skills/delightful-ui
+ln -s ~/agent-skills/brave-search .claude/skills/brave-search
+ln -s ~/agent-skills/browser-tools .claude/skills/browser-tools
+ln -s ~/agent-skills/gccli .claude/skills/gccli
+ln -s ~/agent-skills/gdcli .claude/skills/gdcli
+ln -s ~/agent-skills/gmcli .claude/skills/gmcli
+ln -s ~/agent-skills/transcribe .claude/skills/transcribe
+ln -s ~/agent-skills/vscode .claude/skills/vscode
+ln -s ~/agent-skills/youtube-transcript .claude/skills/youtube-transcript
+ln -s ~/agent-skills/nano-banana-pro .claude/skills/nano-banana-pro
+ln -s ~/agent-skills/twitter-tools .claude/skills/twitter-tools
+ln -s ~/agent-skills/create-cli .claude/skills/create-cli
+ln -s ~/agent-skills/delightful-ui .claude/skills/delightful-ui
 ```
+
+**Optional: UI/UX Pro Max skill**
+
+For UI/UX design assistance (styles, colors, fonts, charts, UX guidelines):
+
+```bash
+npm install -g uipro-cli
+uipro init --ai claude
+```
+
+Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 
 ## Available Skills
 
