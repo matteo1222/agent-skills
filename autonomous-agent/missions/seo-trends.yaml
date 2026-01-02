@@ -1,0 +1,87 @@
+# SEO Trends Mission
+# Discovers latest SEO trends and optimizes your site
+
+name: "SEO Trend Finder"
+description: "Research latest SEO trends and algorithms, then optimize site for better rankings"
+
+schedule: weekly
+
+research:
+  topics:
+    - "Google algorithm updates 2025"
+    - "Core Web Vitals SEO impact"
+    - "AI content and SEO best practices"
+    - "structured data schema markup"
+    - "local SEO optimization techniques"
+    - "voice search optimization"
+    - "mobile-first indexing requirements"
+    - "E-E-A-T signals and content quality"
+    - "internal linking strategies"
+    - "page experience signals"
+
+  sources:
+    - web
+    - searchengineland
+    - moz
+    - ahrefs_blog
+    - google_search_central
+
+  competitors:
+    # Add competitor URLs to analyze
+    - ""
+
+# Actions to take
+actions:
+  - type: audit
+    description: "Technical SEO audit"
+    checks:
+      - meta_tags
+      - headings_structure
+      - image_alt_text
+      - internal_links
+      - page_speed
+      - mobile_friendly
+      - structured_data
+      - canonical_urls
+      - robots_txt
+      - sitemap
+
+  - type: report
+    description: "SEO opportunities report"
+    output: "./reports/seo-opportunities.md"
+
+  - type: direct_edit
+    description: "Fix critical SEO issues"
+    auto_fix:
+      - missing_meta_descriptions
+      - missing_alt_text
+      - broken_internal_links
+
+  - type: content_suggestions
+    description: "Content gap analysis"
+    output: "./reports/content-gaps.md"
+
+target:
+  paths:
+    - "src/"
+    - "public/"
+    - "content/"
+    - "pages/"
+  file_types:
+    - "*.html"
+    - "*.tsx"
+    - "*.jsx"
+    - "*.md"
+    - "*.mdx"
+
+limits:
+  max_iterations: 3
+  max_cost: 2.00
+  timeout_hours: 1
+  require_approval: false  # Auto-fix safe issues
+
+success_criteria:
+  - "Generated comprehensive SEO audit"
+  - "Identified keyword opportunities"
+  - "Fixed at least 5 technical SEO issues"
+  - "Created content recommendations"

@@ -1,0 +1,112 @@
+#!/bin/bash
+#
+# Quick Start for Ralph Autonomous Agent
+# Interactive launcher for missions
+#
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MISSIONS_DIR="${SCRIPT_DIR}/missions"
+
+# Colors
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+PURPLE='\033[0;35m'
+NC='\033[0m'
+
+echo ""
+echo -e "${PURPLE}╔═══════════════════════════════════════════════════════╗${NC}"
+echo -e "${PURPLE}║       ${YELLOW}RALPH${PURPLE} Autonomous Agent - Quick Start            ║${NC}"
+echo -e "${PURPLE}╚═══════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+echo -e "${BLUE}Available Missions:${NC}"
+echo ""
+
+missions=()
+i=1
+for mission_file in "${MISSIONS_DIR}"/*.yaml; do
+    if [[ -f "$mission_file" && "$(basename "$mission_file")" != "template.yaml" ]]; then
+        name=$(grep "^name:" "$mission_file" | head -1 | cut -d'"' -f2)
+        desc=$(grep "^description:" "$mission_file" | head -1 | cut -d'"' -f2)
+        echo -e "  ${GREEN}[$i]${NC} ${name}"
+        echo -e "      ${desc}"
+        echo ""
+        missions+=("$mission_file")
+        ((i++))
+    fi
+done
+
+echo -e "  ${GREEN}[c]${NC} Create a new mission from template"
+echo -e "  ${GREEN}[q]${NC} Quit"
+echo ""
+
+read -p "Select a mission (1-$((i-1)), c, or q): " choice
+
+case "$choice" in
+    q|Q)
+        echo "Goodbye!"
+        exit 0
+        ;;
+    c|C)
+        read -p "Enter name for new mission (e.g., my-research): " new_name
+        new_file="${MISSIONS_DIR}/${new_name}.yaml"
+        cp "${MISSIONS_DIR}/template.yaml" "$new_file"
+        echo -e "${GREEN}Created: ${new_file}${NC}"
+        echo "Edit the file to customize your mission, then run:"
+        echo -e "  ${BLUE}${SCRIPT_DIR}/ralph ${new_file}${NC}"
+        exit 0
+        ;;
+    [1-9]*)
+        index=$((choice - 1))
+        if [[ $index -lt ${#missions[@]} ]]; then
+            selected="${missions[$index]}"
+            echo ""
+            echo -e "${BLUE}Selected:${NC} $(basename "$selected")"
+            echo ""
+            echo -e "${YELLOW}Options:${NC}"
+            echo "  [1] Run normally"
+            echo "  [2] Dry run (preview only)"
+            echo "  [3] Run once and exit"
+            echo "  [4] Custom options"
+            echo ""
+            read -p "Choose run mode (1-4): " mode
+
+            case "$mode" in
+                1)
+                    exec "${SCRIPT_DIR}/ralph" "$selected"
+                    ;;
+                2)
+                    exec "${SCRIPT_DIR}/ralph" "$selected" --dry-run
+                    ;;
+                3)
+                    exec "${SCRIPT_DIR}/ralph" "$selected" --once
+                    ;;
+                4)
+                    echo ""
+                    read -p "Max iterations [10]: " max_iter
+                    read -p "Max cost [$] [5.00]: " max_cost
+                    read -p "Output file (optional): " output
+
+                    opts=""
+                    [[ -n "$max_iter" ]] && opts="$opts --max-iter $max_iter"
+                    [[ -n "$max_cost" ]] && opts="$opts --max-cost $max_cost"
+                    [[ -n "$output" ]] && opts="$opts --output $output"
+
+                    exec "${SCRIPT_DIR}/ralph" "$selected" $opts
+                    ;;
+                *)
+                    echo "Invalid mode"
+                    exit 1
+                    ;;
+            esac
+        else
+            echo "Invalid selection"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Invalid selection"
+        exit 1
+        ;;
+esac

@@ -57,6 +57,7 @@ ln -s ~/pi-skills/transcribe ~/.claude/skills/transcribe
 ln -s ~/pi-skills/vscode ~/.claude/skills/vscode
 ln -s ~/pi-skills/youtube-transcript ~/.claude/skills/youtube-transcript
 ln -s ~/pi-skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
+ln -s ~/pi-skills/autonomous-agent ~/.claude/skills/autonomous-agent
 
 # Or project-level
 mkdir -p .claude/skills
@@ -69,6 +70,7 @@ ln -s ~/pi-skills/transcribe .claude/skills/transcribe
 ln -s ~/pi-skills/vscode .claude/skills/vscode
 ln -s ~/pi-skills/youtube-transcript .claude/skills/youtube-transcript
 ln -s ~/pi-skills/nano-banana-pro .claude/skills/nano-banana-pro
+ln -s ~/pi-skills/autonomous-agent .claude/skills/autonomous-agent
 ```
 
 ## Available Skills
@@ -84,6 +86,43 @@ ln -s ~/pi-skills/nano-banana-pro .claude/skills/nano-banana-pro
 | [vscode](vscode/SKILL.md) | VS Code integration for diffs and file comparison |
 | [youtube-transcript](youtube-transcript/SKILL.md) | Fetch YouTube video transcripts |
 | [nano-banana-pro](nano-banana-pro/SKILL.md) | Generate images using Google's Nano Banana Pro via Replicate |
+| [autonomous-agent](autonomous-agent/SKILL.md) | **NEW** Proactive autonomous agent that researches trends and improves your code/business |
+
+## Autonomous Agent (Ralph)
+
+The `autonomous-agent` skill implements the **Ralph Wiggum technique** - a simple bash loop that runs Claude proactively and autonomously to:
+
+- Research latest trends (UX, SEO, marketing, agentic coding, etc.)
+- Find opportunities for improvement
+- Take action (generate reports, build prototypes, create PRs)
+
+### Quick Start
+
+```bash
+# Run the interactive launcher
+~/pi-skills/autonomous-agent/quick-start
+
+# Or run a specific mission
+~/pi-skills/autonomous-agent/ralph ~/pi-skills/autonomous-agent/missions/ux-improver.yaml
+```
+
+### Available Missions
+
+| Mission | Description |
+|---------|-------------|
+| `ux-improver.yaml` | Research UX best practices and improve your UI |
+| `seo-trends.yaml` | Find latest SEO trends and optimize your site |
+| `agentic-coding.yaml` | Stay on top of AI coding tools and techniques |
+| `marketing-ideas.yaml` | Discover marketing trends and generate campaigns |
+| `prototype-builder.yaml` | Research new tech and build quick prototypes |
+
+### Create Your Own Mission
+
+```bash
+cp ~/pi-skills/autonomous-agent/missions/template.yaml ~/my-mission.yaml
+# Edit my-mission.yaml to customize
+~/pi-skills/autonomous-agent/ralph ~/my-mission.yaml
+```
 
 ## Skill Format
 
@@ -116,6 +155,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **vscode**: Requires VS Code with `code` CLI in PATH.
 - **youtube-transcript**: Requires Node.js. Run `npm install` in the skill directory.
 - **nano-banana-pro**: Standalone binary. Requires `REPLICATE_API_TOKEN` env var.
+- **autonomous-agent**: Requires Claude Code CLI installed. Run missions with `./ralph <mission>.yaml`.
 
 ## License
 

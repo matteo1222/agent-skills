@@ -1,0 +1,63 @@
+# Mission Template
+# Copy this file and customize for your own autonomous agent mission
+
+name: "Your Mission Name"
+description: "What this mission accomplishes"
+
+# When to run: continuous, hourly, daily, weekly
+schedule: daily
+
+# What to research
+research:
+  topics:
+    - "topic 1 to research"
+    - "topic 2 to research"
+    - "topic 3 to research"
+
+  sources:
+    - web           # General web search
+    - github        # GitHub repositories
+    - hackernews    # Hacker News discussions
+    # - twitter     # Twitter/X
+    # - arxiv       # Research papers
+    # - producthunt # Product Hunt
+
+# What actions to take
+actions:
+  - type: report
+    description: "Generate findings report"
+    output: "./reports/my-report.md"
+
+  # Uncomment and customize as needed:
+  # - type: prototype
+  #   description: "Build a prototype"
+  #   output: "./prototypes/"
+
+  # - type: pr
+  #   description: "Create pull request with improvements"
+  #   branch_prefix: "auto-improve"
+
+  # - type: direct_edit
+  #   description: "Edit files directly"
+  #   require_approval: true
+
+# What files/directories to analyze
+target:
+  paths:
+    - "src/"
+    - "lib/"
+  file_types:
+    - "*.ts"
+    - "*.js"
+
+# Safety limits
+limits:
+  max_iterations: 5      # Maximum loop iterations
+  max_cost: 3.00         # Maximum cost in dollars
+  timeout_hours: 1       # Maximum runtime
+  require_approval: true # Require human approval for changes
+
+# What counts as mission complete
+success_criteria:
+  - "Identified actionable improvements"
+  - "Generated report with findings"

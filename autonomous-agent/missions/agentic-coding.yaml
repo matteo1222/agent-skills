@@ -1,0 +1,97 @@
+# Agentic Coding Research Mission
+# Researches latest AI coding tools, patterns, and best practices
+
+name: "Agentic Coding Researcher"
+description: "Stay on top of the latest agentic coding tools, patterns, and techniques to improve development workflow"
+
+schedule: daily
+
+research:
+  topics:
+    - "Claude Code latest features and updates"
+    - "Cursor IDE new capabilities"
+    - "Aider coding assistant updates"
+    - "GitHub Copilot workspace features"
+    - "AI coding agent architectures"
+    - "prompt engineering for code generation"
+    - "MCP (Model Context Protocol) tools"
+    - "AI code review best practices"
+    - "autonomous coding agent patterns"
+    - "multi-agent coding systems"
+    - "AI pair programming techniques"
+    - "code generation evaluation methods"
+
+  sources:
+    - web
+    - github
+    - hackernews
+    - arxiv           # Research papers
+    - twitter         # AI/ML community
+    - discord         # Tool communities
+
+  github_repos:
+    - "anthropics/claude-code"
+    - "Aider-AI/aider"
+    - "getcursor/cursor"
+    - "continuedev/continue"
+    - "sourcegraph/cody"
+
+actions:
+  - type: report
+    description: "Weekly digest of agentic coding developments"
+    output: "./reports/agentic-coding-digest.md"
+    format: |
+      # Agentic Coding Weekly Digest
+
+      ## New Tools & Updates
+      [List new tools, features, updates]
+
+      ## Research & Papers
+      [Interesting papers and findings]
+
+      ## Community Discussions
+      [Notable discussions from HN, Discord, Twitter]
+
+      ## Techniques to Try
+      [Actionable techniques we could implement]
+
+      ## Recommendations
+      [Specific improvements for our workflow]
+
+  - type: prototype
+    description: "Build prototypes of promising techniques"
+    output: "./prototypes/agentic/"
+
+  - type: skill_update
+    description: "Update our AI skills based on findings"
+    target: "./skills/"
+
+  - type: workflow_improve
+    description: "Suggest improvements to our AI workflow"
+    output: "./reports/workflow-recommendations.md"
+
+target:
+  # Your development workflow files
+  paths:
+    - ".claude/"
+    - ".cursor/"
+    - ".aider/"
+    - "scripts/"
+    - "tools/"
+
+  workflow_files:
+    - "CLAUDE.md"
+    - ".cursorrules"
+    - "aider.conf"
+
+limits:
+  max_iterations: 10
+  max_cost: 5.00
+  timeout_hours: 2
+  require_approval: true
+
+success_criteria:
+  - "Identified at least 3 new tools or techniques"
+  - "Found actionable improvements for our workflow"
+  - "Created digest with specific recommendations"
+  - "Prototyped at least 1 promising technique"

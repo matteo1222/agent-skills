@@ -1,0 +1,88 @@
+# Marketing Ideas Mission
+# Discovers marketing trends and generates campaign ideas
+
+name: "Marketing Idea Generator"
+description: "Research latest marketing trends and generate actionable campaign ideas"
+
+schedule: weekly
+
+research:
+  topics:
+    - "viral marketing campaigns 2025"
+    - "growth hacking techniques startups"
+    - "content marketing trends"
+    - "social media algorithm updates"
+    - "influencer marketing strategies"
+    - "email marketing best practices"
+    - "community-led growth tactics"
+    - "product-led growth examples"
+    - "referral program designs"
+    - "B2B marketing automation"
+    - "developer marketing strategies"
+    - "launch strategies Product Hunt"
+
+  sources:
+    - web
+    - twitter
+    - linkedin
+    - producthunt
+    - indiehackers
+
+  analyze_competitors:
+    - ""  # Add competitor URLs
+
+actions:
+  - type: report
+    description: "Marketing trends analysis"
+    output: "./reports/marketing-trends.md"
+
+  - type: ideas
+    description: "Generate campaign ideas"
+    output: "./reports/campaign-ideas.md"
+    format: |
+      # Campaign Ideas
+
+      ## Quick Wins (< 1 week)
+      [Low-effort, high-impact ideas]
+
+      ## Medium Projects (1-4 weeks)
+      [Moderate effort campaigns]
+
+      ## Big Bets (1+ months)
+      [Large campaigns with high potential]
+
+      ## Content Calendar
+      [Suggested content for next month]
+
+  - type: copy
+    description: "Generate marketing copy drafts"
+    output: "./reports/copy-drafts.md"
+    includes:
+      - landing_page_headlines
+      - email_sequences
+      - social_posts
+      - ad_copy
+
+  - type: competitive_analysis
+    description: "Analyze competitor marketing"
+    output: "./reports/competitive-analysis.md"
+
+target:
+  # Your marketing assets
+  paths:
+    - "marketing/"
+    - "content/"
+    - "landing/"
+    - "emails/"
+
+limits:
+  max_iterations: 3
+  max_cost: 2.00
+  timeout_hours: 1
+  require_approval: true
+
+success_criteria:
+  - "Generated at least 10 campaign ideas"
+  - "Identified 3 quick wins to implement"
+  - "Created draft copy for at least 2 campaigns"
+  - "Analyzed at least 2 competitors"
