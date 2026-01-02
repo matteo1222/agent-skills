@@ -59,6 +59,7 @@ ln -s ~/pi-skills/youtube-transcript ~/.claude/skills/youtube-transcript
 ln -s ~/pi-skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
 ln -s ~/pi-skills/twitter-tools ~/.claude/skills/twitter-tools
 ln -s ~/pi-skills/create-cli ~/.claude/skills/create-cli
+ln -s ~/pi-skills/delightful-ui ~/.claude/skills/delightful-ui
 
 # Or project-level
 mkdir -p .claude/skills
@@ -73,6 +74,7 @@ ln -s ~/pi-skills/youtube-transcript .claude/skills/youtube-transcript
 ln -s ~/pi-skills/nano-banana-pro .claude/skills/nano-banana-pro
 ln -s ~/pi-skills/twitter-tools .claude/skills/twitter-tools
 ln -s ~/pi-skills/create-cli .claude/skills/create-cli
+ln -s ~/pi-skills/delightful-ui .claude/skills/delightful-ui
 ```
 
 ## Available Skills
@@ -90,6 +92,7 @@ ln -s ~/pi-skills/create-cli .claude/skills/create-cli
 | [nano-banana-pro](nano-banana-pro/SKILL.md) | Generate images using Google's Nano Banana Pro via Replicate |
 | [twitter-tools](twitter-tools/SKILL.md) | Fetch tweets and download Twitter/X videos (no API key) |
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
+| [delightful-ui](delightful-ui/SKILL.md) | Add micro-animations, haptics, and polish to make apps stand out |
 
 ## Skill Format
 
@@ -124,6 +127,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **nano-banana-pro**: Standalone binary. Requires `REPLICATE_API_TOKEN` env var.
 - **twitter-tools**: Requires Node.js. Run `npm install` in the skill directory.
 - **create-cli**: No dependencies (documentation-only skill).
+- **delightful-ui**: No dependencies (documentation/patterns skill).
 
 ## License
 
