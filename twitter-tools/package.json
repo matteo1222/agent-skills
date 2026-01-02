@@ -1,0 +1,14 @@
+{
+  "name": "twitter-tools",
+  "version": "1.0.0",
+  "description": "Fetch tweets and download Twitter/X videos",
+  "type": "module",
+  "bin": {
+    "twitter-tweet": "./twitter-tweet.js",
+    "twitter-video": "./twitter-video.js",
+    "twitter-archive": "./twitter-archive.js"
+  },
+  "dependencies": {
+    "youtube-dl-exec": "^3.0.0"
+  }
+}
