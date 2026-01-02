@@ -57,6 +57,8 @@ ln -s ~/pi-skills/transcribe ~/.claude/skills/transcribe
 ln -s ~/pi-skills/vscode ~/.claude/skills/vscode
 ln -s ~/pi-skills/youtube-transcript ~/.claude/skills/youtube-transcript
 ln -s ~/pi-skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
+ln -s ~/pi-skills/twitter-tools ~/.claude/skills/twitter-tools
+ln -s ~/pi-skills/create-cli ~/.claude/skills/create-cli
 
 # Or project-level
 mkdir -p .claude/skills
@@ -69,6 +71,8 @@ ln -s ~/pi-skills/transcribe .claude/skills/transcribe
 ln -s ~/pi-skills/vscode .claude/skills/vscode
 ln -s ~/pi-skills/youtube-transcript .claude/skills/youtube-transcript
 ln -s ~/pi-skills/nano-banana-pro .claude/skills/nano-banana-pro
+ln -s ~/pi-skills/twitter-tools .claude/skills/twitter-tools
+ln -s ~/pi-skills/create-cli .claude/skills/create-cli
 ```
 
 ## Available Skills
@@ -84,6 +88,8 @@ ln -s ~/pi-skills/nano-banana-pro .claude/skills/nano-banana-pro
 | [vscode](vscode/SKILL.md) | VS Code integration for diffs and file comparison |
 | [youtube-transcript](youtube-transcript/SKILL.md) | Fetch YouTube video transcripts |
 | [nano-banana-pro](nano-banana-pro/SKILL.md) | Generate images using Google's Nano Banana Pro via Replicate |
+| [twitter-tools](twitter-tools/SKILL.md) | Fetch tweets and download Twitter/X videos (no API key) |
+| [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 
 ## Skill Format
 
@@ -116,6 +122,8 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **vscode**: Requires VS Code with `code` CLI in PATH.
 - **youtube-transcript**: Requires Node.js. Run `npm install` in the skill directory.
 - **nano-banana-pro**: Standalone binary. Requires `REPLICATE_API_TOKEN` env var.
+- **twitter-tools**: Requires Node.js. Run `npm install` in the skill directory.
+- **create-cli**: No dependencies (documentation-only skill).
 
 ## License
 
