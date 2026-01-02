@@ -13,7 +13,10 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 STATE_DIR="${SCRIPT_DIR}/.state"
+MEMORY_DIR="${SCRIPT_DIR}/memory"
+DIRECTOR_FILE="${SCRIPT_DIR}/director.yaml"
 LOG_FILE="${STATE_DIR}/ralph.log"
+MEMORY_SCRIPT="${SCRIPT_DIR}/memory.sh"
 
 # Colors for output
 RED='\033[0;31m'
@@ -37,6 +40,8 @@ SCHEDULE=""
 # Parse command line arguments
 usage() {
     echo "Usage: ralph <mission-file> [options]"
+    echo "       ralph --memory [command]"
+    echo "       ralph --director"
     echo ""
     echo "Options:"
     echo "  --agent <name>      Agent to use: claude, gemini, q (default: claude)"
@@ -48,11 +53,37 @@ usage() {
     echo "  --once              Run once and exit"
     echo "  --schedule <when>   Schedule: hourly, daily, weekly"
     echo "  --output <file>     Output report to file"
+    echo "  --director          Edit director.yaml configuration"
+    echo "  --memory            Show memory summary (or pass command to memory.sh)"
     echo "  --help              Show this help"
     exit 1
 }
 
 MISSION_FILE=""
+
+# Handle special commands first
+if [[ "$1" == "--memory" ]]; then
+    shift
+    if [[ $# -eq 0 ]]; then
+        exec "$MEMORY_SCRIPT" summary
+    else
+        exec "$MEMORY_SCRIPT" "$@"
+    fi
+fi
+
+if [[ "$1" == "--director" ]]; then
+    echo -e "${BLUE}Director configuration: ${DIRECTOR_FILE}${NC}"
+    echo ""
+    if [[ -f "$DIRECTOR_FILE" ]]; then
+        cat "$DIRECTOR_FILE"
+    else
+        echo "No director.yaml found. Creating from template..."
+        # The file should already exist, but show the path
+    fi
+    echo ""
+    echo -e "${YELLOW}Edit this file to set your general direction, goals, and seed sources.${NC}"
+    exit 0
+fi
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -129,24 +160,120 @@ parse_yaml "$MISSION_FILE"
 MISSION_NAME="${MISSION_NAME:-Unnamed Mission}"
 log INFO "Mission: $MISSION_NAME"
 
+# Load director configuration
+load_director() {
+    if [[ -f "$DIRECTOR_FILE" ]]; then
+        cat "$DIRECTOR_FILE"
+    else
+        echo "(No director.yaml found - using mission defaults)"
+    fi
+}
+
+# Get memory context
+get_memory_context() {
+    if [[ -x "$MEMORY_SCRIPT" ]]; then
+        "$MEMORY_SCRIPT" export-for-prompt 2>/dev/null || echo "(No memory yet)"
+    else
+        echo "(Memory system not initialized)"
+    fi
+}
+
+# Record experiment start
+start_experiment() {
+    local name="$1"
+    local hypothesis="$2"
+    local focus="$3"
+
+    if [[ -x "$MEMORY_SCRIPT" ]]; then
+        "$MEMORY_SCRIPT" add-experiment "$name" "$hypothesis" "$focus" 2>/dev/null
+    fi
+}
+
+# Record experiment completion
+complete_experiment() {
+    local id="$1"
+    local outcome="$2"
+    local learnings="$3"
+
+    if [[ -x "$MEMORY_SCRIPT" ]]; then
+        "$MEMORY_SCRIPT" complete-experiment "$id" "$outcome" "$learnings" 2>/dev/null
+    fi
+}
+
 # Generate the prompt for the agent
 generate_prompt() {
     local iteration="$1"
     local mission_file="$2"
 
+    # Get director and memory context
+    local director_config=$(load_director)
+    local memory_context=$(get_memory_context)
+
     cat << EOF
 You are an autonomous agent running iteration $iteration of a proactive improvement mission.
 
-## Mission Configuration
+# ═══════════════════════════════════════════════════════════════════════════════
+# DIRECTOR: Your General Direction
+# ═══════════════════════════════════════════════════════════════════════════════
+
+$director_config
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# MISSION: Current Task
+# ═══════════════════════════════════════════════════════════════════════════════
+
 $(cat "$mission_file")
 
-## Your Task
+# ═══════════════════════════════════════════════════════════════════════════════
+# MEMORY: What You've Learned
+# ═══════════════════════════════════════════════════════════════════════════════
 
-Based on the mission above, you need to:
+$memory_context
 
-1. **RESEARCH**: Search the web and gather the latest information on the topics specified
-2. **ANALYZE**: Compare findings with the current state (codebase, website, business)
-3. **ACT**: Take the specified actions (report, prototype, PR, or direct edit)
+# ═══════════════════════════════════════════════════════════════════════════════
+# YOUR TASK
+# ═══════════════════════════════════════════════════════════════════════════════
+
+## Phase 1: RESEARCH
+1. Check memory for what was already tried - DON'T REPEAT FAILURES
+2. Use seed sources from director.yaml as starting points
+3. Search for SIMILAR sources to the seeds (same quality, same perspective)
+4. Look for the latest trends and best practices
+
+## Phase 2: ANALYZE
+1. Compare findings with current state (codebase, website, business)
+2. Consider the director's focus areas and their weights
+3. Prioritize based on north star metrics
+4. Respect the constraints and principles
+
+## Phase 3: ACT
+Based on the mission's action type:
+- **report**: Write findings to a markdown file
+- **prototype**: Create a working prototype in ./prototypes/
+- **pr**: Create a branch and make changes, then report what you'd PR
+- **direct_edit**: Make the improvements directly (if auto-approve is on)
+
+## Phase 4: REMEMBER
+After completing your work, record what you learned:
+
+1. Write a brief experiment record:
+   \`\`\`bash
+   # Record what you tried
+   ${MEMORY_SCRIPT} add-experiment "experiment name" "hypothesis" "focus_area"
+
+   # When done, record outcome
+   ${MEMORY_SCRIPT} complete-experiment "ID" "success|failure|partial" "learnings separated by semicolons"
+
+   # Add any discovered sources
+   ${MEMORY_SCRIPT} add-source "url" "type" "why useful" "found from"
+
+   # Record key insights
+   ${MEMORY_SCRIPT} add-insight "category" "the insight" "evidence"
+   \`\`\`
+
+2. Write iteration results to: ${STATE_DIR}/iteration_${iteration}_results.md
+
+3. If mission complete, create: ${STATE_DIR}/MISSION_COMPLETE
 
 ## Current State
 
@@ -154,33 +281,15 @@ Based on the mission above, you need to:
 - Dry Run: $DRY_RUN
 - Auto Approve: $AUTO_APPROVE
 - Working Directory: $(pwd)
+- Memory Directory: $MEMORY_DIR
 
-## Instructions
+## Key Principles
 
-1. Start by researching the latest trends and best practices
-2. Identify 3-5 concrete improvements or opportunities
-3. Take action based on the mission's action type:
-   - For "report": Write findings to a markdown file
-   - For "prototype": Create a working prototype in ./prototypes/
-   - For "pr": Create a branch and make changes, then report what you'd PR
-   - For "direct_edit": Make the improvements directly (if auto-approve is on)
-
-4. When you're done with this iteration, write your findings to:
-   ${STATE_DIR}/iteration_${iteration}_results.md
-
-5. If the mission is complete (no more improvements to make), create a file:
-   ${STATE_DIR}/MISSION_COMPLETE
-
-## Available Tools
-
-You have access to:
-- Web search for research
-- File reading/writing for analysis and reports
-- Code editing for making changes
-- Git for version control
-
-Be proactive! Find real, actionable improvements. Don't just list generic advice.
-Focus on specific, implementable changes that will have measurable impact.
+1. **Don't repeat failures** - Check memory first
+2. **Build on successes** - Do more of what works
+3. **Discover similar sources** - Expand from seed sources
+4. **Record everything** - Future iterations depend on your notes
+5. **Be specific** - Generic advice is useless; find concrete improvements
 EOF
 }
 
@@ -360,6 +469,15 @@ echo -e "${PURPLE}║   ${NC}\"Me fail English? That's unpossible!\"${PURPLE}   
 echo -e "${PURPLE}║                                                       ║${NC}"
 echo -e "${PURPLE}╚═══════════════════════════════════════════════════════╝${NC}"
 echo ""
+
+# Show memory status
+if [[ -x "$MEMORY_SCRIPT" ]]; then
+    exp_count=$(jq '.experiments | length' "${MEMORY_DIR}/experiments.json" 2>/dev/null || echo "0")
+    source_count=$(jq '.discovered_sources | length' "${MEMORY_DIR}/sources.json" 2>/dev/null || echo "0")
+    insight_count=$(jq '.insights | length' "${MEMORY_DIR}/insights.json" 2>/dev/null || echo "0")
+    echo -e "${BLUE}Memory:${NC} $exp_count experiments, $source_count sources, $insight_count insights"
+    echo ""
+fi
 
 # Run the main loop
 main_loop

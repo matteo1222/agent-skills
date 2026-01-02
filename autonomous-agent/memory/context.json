@@ -1,0 +1,16 @@
+{
+  "codebase": {
+    "last_analyzed": null,
+    "summary": null,
+    "strengths": [],
+    "weaknesses": [],
+    "opportunities": []
+  },
+  "business": {
+    "last_analyzed": null,
+    "summary": null,
+    "competitive_position": null
+  },
+  "schema_version": 1,
+  "description": "Current understanding of codebase and business"
+}

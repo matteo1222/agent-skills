@@ -23,14 +23,34 @@ The heart of the system - a simple bash loop that runs missions until complete.
 {baseDir}/ralph <mission-file>
 ```
 
-### 2. Missions
+### 2. The Director (`director.yaml`)
+Your general direction - goals, seed sources, principles, and constraints.
+
+```bash
+# View/edit your director configuration
+{baseDir}/ralph --director
+```
+
+### 3. Memory System
+Persistent memory that tracks experiments, discovered sources, and insights.
+
+```bash
+# View memory summary
+{baseDir}/ralph --memory
+
+# Add an experiment
+{baseDir}/ralph --memory add-experiment "name" "hypothesis" "focus_area"
+
+# View what worked/failed
+{baseDir}/ralph --memory get-successes
+{baseDir}/ralph --memory get-failures
+```
+
+### 4. Missions
 YAML files that define what the agent should research and improve.
 
-### 3. Research Phase
-The agent searches the web, reads documentation, finds trends and opportunities.
-
-### 4. Action Phase
-The agent makes improvements - directly editing code, creating PRs, or generating reports.
+### 5. Research & Action Phases
+The agent searches the web, reads documentation, finds trends, and takes action.
 
 ## Quick Start
 
@@ -91,33 +111,114 @@ limits:
 ## How It Works
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    RALPH LOOP                            │
-│  ┌─────────┐    ┌──────────┐    ┌─────────┐             │
-│  │ RESEARCH │───▶│ ANALYZE  │───▶│  ACT    │────┐       │
-│  └─────────┘    └──────────┘    └─────────┘    │       │
-│       ▲                                          │       │
-│       └──────────────────────────────────────────┘       │
-│                    (until complete)                      │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                         RALPH LOOP                               │
+│                                                                  │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐      │
+│  │ DIRECTOR │──▶│ RESEARCH │──▶│ ANALYZE  │──▶│   ACT    │──┐   │
+│  │ (goals)  │   │ (learn)  │   │ (plan)   │   │ (do)     │  │   │
+│  └──────────┘   └──────────┘   └──────────┘   └──────────┘  │   │
+│       │                                              │        │   │
+│       │              ┌──────────┐                    │        │   │
+│       └─────────────▶│  MEMORY  │◀───────────────────┘        │   │
+│                      │ (learn)  │                             │   │
+│                      └──────────┘                             │   │
+│       ▲                                                       │   │
+│       └───────────────────────────────────────────────────────┘   │
+│                        (until complete)                           │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### Research Phase
-- Searches web for latest trends in your topic
-- Reads documentation and best practices
-- Checks GitHub for new tools and patterns
-- Monitors Hacker News for discussions
+### Director Phase
+- Loads your general direction from `director.yaml`
+- Considers focus areas and their weights
+- Respects principles and constraints
+
+### Research Phase (with Memory)
+- **Checks memory first** - don't repeat failures
+- Uses **seed sources** as starting points
+- **Discovers similar sources** - expands your research network
+- Searches web for latest trends
 
 ### Analysis Phase
 - Compares findings with your current codebase
+- Prioritizes based on **north star metrics**
 - Identifies gaps and opportunities
-- Prioritizes by impact and effort
 
 ### Action Phase
 - Generates reports with recommendations
 - Builds prototypes of new features
 - Creates PRs with improvements
-- Directly edits files (if configured)
+- **Records experiments** - what worked, what didn't
+
+## The Director
+
+Edit `{baseDir}/director.yaml` to set your general direction:
+
+```yaml
+# Your north star - ultimate goal
+north_star:
+  primary: "Build the best product"
+  metrics: ["User satisfaction", "Code quality"]
+
+# Where to focus
+focus_areas:
+  code_quality:
+    weight: high
+    goals: ["Reduce tech debt", "Better tests"]
+  ux_design:
+    weight: medium
+    goals: ["Improve UX", "Mobile-first"]
+
+# Seed sources - agent will find similar ones
+seed_sources:
+  blogs:
+    - url: "https://blog.pragmaticengineer.com"
+      why: "Engineering best practices"
+  github:
+    - repo: "anthropics/claude-code"
+      why: "Stay updated on Claude Code"
+
+# Principles for decision-making
+principles:
+  - "Prefer simple solutions over complex ones"
+  - "Test ideas quickly with prototypes"
+
+# What to avoid
+constraints:
+  avoid:
+    - "Major rewrites without clear benefit"
+```
+
+## Memory System
+
+The agent remembers what it tried and learned:
+
+```bash
+# View memory summary
+{baseDir}/ralph --memory
+
+# What worked (do more of)
+{baseDir}/ralph --memory get-successes
+
+# What failed (don't repeat)
+{baseDir}/ralph --memory get-failures
+
+# All discovered sources
+{baseDir}/ralph --memory list-sources
+
+# Key insights
+{baseDir}/ralph --memory get-insights
+
+# Reset memory (start fresh)
+{baseDir}/ralph --memory reset
+```
+
+Memory files are stored in `{baseDir}/memory/`:
+- `experiments.json` - What was tried and outcomes
+- `sources.json` - Discovered sources (expanded from seeds)
+- `insights.json` - Key learnings and patterns
+- `context.json` - Understanding of codebase/business
 
 ## Environment Variables
 
@@ -169,7 +270,9 @@ nohup {baseDir}/ralph {baseDir}/missions/ux-improver.yaml --schedule daily &
 ## Files
 
 - `{baseDir}/ralph` - Main loop script
-- `{baseDir}/research.js` - Research engine
-- `{baseDir}/act.js` - Action executor
+- `{baseDir}/quick-start` - Interactive mission launcher
+- `{baseDir}/director.yaml` - Your general direction and seed sources
+- `{baseDir}/memory.sh` - Memory management script
+- `{baseDir}/memory/` - Persistent memory (experiments, sources, insights)
 - `{baseDir}/missions/` - Mission configurations
-- `{baseDir}/.state/` - Persistent state and logs
+- `{baseDir}/.state/` - Runtime state and logs

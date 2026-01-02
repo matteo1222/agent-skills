@@ -1,0 +1,169 @@
+# Director Configuration
+# Your general direction, goals, and seed sources for the autonomous agent
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# IDENTITY: Who is this agent working for?
+# ═══════════════════════════════════════════════════════════════════════════════
+identity:
+  name: "My Business/Project"
+  description: "Brief description of what you're building"
+  stage: "growth"  # early, growth, mature
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# NORTH STAR: What's the ultimate goal?
+# ═══════════════════════════════════════════════════════════════════════════════
+north_star:
+  primary: "Build the best product in our category"
+  metrics:
+    - "User satisfaction"
+    - "Code quality"
+    - "Developer velocity"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FOCUS AREAS: Where should the agent focus its efforts?
+# ═══════════════════════════════════════════════════════════════════════════════
+focus_areas:
+  # Weight: high, medium, low
+  code_quality:
+    weight: high
+    goals:
+      - "Reduce technical debt"
+      - "Improve test coverage"
+      - "Better error handling"
+      - "Cleaner architecture"
+
+  ux_design:
+    weight: medium
+    goals:
+      - "Improve user experience"
+      - "Better accessibility"
+      - "Faster load times"
+      - "Mobile-first design"
+
+  business_value:
+    weight: high
+    goals:
+      - "Increase conversions"
+      - "Reduce churn"
+      - "Improve SEO"
+      - "Better analytics"
+
+  agentic_coding:
+    weight: high
+    goals:
+      - "Improve AI coding workflows"
+      - "Better prompts and tools"
+      - "Automate repetitive tasks"
+      - "Self-improving processes"
+
+  marketing:
+    weight: medium
+    goals:
+      - "Content that resonates"
+      - "Community building"
+      - "Thought leadership"
+      - "Growth experiments"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SEED SOURCES: Starting points for research (agent will find similar ones)
+# ═══════════════════════════════════════════════════════════════════════════════
+seed_sources:
+  # Blogs and publications
+  blogs:
+    - url: "https://blog.pragmaticengineer.com"
+      why: "Engineering best practices at scale"
+    - url: "https://lethain.com"
+      why: "Engineering leadership and systems"
+    - url: "https://kentcdodds.com/blog"
+      why: "React and testing best practices"
+    - url: "https://www.joshwcomeau.com"
+      why: "CSS and UX deep dives"
+    # Add your favorite sources here
+
+  # Newsletters
+  newsletters:
+    - url: "https://bytes.dev"
+      why: "JavaScript ecosystem updates"
+    - url: "https://tldr.tech"
+      why: "Tech news digest"
+
+  # Communities
+  communities:
+    - url: "https://news.ycombinator.com"
+      why: "Tech discussions and trends"
+    - url: "https://lobste.rs"
+      why: "Quality tech content"
+    - url: "https://reddit.com/r/programming"
+      why: "Broader programming discussions"
+
+  # GitHub repos to watch
+  github:
+    - repo: "anthropics/claude-code"
+      why: "Official Claude Code updates"
+    - repo: "vercel/next.js"
+      why: "Framework updates"
+    # Add repos relevant to your stack
+
+  # Twitter/X accounts
+  twitter:
+    - handle: "@geoffreylitt"
+      why: "Future of programming"
+    - handle: "@karpathy"
+      why: "AI/ML insights"
+
+  # YouTube channels
+  youtube:
+    - channel: "Theo - t3.gg"
+      why: "Web dev ecosystem"
+    - channel: "Fireship"
+      why: "Quick tech overviews"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PRINCIPLES: How should the agent make decisions?
+# ═══════════════════════════════════════════════════════════════════════════════
+principles:
+  - "Prefer simple solutions over complex ones"
+  - "Test ideas quickly with prototypes"
+  - "Focus on user value over technical elegance"
+  - "Learn from failures, don't repeat them"
+  - "Build on what works, discard what doesn't"
+  - "Always consider maintenance burden"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONSTRAINTS: What should the agent avoid?
+# ═══════════════════════════════════════════════════════════════════════════════
+constraints:
+  avoid:
+    - "Major rewrites without clear benefit"
+    - "Trendy tech without proven value"
+    - "Changes that break existing features"
+    - "Over-engineering for hypothetical needs"
+
+  require_approval_for:
+    - "Architectural changes"
+    - "New dependencies"
+    - "Changes to core business logic"
+    - "Public-facing content"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CODEBASE: Information about your project
+# ═══════════════════════════════════════════════════════════════════════════════
+codebase:
+  # Primary language and framework
+  stack:
+    - "TypeScript"
+    - "React"
+    - "Node.js"
+    # Add your stack
+
+  # Key directories
+  structure:
+    source: "src/"
+    tests: "tests/"
+    docs: "docs/"
+
+  # Quality standards
+  standards:
+    test_coverage_target: 80
+    max_complexity: 10
+    require_types: true
