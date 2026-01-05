@@ -1,9 +1,9 @@
 ---
-name: delightful-ui
+name: app-polish
 description: Add micro-animations, haptics, and polish to make vibe-coded apps stand out.
 ---
 
-# Delightful UI
+# App Polish
 
 Make your app stand out from generic vibe-coded apps by adding micro-animations, haptic feedback, and polished interactions.
 
@@ -22,7 +22,7 @@ Anyone can spin up an app in 24 hours now. Users can spot static, generic apps i
 When building or improving an app, invoke this skill to get framework-specific code for adding polish:
 
 ```
-/delightful-ui [framework] [pattern]
+/app-polish [framework] [pattern]
 ```
 
 **Frameworks:** `swift`, `react`, `react-native`, `flutter`, `web`
@@ -37,22 +37,28 @@ When building or improving an app, invoke this skill to get framework-specific c
 - `pull-refresh` - Custom pull-to-refresh animations
 - `skeleton` - Skeleton loading placeholders
 - `success` - Success state celebrations (confetti, checkmarks)
+- `holographic` - Draggable holographic sticker effects (Pokemon-style)
+- `icon-morph` - Icon rotation/morphing animations
+- `background-expand` - Expanding background from element
+- `streak-badge` - Gamification streaks and unlockable badges
+- `voice-ui` - Voice dictation animations and contextual chips
+- `ai-loading` - AI-specific loading states (searching, calculating)
 - `all` - Show all patterns for the framework
 
 ## Examples
 
 ```bash
 # Get Swift page transition code
-/delightful-ui swift page-transition
+/app-polish swift page-transition
 
 # Get React modal animations
-/delightful-ui react modal-bounce
+/app-polish react modal-bounce
 
 # Get all patterns for Flutter
-/delightful-ui flutter all
+/app-polish flutter all
 
 # Quick audit of current app
-/delightful-ui audit
+/app-polish audit
 ```
 
 ## Quick Wins Checklist
