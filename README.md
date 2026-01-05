@@ -62,6 +62,7 @@ ln -s ~/agent-skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
 ln -s ~/agent-skills/twitter-tools ~/.claude/skills/twitter-tools
 ln -s ~/agent-skills/create-cli ~/.claude/skills/create-cli
 ln -s ~/agent-skills/app-polish ~/.claude/skills/app-polish
+ln -s ~/agent-skills/context-efficient ~/.claude/skills/context-efficient
 
 # Or project-level
 mkdir -p .claude/skills
@@ -77,6 +78,7 @@ ln -s ~/agent-skills/nano-banana-pro .claude/skills/nano-banana-pro
 ln -s ~/agent-skills/twitter-tools .claude/skills/twitter-tools
 ln -s ~/agent-skills/create-cli .claude/skills/create-cli
 ln -s ~/agent-skills/app-polish .claude/skills/app-polish
+ln -s ~/agent-skills/context-efficient .claude/skills/context-efficient
 ```
 
 **Optional: UI/UX Pro Max skill**
@@ -106,6 +108,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [twitter-tools](twitter-tools/SKILL.md) | Fetch tweets and download Twitter/X videos (no API key) |
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [app-polish](app-polish/SKILL.md) | Add micro-animations, haptics, and polish to make apps stand out |
+| [context-efficient](context-efficient/SKILL.md) | Context-efficient backpressure patterns for AI agents running tests, builds, and linting |
 
 ## Skill Format
 
@@ -141,6 +144,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **twitter-tools**: Requires Node.js. Run `npm install` in the skill directory.
 - **create-cli**: No dependencies (documentation-only skill).
 - **app-polish**: No dependencies (documentation/patterns skill).
+- **context-efficient**: No dependencies (bash utilities included).
 
 ## License
 
