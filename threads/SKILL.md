@@ -112,7 +112,7 @@ threads-cli status          # Check config and auth
 
 ## Source
 
-- CLI: `/home/matthewlutw/threads-cli`
+- CLI: https://github.com/matteo1222/threads-cli
 - Official API Docs: https://developers.facebook.com/docs/threads
 - Sample App: https://github.com/fbsamples/threads_api
 
