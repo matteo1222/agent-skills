@@ -83,6 +83,22 @@ This skill complements `ui-ux-pro-max`:
 2. Use Superdesign to generate 3 variations quickly
 3. User picks favorite, refine with UI/UX Pro Max guidelines
 
+## TODO
+
+<!-- 
+TODO: Extract design prompt library from superdesign.dev
+The website has a community-driven library of prompts for:
+- UI styles (glassmorphism, brutalism, etc.)
+- Animations
+- UI components
+- Color schemes
+
+Currently only the core workflow is extracted from GitHub.
+The full library requires their VS Code extension or website access.
+
+To add: manually copy good prompts from superdesign.dev into this skill
+-->
+
 ## Source
 
 Based on [superdesigndev/superdesign](https://github.com/superdesigndev/superdesign) by AI Jason.
