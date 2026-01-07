@@ -1,136 +1,123 @@
 ---
 name: threads
-description: Meta Threads API for reading and posting to Threads. Official API with OAuth authentication.
+description: Meta Threads API for reading and posting to Threads. Uses threads-cli with OAuth authentication.
 ---
 
 # Threads API Skill
 
-Official Meta Threads API for reading posts, publishing content, and getting insights.
+Official Meta Threads API via `threads-cli` for posting, reading, and getting insights.
 
-## API Status
+## Installation
 
-✅ **Official API** - Released June 2024, actively maintained
-- Free to use
-- Requires Meta Developer App (different credentials from Facebook)
-- OAuth 2.0 authentication
+```bash
+cd ~/threads-cli && npm link
+# OR
+npm install -g @pomatez/threads-cli
+```
 
-## Capabilities
-
-### Read
-- Fetch your own posts and content
-- Get post insights (views, likes, replies, reposts, quotes)
-- Search public posts by keyword + date range
-- Retrieve replies to your posts
-- Get follower demographics (age, gender, location)
-- Fetch public profiles and their posts
-
-### Write
-- Publish text posts (single API call with `auto_publish_text`)
-- Create posts with images, videos, GIFs, carousels
-- Add polls to posts
-- Add location tags
-- Add topic tags (#hashtags)
-- Schedule posts for later
-
-### Manage
-- Hide/unhide replies
-- Restrict replies (followers only)
-- Receive webhooks for mentions
-- Track link clicks
-
-## Setup
+## Setup (One-Time)
 
 ### 1. Create Meta Developer App
 
 1. Go to [developers.facebook.com](https://developers.facebook.com/)
-2. Create new app → Select "Other" → "Consumer"
+2. Create app → "Other" → "Consumer"
 3. Add "Threads API" product
-4. Note: Threads App ID/Secret are **different** from regular Facebook App ID
+4. Note: Threads App ID/Secret are **different** from Facebook App ID
 
-### 2. Configure OAuth
+### 2. Authenticate
 
-Threads requires OAuth 2.0 (no direct API key access):
-
-```
-Redirect URL: https://your-domain.com/callback
-Scopes: threads_basic, threads_content_publish, threads_manage_insights
-```
-
-### 3. Sample App
-
-Meta provides an official sample app:
+**With browser (interactive):**
 ```bash
-git clone https://github.com/fbsamples/threads_api
-cd threads_api
-npm install
-
-# Create .env from .env.template
-# Add your Threads App ID and Secret
-
-npm start
+threads-cli auth --app-id YOUR_APP_ID --app-secret YOUR_APP_SECRET
+# Opens browser, authorizes, saves token
 ```
 
-**Note:** OAuth redirects require HTTPS. Use `mkcert` for local development.
-
-## API Examples
-
-### Publish a Text Post
+**Headless (manual flow):**
 ```bash
-# Single API call with auto_publish_text
-curl -X POST "https://graph.threads.net/v1.0/me/threads" \
-  -d "text=Hello from Threads API!" \
-  -d "auto_publish_text=true" \
-  -d "access_token=YOUR_TOKEN"
+threads-cli auth --app-id YOUR_APP_ID --app-secret YOUR_APP_SECRET --manual
+# Prints URL, you visit it, paste code back:
+threads-cli auth:callback --code THE_CODE_FROM_URL
 ```
 
-### Get Post Insights
+**With environment variables:**
 ```bash
-curl "https://graph.threads.net/v1.0/{post_id}/insights" \
-  -d "metric=views,likes,replies,reposts,quotes" \
-  -d "access_token=YOUR_TOKEN"
+export THREADS_APP_ID=your_app_id
+export THREADS_APP_SECRET=your_app_secret
+threads-cli auth
 ```
 
-### Search Public Posts
+### 3. Verify
+
 ```bash
-curl "https://graph.threads.net/v1.0/threads/search" \
-  -d "q=AI+coding" \
-  -d "since=2024-01-01" \
-  -d "until=2024-12-31" \
-  -d "access_token=YOUR_TOKEN"
+threads-cli status   # Check auth status
+threads-cli me       # Get your profile
 ```
 
-### Fetch User's Posts
+## Commands
+
+### Post
+
 ```bash
-curl "https://graph.threads.net/v1.0/me/threads" \
-  -d "access_token=YOUR_TOKEN"
+threads-cli post "Hello from the CLI!"
+threads-cli post "Check this out" --json
 ```
 
-## Rate Limits
+### Read
 
-- Search: 500 queries per rolling 7-day period
-- Standard API calls: Subject to Meta's rate limiting
+```bash
+threads-cli me              # Your profile
+threads-cli feed            # Your recent posts
+threads-cli feed -n 20      # Last 20 posts
+threads-cli feed --json     # JSON output
+```
 
-## Documentation
+### Insights
 
-- Official Docs: https://developers.facebook.com/docs/threads
-- Changelog: https://developers.facebook.com/docs/threads/changelog
+```bash
+threads-cli insights <postId>
+threads-cli insights <postId> --json
+```
+
+### Status
+
+```bash
+threads-cli status          # Check config and auth
+```
+
+## Data Storage
+
+- `~/.threads-cli/config.json` - App credentials
+- `~/.threads-cli/tokens.json` - OAuth tokens
+
+## Output Formats
+
+- Default: Human-readable
+- `--json`: Machine-readable JSON
+
+## API Capabilities
+
+### Available via CLI
+- ✅ Post text threads
+- ✅ Get your profile
+- ✅ List your threads
+- ✅ Get post insights (views, likes, replies, reposts, quotes)
+
+### Available via API (TODO in CLI)
+- Polls, images, videos, GIFs, carousels
+- Location tags, topic tags
+- Search public posts
+- Reply management
+- Scheduled posts
+- Webhooks
+
+## Source
+
+- CLI: `/home/matthewlutw/threads-cli`
+- Official API Docs: https://developers.facebook.com/docs/threads
 - Sample App: https://github.com/fbsamples/threads_api
-
-## TODO
-
-<!-- 
-TODO: Build a CLI wrapper for common Threads operations:
-- threads-cli auth (OAuth flow)
-- threads-cli post "message"
-- threads-cli search "query"
-- threads-cli insights <post_id>
-- threads-cli feed <username>
-
-May need browser automation for OAuth, then store token locally.
--->
 
 ## Notes
 
-- Unofficial reverse-engineered libraries (threads-net, etc.) were shut down by Meta in 2023
-- Only the official API is supported now
-- Fediverse integration available but limited (can view via Mastodon clients)
+- Tokens are long-lived (~60 days) but may need refresh
+- Rate limits apply (500 searches per 7 days, etc.)
+- Unofficial libraries were shut down by Meta in 2023
