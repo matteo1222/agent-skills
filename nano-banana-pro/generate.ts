@@ -1,12 +1,13 @@
 #!/usr/bin/env bun
 
 const prompt = process.argv[2];
-const imageInput = process.argv[3]; // optional image path or URL
+const imageInputs = process.argv.slice(3); // optional image paths or URLs
 
 if (!prompt) {
-  console.error('Usage: generate.ts <prompt> [image-input]');
+  console.error('Usage: generate.ts <prompt> [image-input1] [image-input2] ...');
   console.error('Example: generate.ts "a cat wearing a hat"');
   console.error('Example: generate.ts "transform to cartoon style" ./photo.jpg');
+  console.error('Example: generate.ts "woman in kitchen" ./face.jpg ./kitchen.jpg');
   process.exit(1);
 }
 
@@ -88,17 +89,21 @@ const input: PredictionInput = {
   output_format: 'png',
 };
 
-// Handle image input if provided
-if (imageInput) {
-  if (imageInput.startsWith('http')) {
-    input.image_input = [imageInput];
-  } else {
-    // Read local file and convert to data URI
-    const file = Bun.file(imageInput);
-    const buffer = await file.arrayBuffer();
-    const base64 = Buffer.from(buffer).toString('base64');
-    const mimeType = file.type || 'image/png';
-    input.image_input = [`data:${mimeType};base64,${base64}`];
+// Handle image inputs if provided
+if (imageInputs.length > 0) {
+  input.image_input = [];
+
+  for (const imageInput of imageInputs) {
+    if (imageInput.startsWith('http')) {
+      input.image_input.push(imageInput);
+    } else {
+      // Read local file and convert to data URI
+      const file = Bun.file(imageInput);
+      const buffer = await file.arrayBuffer();
+      const base64 = Buffer.from(buffer).toString('base64');
+      const mimeType = file.type || 'image/png';
+      input.image_input.push(`data:${mimeType};base64,${base64}`);
+    }
   }
 }
 
