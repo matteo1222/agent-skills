@@ -63,6 +63,7 @@ ln -s ~/agent-skills/twitter-tools ~/.claude/skills/twitter-tools
 ln -s ~/agent-skills/create-cli ~/.claude/skills/create-cli
 ln -s ~/agent-skills/app-polish ~/.claude/skills/app-polish
 ln -s ~/agent-skills/context-efficient ~/.claude/skills/context-efficient
+ln -s ~/agent-skills/agent-browser ~/.claude/skills/agent-browser
 
 # Or project-level
 mkdir -p .claude/skills
@@ -79,6 +80,7 @@ ln -s ~/agent-skills/twitter-tools .claude/skills/twitter-tools
 ln -s ~/agent-skills/create-cli .claude/skills/create-cli
 ln -s ~/agent-skills/app-polish .claude/skills/app-polish
 ln -s ~/agent-skills/context-efficient .claude/skills/context-efficient
+ln -s ~/agent-skills/agent-browser .claude/skills/agent-browser
 ```
 
 **Optional: UI/UX Pro Max skill**
@@ -96,6 +98,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 
 | Skill | Description |
 |-------|-------------|
+| [agent-browser](agent-browser/SKILL.md) | Headless browser automation CLI optimized for AI agents |
 | [brave-search](brave-search/SKILL.md) | Web search and content extraction via Brave Search |
 | [browser-tools](browser-tools/SKILL.md) | Interactive browser automation via Chrome DevTools Protocol |
 | [gccli](gccli/SKILL.md) | Google Calendar CLI for events and availability |
@@ -132,6 +135,7 @@ The `{baseDir}` placeholder is replaced with the skill's directory path at runti
 
 Some skills require additional setup. Generally, the agent will walk you through that. But if not, here you go:
 
+- **agent-browser**: Requires Node.js. Install globally with `npm install -g agent-browser && agent-browser install`.
 - **brave-search**: Requires Node.js. Run `npm install` in the skill directory.
 - **browser-tools**: Requires Chrome and Node.js. Run `npm install` in the skill directory.
 - **gccli**: Requires Node.js. Install globally with `npm install -g @mariozechner/gccli`.

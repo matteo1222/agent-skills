@@ -1,0 +1,22 @@
+{
+	"name": "agent-browser-skill",
+	"version": "1.0.0",
+	"description": "Claude Code skill for agent-browser - headless browser automation CLI for AI agents",
+	"author": "Vercel Labs",
+	"license": "Apache-2.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/vercel-labs/agent-browser"
+	},
+	"keywords": [
+		"browser-automation",
+		"headless-browser",
+		"playwright",
+		"ai-agents",
+		"web-scraping"
+	],
+	"globalDependencies": {
+		"agent-browser": "latest"
+	},
+	"installInstructions": "npm install -g agent-browser && agent-browser install"
+}
