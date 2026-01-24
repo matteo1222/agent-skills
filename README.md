@@ -64,6 +64,8 @@ ln -s ~/agent-skills/create-cli ~/.claude/skills/create-cli
 ln -s ~/agent-skills/app-polish ~/.claude/skills/app-polish
 ln -s ~/agent-skills/context-efficient ~/.claude/skills/context-efficient
 ln -s ~/agent-skills/agent-browser ~/.claude/skills/agent-browser
+ln -s ~/agent-skills/trellocli ~/.claude/skills/trellocli
+ln -s ~/agent-skills/sec-context ~/.claude/skills/sec-context
 
 # Or project-level
 mkdir -p .claude/skills
@@ -81,6 +83,8 @@ ln -s ~/agent-skills/create-cli .claude/skills/create-cli
 ln -s ~/agent-skills/app-polish .claude/skills/app-polish
 ln -s ~/agent-skills/context-efficient .claude/skills/context-efficient
 ln -s ~/agent-skills/agent-browser .claude/skills/agent-browser
+ln -s ~/agent-skills/trellocli .claude/skills/trellocli
+ln -s ~/agent-skills/sec-context .claude/skills/sec-context
 ```
 
 **Optional: UI/UX Pro Max skill**
@@ -112,6 +116,8 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [app-polish](app-polish/SKILL.md) | Add micro-animations, haptics, and polish to make apps stand out |
 | [context-efficient](context-efficient/SKILL.md) | Context-efficient backpressure patterns for AI agents running tests, builds, and linting |
+| [trellocli](trellocli/SKILL.md) | Trello CLI for managing boards, lists, and cards |
+| [sec-context](sec-context/SKILL.md) | Security anti-patterns reference for AI-generated code (25+ vulnerabilities with BAD/GOOD examples) |
 
 ## Skill Format
 
@@ -149,6 +155,8 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **create-cli**: No dependencies (documentation-only skill).
 - **app-polish**: No dependencies (documentation/patterns skill).
 - **context-efficient**: No dependencies (bash utilities included).
+- **trellocli**: Requires Node.js. Run `npm link` in the skill directory. Needs Trello API key and token.
+- **sec-context**: No dependencies (documentation/reference skill).
 
 ## License
 
