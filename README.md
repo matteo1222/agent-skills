@@ -118,7 +118,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [app-polish](app-polish/SKILL.md) | Add micro-animations, haptics, and polish to make apps stand out |
 | [context-efficient](context-efficient/SKILL.md) | Context-efficient backpressure patterns for AI agents running tests, builds, and linting |
-| [trellocli](trellocli/SKILL.md) | Trello CLI for managing boards, lists, and cards |
+| [trellocli](trellocli/SKILL.md) | Trello CLI for managing boards, lists, cards, and downloading attachments for AI image analysis |
 | [sec-context](sec-context/SKILL.md) | Security anti-patterns reference for AI-generated code (25+ vulnerabilities with BAD/GOOD examples) |
 | [fly-logs](fly-logs/SKILL.md) | Stream and search Fly.io application logs with filtering |
 

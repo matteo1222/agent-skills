@@ -1,0 +1,10 @@
+{
+	"name": "trellocli",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "Trello CLI for managing boards, lists, and cards",
+	"bin": {
+		"trello": "./trello.js"
+	},
+	"license": "MIT"
+}
