@@ -1,0 +1,597 @@
+#!/usr/bin/env node
+// claude-sessions - Search and manage Claude Code session history
+// Following CLI guidelines from clig.dev
+
+const fs = require('fs');
+const path = require('path');
+const { execSync, spawn } = require('child_process');
+
+const VERSION = '1.1.0';
+const SESSIONS_DIR = path.join(process.env.HOME, '.claude/projects');
+const CACHE_DIR = path.join(process.env.HOME, '.cache/claude-sessions-md');
+const COLLECTION = 'claude-sessions';
+const PARSER_SCRIPT = path.join(__dirname, 'parse-sessions.js');
+
+// Detect current project from pwd
+function detectCurrentProject() {
+    try {
+        // Try git root first
+        const gitRoot = execSync('git rev-parse --show-toplevel 2>/dev/null', {
+            encoding: 'utf-8',
+            stdio: ['pipe', 'pipe', 'pipe']
+        }).trim();
+        if (gitRoot) return gitRoot;
+    } catch {}
+
+    // Fall back to current directory
+    return process.cwd();
+}
+
+// Colors (respect NO_COLOR)
+const useColor = process.stdout.isTTY && !process.env.NO_COLOR;
+const colors = {
+    bold: s => useColor ? `\x1b[1m${s}\x1b[0m` : s,
+    dim: s => useColor ? `\x1b[2m${s}\x1b[0m` : s,
+    red: s => useColor ? `\x1b[31m${s}\x1b[0m` : s,
+    green: s => useColor ? `\x1b[32m${s}\x1b[0m` : s,
+    yellow: s => useColor ? `\x1b[33m${s}\x1b[0m` : s,
+    blue: s => useColor ? `\x1b[34m${s}\x1b[0m` : s,
+    cyan: s => useColor ? `\x1b[36m${s}\x1b[0m` : s,
+};
+
+// Parse arguments
+function parseArgs(args) {
+    const result = { _: [], flags: {} };
+    let i = 0;
+    while (i < args.length) {
+        const arg = args[i];
+        if (arg === '--') {
+            result._.push(...args.slice(i + 1));
+            break;
+        } else if (arg.startsWith('--')) {
+            const [key, val] = arg.slice(2).split('=');
+            if (val !== undefined) {
+                result.flags[key] = val;
+            } else if (args[i + 1] && !args[i + 1].startsWith('-')) {
+                result.flags[key] = args[++i];
+            } else {
+                result.flags[key] = true;
+            }
+        } else if (arg.startsWith('-') && arg.length > 1) {
+            const key = arg.slice(1);
+            // Handle combined short flags like -qn5
+            if (key.length > 1 && !/^\d+$/.test(key.slice(1))) {
+                for (const char of key) {
+                    result.flags[char] = true;
+                }
+            } else if (args[i + 1] && !args[i + 1].startsWith('-')) {
+                result.flags[key] = args[++i];
+            } else {
+                result.flags[key] = true;
+            }
+        } else {
+            result._.push(arg);
+        }
+        i++;
+    }
+    return result;
+}
+
+// Expand short flags to long names
+function expandFlags(flags) {
+    const map = {
+        h: 'help', v: 'version', n: 'limit', p: 'project',
+        b: 'branch', q: 'quiet', l: 'lines', a: 'all'
+    };
+    const result = { ...flags };
+    for (const [short, long] of Object.entries(map)) {
+        if (result[short] !== undefined && result[long] === undefined) {
+            result[long] = result[short];
+            delete result[short];
+        }
+    }
+    return result;
+}
+
+// Apply auto-project detection to flags
+function applyAutoProject(flags) {
+    // If --all is set, don't filter by project
+    if (flags.all) {
+        return flags;
+    }
+
+    // If project is already specified, use it
+    if (flags.project) {
+        return flags;
+    }
+
+    // Auto-detect current project
+    const currentProject = detectCurrentProject();
+    if (currentProject) {
+        return { ...flags, project: currentProject, _autoProject: true };
+    }
+
+    return flags;
+}
+
+// Parse relative date like "7d", "2w", "1m"
+function parseRelativeDate(str) {
+    const match = str.match(/^(\d+)([dwm])$/);
+    if (!match) return null;
+    const [, num, unit] = match;
+    const days = unit === 'd' ? +num : unit === 'w' ? +num * 7 : +num * 30;
+    const date = new Date();
+    date.setDate(date.getDate() - days);
+    return date.toISOString().split('T')[0];
+}
+
+// Parse date argument (YYYY-MM-DD or relative)
+function parseDate(str) {
+    if (!str) return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+    return parseRelativeDate(str);
+}
+
+// Get all session metadata from cache
+function getSessionsMeta() {
+    const sessions = [];
+
+    function scan(dir) {
+        if (!fs.existsSync(dir)) return;
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+            const fullPath = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+                scan(fullPath);
+            } else if (entry.name.endsWith('.md')) {
+                try {
+                    const content = fs.readFileSync(fullPath, 'utf-8');
+                    const meta = parseSessionMeta(content, fullPath);
+                    if (meta) sessions.push(meta);
+                } catch {}
+            }
+        }
+    }
+
+    scan(CACHE_DIR);
+    return sessions.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+}
+
+// Parse session metadata from markdown header
+function parseSessionMeta(content, filePath) {
+    const lines = content.split('\n').slice(0, 10);
+    const meta = { path: filePath };
+
+    for (const line of lines) {
+        if (line.startsWith('# Session: ')) {
+            meta.id = line.slice(11).trim();
+        } else if (line.startsWith('**Project:**')) {
+            meta.project = line.replace('**Project:**', '').trim();
+        } else if (line.startsWith('**Branch:**')) {
+            meta.branch = line.replace('**Branch:**', '').trim();
+        } else if (line.startsWith('**Date:**')) {
+            meta.date = line.replace('**Date:**', '').trim();
+        } else if (line.startsWith('## Summary')) {
+            const idx = content.indexOf('## Summary');
+            const endIdx = content.indexOf('\n---', idx);
+            if (idx > -1) {
+                meta.summary = content.slice(idx + 11, endIdx > idx ? endIdx : idx + 200).trim();
+            }
+        }
+    }
+
+    return meta.id ? meta : null;
+}
+
+// Filter sessions by criteria
+function filterSessions(sessions, flags) {
+    let filtered = sessions;
+
+    if (flags.after) {
+        const after = parseDate(flags.after);
+        if (after) filtered = filtered.filter(s => s.date >= after);
+    }
+
+    if (flags.before) {
+        const before = parseDate(flags.before);
+        if (before) filtered = filtered.filter(s => s.date <= before);
+    }
+
+    if (flags.project) {
+        const p = flags.project.toLowerCase();
+        filtered = filtered.filter(s => s.project?.toLowerCase().includes(p));
+    }
+
+    if (flags.branch) {
+        const b = flags.branch.toLowerCase();
+        filtered = filtered.filter(s => s.branch?.toLowerCase().includes(b));
+    }
+
+    return filtered;
+}
+
+// Run qmd command
+function runQmd(args, options = {}) {
+    try {
+        const result = execSync(`qmd ${args.join(' ')}`, {
+            encoding: 'utf-8',
+            stdio: options.inherit ? 'inherit' : 'pipe',
+            ...options
+        });
+        return { ok: true, output: result };
+    } catch (err) {
+        return { ok: false, output: err.stderr || err.message };
+    }
+}
+
+// Commands
+const commands = {
+    search(args, flags) {
+        const query = args.join(' ');
+        if (!query) {
+            console.error(colors.red('Error: search query required'));
+            console.error('Usage: claude-sessions search <query> [flags]');
+            process.exit(1);
+        }
+
+        // Apply auto-project detection
+        flags = applyAutoProject(flags);
+
+        // Sync first if requested or if cache is empty
+        if (flags.sync || !fs.existsSync(CACHE_DIR)) {
+            commands.sync([], { ...flags, quiet: true });
+        }
+
+        const limit = flags.limit || 10;
+        const qmdArgs = ['search', `"${query}"`, '-c', COLLECTION, '-n', limit];
+
+        if (flags.json) {
+            qmdArgs.push('--json');
+        }
+
+        // Always filter (auto-project means we usually have a project filter)
+        const sessions = filterSessions(getSessionsMeta(), flags);
+        if (sessions.length === 0) {
+            if (!flags.quiet) {
+                if (flags._autoProject) {
+                    console.error(colors.yellow(`No sessions found for current project. Use --all to search all projects.`));
+                } else {
+                    console.error(colors.yellow('No sessions match the filters'));
+                }
+            }
+            process.exit(0);
+        }
+
+        // Create temp file list for qmd
+        const paths = sessions.map(s => s.path).slice(0, 500);
+        if (!flags.quiet && !flags.json) {
+            if (flags._autoProject) {
+                const projectName = flags.project.split('/').pop();
+                console.error(colors.dim(`Searching ${paths.length} sessions in ${colors.cyan(projectName)} (--all for all projects)`));
+            } else if (flags.project) {
+                console.error(colors.dim(`Searching ${paths.length} sessions in ${colors.cyan(flags.project)}`));
+            } else {
+                console.error(colors.dim(`Searching ${paths.length} sessions...`));
+            }
+        }
+
+        // Search with qmd and post-filter
+        const result = runQmd(qmdArgs);
+        if (result.ok) {
+            // Post-filter results by session paths
+            const lines = result.output.split('\n');
+            const filtered = lines.filter(line => {
+                // qmd output format: qmd://collection/path:line
+                const match = line.match(/qmd:\/\/[^/]+\/(.+?)(?::\d+|$)/);
+                if (!match) return true; // Keep non-path lines
+                return paths.some(p => p.includes(match[1]));
+            });
+            console.log(filtered.join('\n'));
+        } else {
+            console.error(colors.red('Search failed:'), result.output);
+            process.exit(1);
+        }
+    },
+
+    list(args, flags) {
+        // Apply auto-project detection
+        flags = applyAutoProject(flags);
+
+        const sessions = filterSessions(getSessionsMeta(), flags);
+        const limit = parseInt(flags.limit) || 20;
+        const display = sessions.slice(0, limit);
+
+        // Show context message
+        if (!flags.quiet && !flags.json && flags._autoProject) {
+            const projectName = flags.project.split('/').pop();
+            console.error(colors.dim(`Sessions in ${colors.cyan(projectName)} (--all for all projects)\n`));
+        }
+
+        if (flags.json) {
+            console.log(JSON.stringify(display, null, 2));
+            return;
+        }
+
+        if (display.length === 0) {
+            console.log(colors.yellow('No sessions found'));
+            return;
+        }
+
+        for (const s of display) {
+            const date = colors.dim(s.date || 'unknown');
+            const project = colors.cyan(s.project?.split('/').pop() || 'unknown');
+            const branch = s.branch ? colors.green(s.branch) : '';
+            const summary = s.summary ? colors.dim(` - ${s.summary.slice(0, 50)}...`) : '';
+
+            console.log(`${date}  ${project}${branch ? ' (' + branch + ')' : ''}${summary}`);
+            if (flags.verbose) {
+                console.log(colors.dim(`  ${s.id}`));
+                console.log(colors.dim(`  ${s.path}`));
+            }
+        }
+
+        if (sessions.length > limit) {
+            console.log(colors.dim(`\n... and ${sessions.length - limit} more (use -n to show more)`));
+        }
+    },
+
+    get(args, flags) {
+        const id = args[0];
+        if (!id) {
+            console.error(colors.red('Error: session ID or path required'));
+            console.error('Usage: claude-sessions get <id|path> [flags]');
+            process.exit(1);
+        }
+
+        // Find session by ID or path
+        let sessionPath = id;
+        if (!id.includes('/') && !id.endsWith('.md')) {
+            const sessions = getSessionsMeta();
+            const match = sessions.find(s => s.id === id || s.id?.startsWith(id));
+            if (match) {
+                sessionPath = match.path;
+            } else {
+                console.error(colors.red(`Session not found: ${id}`));
+                process.exit(1);
+            }
+        }
+
+        // Read via qmd or directly
+        if (sessionPath.startsWith('qmd://')) {
+            const qmdArgs = ['get', sessionPath];
+            if (flags.lines) qmdArgs.push('-l', flags.lines);
+            if (flags.from) qmdArgs.push('--from', flags.from);
+
+            const result = runQmd(qmdArgs);
+            if (result.ok) {
+                console.log(result.output);
+            } else {
+                console.error(colors.red('Failed to get session:'), result.output);
+                process.exit(1);
+            }
+        } else {
+            // Direct file read
+            try {
+                let content = fs.readFileSync(sessionPath, 'utf-8');
+                if (flags.lines || flags.from) {
+                    const lines = content.split('\n');
+                    const from = parseInt(flags.from) || 0;
+                    const limit = parseInt(flags.lines) || lines.length;
+                    content = lines.slice(from, from + limit).join('\n');
+                }
+                console.log(content);
+            } catch (err) {
+                console.error(colors.red(`Cannot read: ${sessionPath}`));
+                process.exit(1);
+            }
+        }
+    },
+
+    sync(args, flags) {
+        if (!flags.quiet) {
+            console.error(colors.dim('Parsing sessions...'));
+        }
+
+        // Run parser
+        try {
+            const output = execSync(`node "${PARSER_SCRIPT}"`, { encoding: 'utf-8' });
+            if (!flags.quiet) {
+                console.error(colors.green('✓'), output.trim());
+            }
+        } catch (err) {
+            console.error(colors.red('Parse failed:'), err.message);
+            process.exit(1);
+        }
+
+        // Check if collection exists
+        const listResult = runQmd(['collection', 'list']);
+        const hasCollection = listResult.ok && listResult.output.includes(COLLECTION);
+
+        if (!hasCollection) {
+            if (!flags.quiet) {
+                console.error(colors.dim('Creating collection...'));
+            }
+            const addResult = runQmd(['collection', 'add', CACHE_DIR, '--name', COLLECTION, '--mask', '"**/*.md"']);
+            if (!addResult.ok) {
+                console.error(colors.red('Failed to create collection:'), addResult.output);
+                process.exit(1);
+            }
+        } else {
+            if (!flags.quiet) {
+                console.error(colors.dim('Updating index...'));
+            }
+            const updateResult = runQmd(['update', '-c', COLLECTION]);
+            if (!updateResult.ok) {
+                console.error(colors.red('Update failed:'), updateResult.output);
+                process.exit(1);
+            }
+        }
+
+        if (!flags.quiet) {
+            console.error(colors.green('✓'), 'Sync complete');
+        }
+    },
+
+    help(args, flags) {
+        const cmd = args[0];
+        if (cmd && commandHelp[cmd]) {
+            console.log(commandHelp[cmd]);
+        } else {
+            console.log(helpText);
+        }
+    }
+};
+
+const helpText = `${colors.bold('claude-sessions')} - Search Claude Code session history
+
+${colors.bold('USAGE')}
+  claude-sessions <command> [options]
+
+${colors.bold('COMMANDS')}
+  search <query>   Search session content
+  list             List sessions
+  get <id>         Get full session content
+  sync             Parse new sessions & update index
+  help [command]   Show help
+
+${colors.bold('COMMON FLAGS')}
+  -a, --all           Search all projects (default: current project only)
+  -n, --limit N       Number of results (default: 10)
+  --after DATE        After date (YYYY-MM-DD, "7d", "2w", "1m")
+  --before DATE       Before date
+  -p, --project PATH  Filter by project (partial match)
+  -b, --branch NAME   Filter by git branch
+  --json              Machine-readable JSON output
+  -q, --quiet         Suppress non-essential output
+  -h, --help          Show help
+  -v, --version       Show version
+
+${colors.bold('PROJECT SCOPE')}
+  By default, searches only sessions from the current project (detected from git root).
+  Use ${colors.cyan('--all')} to search all projects, or ${colors.cyan('-p <name>')} for a specific project.
+
+${colors.bold('EXAMPLES')}
+  ${colors.dim('# Search in current project')}
+  claude-sessions search "authentication"
+
+  ${colors.dim('# Search all projects')}
+  claude-sessions search "refactor" --all
+
+  ${colors.dim('# Search specific project')}
+  claude-sessions search "bug" -p web-mono-fe
+
+  ${colors.dim('# List recent sessions in current project')}
+  claude-sessions list --after 7d
+
+  ${colors.dim('# Get a specific session')}
+  claude-sessions get abc123
+
+${colors.dim('Sessions: ~/.cache/claude-sessions-md')}
+`;
+
+const commandHelp = {
+    search: `${colors.bold('claude-sessions search')} - Search session content
+
+${colors.bold('USAGE')}
+  claude-sessions search <query> [flags]
+
+${colors.bold('FLAGS')}
+  -a, --all           Search all projects (default: current project only)
+  -n, --limit N       Number of results (default: 10)
+  --after DATE        Sessions after date
+  --before DATE       Sessions before date
+  -p, --project PATH  Filter by specific project
+  -b, --branch NAME   Filter by git branch
+  --sync              Sync before searching
+  --json              JSON output
+
+${colors.bold('EXAMPLES')}
+  claude-sessions search "authentication"           ${colors.dim('# current project')}
+  claude-sessions search "refactor" --all           ${colors.dim('# all projects')}
+  claude-sessions search "bug" -p myproject --after 7d
+`,
+    list: `${colors.bold('claude-sessions list')} - List sessions
+
+${colors.bold('USAGE')}
+  claude-sessions list [flags]
+
+${colors.bold('FLAGS')}
+  -a, --all           List all projects (default: current project only)
+  -n, --limit N       Number of sessions (default: 20)
+  --after DATE        Sessions after date
+  --before DATE       Sessions before date
+  -p, --project PATH  Filter by project
+  -b, --branch NAME   Filter by git branch
+  --verbose           Show session IDs and paths
+  --json              JSON output
+
+${colors.bold('EXAMPLES')}
+  claude-sessions list                              ${colors.dim('# current project')}
+  claude-sessions list --all --after 7d             ${colors.dim('# all projects, last 7 days')}
+  claude-sessions list -p web-mono -n 10
+`,
+    get: `${colors.bold('claude-sessions get')} - Get full session content
+
+${colors.bold('USAGE')}
+  claude-sessions get <id|path> [flags]
+
+${colors.bold('FLAGS')}
+  -l, --lines N    Limit output lines
+  --from N         Start from line N
+
+${colors.bold('EXAMPLES')}
+  claude-sessions get abc123
+  claude-sessions get abc123 -l 100
+`,
+    sync: `${colors.bold('claude-sessions sync')} - Parse and index sessions
+
+${colors.bold('USAGE')}
+  claude-sessions sync [flags]
+
+${colors.bold('FLAGS')}
+  -q, --quiet      Suppress output
+
+${colors.bold('DESCRIPTION')}
+  Parses new Claude Code sessions from ~/.claude/projects
+  and updates the qmd search index.
+`
+};
+
+// Main
+function main() {
+    const { _, flags: rawFlags } = parseArgs(process.argv.slice(2));
+    const flags = expandFlags(rawFlags);
+
+    // Handle global flags first
+    if (flags.version) {
+        console.log(VERSION);
+        process.exit(0);
+    }
+
+    if (flags.help && _.length === 0) {
+        console.log(helpText);
+        process.exit(0);
+    }
+
+    const cmd = _[0] || 'help';
+    const args = _.slice(1);
+
+    if (flags.help && cmd !== 'help') {
+        commands.help([cmd], flags);
+        process.exit(0);
+    }
+
+    if (commands[cmd]) {
+        commands[cmd](args, flags);
+    } else {
+        // Maybe user meant search?
+        if (_.length > 0 && !cmd.startsWith('-')) {
+            console.error(colors.red(`Unknown command: ${cmd}`));
+            console.error(`Did you mean: claude-sessions search "${_.join(' ')}"?`);
+        } else {
+            console.log(helpText);
+        }
+        process.exit(1);
+    }
+}
+
+main();

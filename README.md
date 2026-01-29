@@ -67,6 +67,7 @@ ln -s ~/agent-skills/agent-browser ~/.claude/skills/agent-browser
 ln -s ~/agent-skills/trellocli ~/.claude/skills/trellocli
 ln -s ~/agent-skills/sec-context ~/.claude/skills/sec-context
 ln -s ~/agent-skills/fly-logs ~/.claude/skills/fly-logs
+ln -s ~/agent-skills/search-past-sessions ~/.claude/skills/search-past-sessions
 
 # Or project-level
 mkdir -p .claude/skills
@@ -87,6 +88,7 @@ ln -s ~/agent-skills/agent-browser .claude/skills/agent-browser
 ln -s ~/agent-skills/trellocli .claude/skills/trellocli
 ln -s ~/agent-skills/sec-context .claude/skills/sec-context
 ln -s ~/agent-skills/fly-logs .claude/skills/fly-logs
+ln -s ~/agent-skills/search-past-sessions .claude/skills/search-past-sessions
 ```
 
 **Optional: UI/UX Pro Max skill**
@@ -121,6 +123,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [trellocli](trellocli/SKILL.md) | Trello CLI for managing boards, lists, cards, and downloading attachments for AI image analysis |
 | [sec-context](sec-context/SKILL.md) | Security anti-patterns reference for AI-generated code (25+ vulnerabilities with BAD/GOOD examples) |
 | [fly-logs](fly-logs/SKILL.md) | Stream and search Fly.io application logs with filtering |
+| [search-past-sessions](search-past-sessions/SKILL.md) | Search and retrieve past Claude Code conversations using qmd |
 
 ## Skill Format
 
@@ -161,6 +164,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **trellocli**: Requires Node.js. Run `npm link` in the skill directory. Needs Trello API key and token.
 - **sec-context**: No dependencies (documentation/reference skill).
 - **fly-logs**: Requires `flyctl` CLI (`brew install flyctl`).
+- **search-past-sessions**: Requires Node.js and [qmd](https://github.com/badlogic/qmd) CLI for indexing/search.
 
 ## License
 
