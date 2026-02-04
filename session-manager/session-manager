@@ -1,0 +1,1374 @@
+#!/usr/bin/env node
+// session-manager - Manage, export, and delete Claude Code sessions
+// Following CLI guidelines from clig.dev
+
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline');
+
+const VERSION = '1.0.0';
+const CLAUDE_DIR = process.env.CLAUDE_DIR || path.join(process.env.HOME, '.claude');
+const PROJECTS_DIR = path.join(CLAUDE_DIR, 'projects');
+
+// Exit codes
+const EXIT = { OK: 0, ERROR: 1, USAGE: 2, NOT_FOUND: 3, CANCELLED: 4 };
+
+// Colors (respect NO_COLOR)
+const useColor = process.stdout.isTTY && !process.env.NO_COLOR;
+const c = {
+    bold: s => useColor ? `\x1b[1m${s}\x1b[0m` : s,
+    dim: s => useColor ? `\x1b[2m${s}\x1b[0m` : s,
+    red: s => useColor ? `\x1b[31m${s}\x1b[0m` : s,
+    green: s => useColor ? `\x1b[32m${s}\x1b[0m` : s,
+    yellow: s => useColor ? `\x1b[33m${s}\x1b[0m` : s,
+    blue: s => useColor ? `\x1b[34m${s}\x1b[0m` : s,
+    cyan: s => useColor ? `\x1b[36m${s}\x1b[0m` : s,
+    magenta: s => useColor ? `\x1b[35m${s}\x1b[0m` : s,
+    inverse: s => useColor ? `\x1b[7m${s}\x1b[0m` : `> ${s}`,
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Argument parsing
+// ─────────────────────────────────────────────────────────────────────────────
+
+function parseArgs(args) {
+    const result = { _: [], flags: {} };
+    let i = 0;
+    while (i < args.length) {
+        const arg = args[i];
+        if (arg === '--') {
+            result._.push(...args.slice(i + 1));
+            break;
+        } else if (arg.startsWith('--no-')) {
+            result.flags[arg.slice(5)] = false;
+        } else if (arg.startsWith('--')) {
+            const [key, val] = arg.slice(2).split('=');
+            if (val !== undefined) {
+                result.flags[key] = val;
+            } else if (args[i + 1] && !args[i + 1].startsWith('-')) {
+                result.flags[key] = args[++i];
+            } else {
+                result.flags[key] = true;
+            }
+        } else if (arg.startsWith('-') && arg.length > 1) {
+            const key = arg.slice(1);
+            if (key.length > 1 && !/^\d+$/.test(key.slice(1))) {
+                for (const char of key) result.flags[char] = true;
+            } else if (args[i + 1] && !args[i + 1].startsWith('-')) {
+                result.flags[key] = args[++i];
+            } else {
+                result.flags[key] = true;
+            }
+        } else {
+            result._.push(arg);
+        }
+        i++;
+    }
+    return result;
+}
+
+function expandFlags(flags) {
+    const map = {
+        h: 'help', v: 'verbose', n: 'limit', p: 'project',
+        f: 'format', o: 'output', s: 'sort', y: 'yes', q: 'quiet'
+    };
+    const result = { ...flags };
+    for (const [short, long] of Object.entries(map)) {
+        if (result[short] !== undefined && result[long] === undefined) {
+            result[long] = result[short];
+            delete result[short];
+        }
+    }
+    // --force is alias for --yes
+    if (result.force) result.yes = true;
+    return result;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Utilities
+// ─────────────────────────────────────────────────────────────────────────────
+
+function formatBytes(bytes) {
+    if (bytes < 1024) return `${bytes}B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)}KB`;
+    if (bytes < 1024 * 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)}MB`;
+    return `${(bytes / 1024 / 1024 / 1024).toFixed(1)}GB`;
+}
+
+function formatAgo(date) {
+    const now = new Date();
+    const diff = now - date;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const mins = Math.floor(diff / (1000 * 60));
+
+    if (mins < 60) return `${mins}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    if (days === 1) return 'yesterday';
+    if (days < 7) return `${days}d ago`;
+    if (days < 30) return `${Math.floor(days / 7)}w ago`;
+    if (days < 365) return `${Math.floor(days / 30)}mo ago`;
+    return `${Math.floor(days / 365)}y ago`;
+}
+
+function formatDateTime(date) {
+    const now = new Date();
+    const diff = now - date;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+    if (days === 0) return `today ${time}`;
+    if (days === 1) return `yesterday ${time}`;
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ` ${time}`;
+}
+
+function parseRelativeDate(str) {
+    const match = str.match(/^(\d+)([dwm])$/);
+    if (!match) return null;
+    const [, num, unit] = match;
+    const days = unit === 'd' ? +num : unit === 'w' ? +num * 7 : +num * 30;
+    const date = new Date();
+    date.setDate(date.getDate() - days);
+    return date;
+}
+
+function parseDate(str) {
+    if (!str) return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return new Date(str);
+    return parseRelativeDate(str);
+}
+
+function decodeProjectPath(dirName) {
+    return dirName.replace(/-/g, '/');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Session data access
+// ─────────────────────────────────────────────────────────────────────────────
+
+function getProjects() {
+    const projects = [];
+    if (!fs.existsSync(PROJECTS_DIR)) return projects;
+
+    for (const entry of fs.readdirSync(PROJECTS_DIR, { withFileTypes: true })) {
+        if (!entry.isDirectory()) continue;
+        const dirPath = path.join(PROJECTS_DIR, entry.name);
+        const indexPath = path.join(dirPath, 'sessions-index.json');
+
+        let index = null;
+        try { index = JSON.parse(fs.readFileSync(indexPath, 'utf-8')); } catch {}
+
+        const sessions = [];
+        for (const file of fs.readdirSync(dirPath)) {
+            if (!file.endsWith('.jsonl')) continue;
+            const sessionPath = path.join(dirPath, file);
+            const stat = fs.statSync(sessionPath);
+            const sessionId = file.replace('.jsonl', '');
+            const indexEntry = index?.entries?.find(e => e.sessionId === sessionId);
+
+            sessions.push({
+                id: sessionId,
+                path: sessionPath,
+                size: stat.size,
+                modified: stat.mtime,
+                created: indexEntry?.created ? new Date(indexEntry.created) : stat.birthtime,
+                summary: indexEntry?.summary || null,
+                firstPrompt: indexEntry?.firstPrompt || null,
+                messageCount: indexEntry?.messageCount || null,
+                branch: indexEntry?.gitBranch || null,
+            });
+        }
+
+        const projectPath = index?.originalPath || decodeProjectPath(entry.name);
+        projects.push({
+            name: entry.name,
+            path: projectPath,
+            dirPath,
+            sessions,
+            sessionCount: sessions.length,
+            totalSize: sessions.reduce((s, sess) => s + sess.size, 0),
+            latestModified: sessions.length > 0
+                ? new Date(Math.max(...sessions.map(s => s.modified.getTime())))
+                : null,
+        });
+    }
+    return projects;
+}
+
+function getAllSessions(flags = {}) {
+    const projects = getProjects();
+    let sessions = [];
+
+    for (const project of projects) {
+        if (flags.project) {
+            const p = flags.project.toLowerCase();
+            if (!project.path.toLowerCase().includes(p) && !project.name.toLowerCase().includes(p)) continue;
+        }
+        for (const session of project.sessions) {
+            sessions.push({
+                ...session,
+                project: project.path,
+                projectName: project.path.split('/').pop(),
+                projectDir: project.dirPath,
+            });
+        }
+    }
+
+    // Date filters
+    if (flags.before) {
+        const before = parseDate(flags.before);
+        if (before) sessions = sessions.filter(s => s.modified < before);
+    }
+    if (flags.after) {
+        const after = parseDate(flags.after);
+        if (after) sessions = sessions.filter(s => s.modified > after);
+    }
+    if (flags.older) {
+        const older = parseDate(flags.older);
+        if (older) sessions = sessions.filter(s => s.modified < older);
+    }
+
+    // Sort
+    const sortField = flags.sort || 'modified';
+    if (sortField === 'size') sessions.sort((a, b) => b.size - a.size);
+    else if (sortField === 'created') sessions.sort((a, b) => b.created - a.created);
+    else sessions.sort((a, b) => b.modified - a.modified);
+
+    return sessions;
+}
+
+function findSession(id, sessions) {
+    return sessions.find(s => s.id === id || s.id.startsWith(id));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Session operations
+// ─────────────────────────────────────────────────────────────────────────────
+
+function readSessionMessages(sessionPath) {
+    const content = fs.readFileSync(sessionPath, 'utf-8');
+    const lines = content.trim().split('\n').filter(l => l);
+    return lines.map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+}
+
+// Extract preview: first user message + first assistant response
+function getSessionPreview(session, maxLen = 200) {
+    try {
+        const messages = readSessionMessages(session.path);
+        let userMsg = null;
+        let assistantMsg = null;
+
+        for (const msg of messages) {
+            // Get first real user message
+            if (!userMsg && msg.type === 'user' && typeof msg.message?.content === 'string') {
+                const content = msg.message.content;
+                if (content.includes('<system-reminder>') || content.includes('<command-name>')) continue;
+                userMsg = content.trim();
+            }
+            // Get first assistant text response
+            if (userMsg && !assistantMsg && msg.type === 'assistant' && Array.isArray(msg.message?.content)) {
+                for (const block of msg.message.content) {
+                    if (block.type === 'text' && block.text) {
+                        assistantMsg = block.text.trim();
+                        break;
+                    }
+                }
+            }
+            if (userMsg && assistantMsg) break;
+        }
+
+        return {
+            user: userMsg ? (userMsg.length > maxLen ? userMsg.slice(0, maxLen) + '...' : userMsg) : null,
+            assistant: assistantMsg ? (assistantMsg.length > maxLen ? assistantMsg.slice(0, maxLen) + '...' : assistantMsg) : null,
+        };
+    } catch {
+        return { user: null, assistant: null };
+    }
+}
+
+// Get conversation for display (filters out system messages)
+function getConversationMessages(session, limit = 10) {
+    try {
+        const messages = readSessionMessages(session.path);
+        const conversation = [];
+
+        for (const msg of messages) {
+            if (conversation.length >= limit) break;
+
+            if (msg.type === 'user' && typeof msg.message?.content === 'string') {
+                const content = msg.message.content;
+                if (content.includes('<system-reminder>') || content.includes('<command-name>')) continue;
+                conversation.push({ role: 'user', content: content.trim() });
+            } else if (msg.type === 'assistant' && Array.isArray(msg.message?.content)) {
+                const parts = [];
+                for (const block of msg.message.content) {
+                    if (block.type === 'text' && block.text) parts.push(block.text);
+                }
+                if (parts.length > 0) {
+                    conversation.push({ role: 'assistant', content: parts.join('\n\n').trim() });
+                }
+            }
+        }
+
+        return conversation;
+    } catch {
+        return [];
+    }
+}
+
+function deleteSession(session) {
+    // Delete main session file
+    if (fs.existsSync(session.path)) fs.unlinkSync(session.path);
+
+    // Delete subagents directory if exists
+    const subagentsDir = path.join(session.projectDir, session.id);
+    if (fs.existsSync(subagentsDir)) fs.rmSync(subagentsDir, { recursive: true, force: true });
+
+    // Update sessions-index.json
+    const indexPath = path.join(session.projectDir, 'sessions-index.json');
+    if (fs.existsSync(indexPath)) {
+        try {
+            const index = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
+            index.entries = index.entries.filter(e => e.sessionId !== session.id);
+            fs.writeFileSync(indexPath, JSON.stringify(index, null, 2));
+        } catch {}
+    }
+}
+
+function exportSessionToJson(session) {
+    const messages = readSessionMessages(session.path);
+    return JSON.stringify({
+        id: session.id,
+        project: session.project,
+        branch: session.branch,
+        created: session.created.toISOString(),
+        modified: session.modified.toISOString(),
+        summary: session.summary,
+        messageCount: session.messageCount,
+        messages,
+    }, null, 2);
+}
+
+function exportSessionToMarkdown(session) {
+    const messages = readSessionMessages(session.path);
+    const lines = [];
+
+    lines.push(`# Session: ${session.id}`);
+    lines.push(`**Project:** ${session.project}`);
+    if (session.branch) lines.push(`**Branch:** ${session.branch}`);
+    lines.push(`**Created:** ${session.created.toISOString().split('T')[0]}`);
+    lines.push(`**Modified:** ${session.modified.toISOString().split('T')[0]}`);
+    if (session.summary) lines.push(`**Summary:** ${session.summary}`);
+    lines.push('', '---', '');
+
+    for (const msg of messages) {
+        if (msg.type === 'user' && typeof msg.message?.content === 'string') {
+            if (msg.message.content.includes('<system-reminder>')) continue;
+            if (msg.message.content.includes('<command-name>')) continue;
+            lines.push(`## User`, '', msg.message.content, '');
+        } else if (msg.type === 'assistant' && Array.isArray(msg.message?.content)) {
+            const parts = [];
+            for (const block of msg.message.content) {
+                if (block.type === 'text' && block.text) parts.push(block.text);
+                else if (block.type === 'thinking' && block.thinking) {
+                    parts.push(`<details><summary>Thinking</summary>\n\n${block.thinking}\n\n</details>`);
+                }
+            }
+            if (parts.length > 0) lines.push(`## Assistant`, '', parts.join('\n\n'), '');
+        }
+    }
+
+    return lines.join('\n');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Interactive confirmation
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function confirm(message) {
+    if (!process.stdin.isTTY) return false;
+
+    process.stderr.write(`${message} [y/N] `);
+
+    return new Promise(resolve => {
+        process.stdin.setRawMode(true);
+        process.stdin.resume();
+        process.stdin.setEncoding('utf8');
+
+        const onKey = (key) => {
+            process.stdin.setRawMode(false);
+            process.stdin.pause();
+            process.stdin.removeListener('data', onKey);
+
+            if (key === 'y' || key === 'Y') {
+                process.stderr.write('y\n');
+                resolve(true);
+            } else {
+                process.stderr.write('n\n');
+                resolve(false);
+            }
+        };
+
+        process.stdin.on('data', onKey);
+    });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TUI - Interactive session picker
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function runTui(sessions, flags) {
+    if (!process.stdin.isTTY || !process.stdout.isTTY) {
+        console.error(c.red('Error: TUI requires an interactive terminal'));
+        process.exit(EXIT.ERROR);
+    }
+
+    if (sessions.length === 0) {
+        console.log(c.yellow('No sessions found'));
+        return { deleted: [], exported: [] };
+    }
+
+    return new Promise((resolve) => {
+        let cursor = 0;
+        let selected = new Set();
+        let filterText = '';
+        let filterMode = false;
+        let scrollOffset = 0;
+        let showPreview = true;  // Preview pane on by default
+        let previewCache = new Map();
+
+        const getFiltered = () => {
+            if (!filterText) return sessions;
+            const lower = filterText.toLowerCase();
+            return sessions.filter(s =>
+                s.projectName.toLowerCase().includes(lower) ||
+                s.summary?.toLowerCase().includes(lower) ||
+                s.firstPrompt?.toLowerCase().includes(lower) ||
+                s.id.toLowerCase().includes(lower)
+            );
+        };
+
+        const getCachedPreview = (session) => {
+            if (!previewCache.has(session.id)) {
+                previewCache.set(session.id, getSessionPreview(session, 500));
+            }
+            return previewCache.get(session.id);
+        };
+
+        const getVisibleHeight = () => {
+            const base = Math.min(process.stdout.rows - 6, 20);
+            return showPreview ? Math.min(base, 12) : base;
+        };
+
+        const wrapText = (text, width) => {
+            if (!text) return [];
+            const words = text.replace(/\n/g, ' ').split(' ');
+            const lines = [];
+            let line = '';
+            for (const word of words) {
+                if (line.length + word.length + 1 <= width) {
+                    line += (line ? ' ' : '') + word;
+                } else {
+                    if (line) lines.push(line);
+                    line = word.slice(0, width);
+                }
+            }
+            if (line) lines.push(line);
+            return lines;
+        };
+
+        const render = () => {
+            const filtered = getFiltered();
+            const visibleHeight = getVisibleHeight();
+            const termWidth = Math.min(process.stdout.columns || 80, 120);
+
+            // Adjust scroll
+            if (cursor < scrollOffset) scrollOffset = cursor;
+            if (cursor >= scrollOffset + visibleHeight) scrollOffset = cursor - visibleHeight + 1;
+
+            // Clear and move to top
+            process.stdout.write('\x1b[2J\x1b[H');
+
+            // Header
+            const previewIndicator = showPreview ? c.green('[p]review ON') : c.dim('[p]review off');
+            console.log(c.bold('Session Manager') + c.dim(` - ${sessions.length} sessions, ${selected.size} selected  `) + previewIndicator);
+            console.log(c.dim('─'.repeat(termWidth)));
+
+            if (filterMode) {
+                console.log(c.cyan(`Filter: ${filterText}_`));
+            } else if (filterText) {
+                console.log(c.dim(`Filter: ${filterText}`) + c.dim(' (/ to edit, esc to clear)'));
+            } else {
+                console.log(c.dim('/ filter  space select  d delete  e export  p preview  q quit'));
+            }
+
+            console.log('');
+
+            // Sessions list
+            const visible = filtered.slice(scrollOffset, scrollOffset + visibleHeight);
+            for (let i = 0; i < visible.length; i++) {
+                const s = visible[i];
+                const idx = scrollOffset + i;
+                const isSelected = selected.has(s.id);
+                const isCursor = idx === cursor;
+
+                const checkbox = isSelected ? c.green('[x]') : c.dim('[ ]');
+                const lastActive = formatDateTime(s.modified).padEnd(16);
+                const size = formatBytes(s.size).padStart(7);
+                const project = s.projectName.slice(0, 16).padEnd(16);
+                const desc = (s.firstPrompt || s.summary || '').slice(0, 30);
+
+                let line = `${checkbox} ${c.yellow(size)} ${c.dim(lastActive)} ${c.cyan(project)} ${c.dim(desc)}`;
+                if (isCursor) line = c.inverse(line);
+                console.log(line);
+            }
+
+            // Padding for list
+            for (let i = visible.length; i < visibleHeight; i++) console.log('');
+
+            // Preview pane
+            if (showPreview && filtered[cursor]) {
+                const session = filtered[cursor];
+                const preview = getCachedPreview(session);
+                const previewWidth = termWidth - 4;
+
+                console.log(c.dim('─'.repeat(termWidth)));
+                console.log(c.bold('Preview: ') + c.cyan(session.projectName) + c.dim(` (${session.id.slice(0, 8)})`));
+
+                if (preview.user) {
+                    console.log(c.blue('\nUser:'));
+                    const userLines = wrapText(preview.user, previewWidth);
+                    for (const line of userLines.slice(0, 3)) {
+                        console.log(c.dim('  ' + line));
+                    }
+                    if (userLines.length > 3) console.log(c.dim('  ...'));
+                }
+
+                if (preview.assistant) {
+                    console.log(c.green('\nAssistant:'));
+                    const assistantLines = wrapText(preview.assistant, previewWidth);
+                    for (const line of assistantLines.slice(0, 4)) {
+                        console.log(c.dim('  ' + line));
+                    }
+                    if (assistantLines.length > 4) console.log(c.dim('  ...'));
+                }
+
+                if (!preview.user && !preview.assistant) {
+                    console.log(c.dim('\n  (no preview available)'));
+                }
+            }
+
+            // Footer
+            console.log(c.dim('─'.repeat(termWidth)));
+            if (filtered.length > visibleHeight) {
+                console.log(c.dim(`${scrollOffset + 1}-${Math.min(scrollOffset + visibleHeight, filtered.length)} of ${filtered.length}`) +
+                    c.dim('  ↑↓/jk navigate  enter view  a select all'));
+            } else {
+                console.log(c.dim('↑↓/jk navigate  enter view full  a select all'));
+            }
+        };
+
+        const cleanup = () => {
+            process.stdin.setRawMode(false);
+            process.stdin.removeAllListeners('data');
+            process.stdin.pause();
+            process.stdout.write('\x1b[2J\x1b[H'); // Clear screen
+        };
+
+        const handleDelete = async () => {
+            const toDelete = selected.size > 0
+                ? sessions.filter(s => selected.has(s.id))
+                : [getFiltered()[cursor]];
+
+            if (toDelete.length === 0) return;
+
+            cleanup();
+            const totalSize = toDelete.reduce((sum, s) => sum + s.size, 0);
+            console.log(c.bold(`\nDelete ${toDelete.length} session(s)? (${formatBytes(totalSize)})`));
+            for (const s of toDelete.slice(0, 5)) {
+                console.log(c.dim(`  ${s.projectName} - ${s.id.slice(0, 8)}`));
+            }
+            if (toDelete.length > 5) console.log(c.dim(`  ... and ${toDelete.length - 5} more`));
+
+            const confirmed = await confirm(c.red('\nConfirm delete?'));
+            if (confirmed) {
+                for (const s of toDelete) deleteSession(s);
+                console.log(c.green(`\nDeleted ${toDelete.length} session(s)`));
+            } else {
+                console.log('Cancelled');
+            }
+            process.exit(EXIT.OK);
+        };
+
+        const handleExport = async () => {
+            const toExport = selected.size > 0
+                ? sessions.filter(s => selected.has(s.id))
+                : [getFiltered()[cursor]];
+
+            if (toExport.length === 0) return;
+
+            cleanup();
+            const format = flags.format || 'json';
+            const ext = format === 'md' ? 'md' : 'json';
+
+            if (toExport.length === 1) {
+                const s = toExport[0];
+                const content = format === 'md' ? exportSessionToMarkdown(s) : exportSessionToJson(s);
+                if (flags.output) {
+                    fs.writeFileSync(flags.output, content);
+                    console.log(c.green(`Exported to ${flags.output}`));
+                } else {
+                    console.log(content);
+                }
+            } else {
+                const outDir = flags.output || './claude-sessions-export';
+                fs.mkdirSync(outDir, { recursive: true });
+                for (const s of toExport) {
+                    const content = format === 'md' ? exportSessionToMarkdown(s) : exportSessionToJson(s);
+                    const filename = `${s.id.slice(0, 8)}-${s.projectName}.${ext}`;
+                    fs.writeFileSync(path.join(outDir, filename), content);
+                }
+                console.log(c.green(`Exported ${toExport.length} sessions to ${outDir}/`));
+            }
+            process.exit(EXIT.OK);
+        };
+
+        // Setup raw mode
+        process.stdin.setRawMode(true);
+        process.stdin.resume();
+        process.stdin.setEncoding('utf8');
+
+        render();
+
+        process.stdin.on('data', async (key) => {
+            const filtered = getFiltered();
+
+            if (filterMode) {
+                if (key === '\r' || key === '\x1b') { // Enter or Escape
+                    filterMode = false;
+                    cursor = 0;
+                    scrollOffset = 0;
+                } else if (key === '\x7f') { // Backspace
+                    filterText = filterText.slice(0, -1);
+                } else if (key.length === 1 && key >= ' ') {
+                    filterText += key;
+                    cursor = 0;
+                    scrollOffset = 0;
+                }
+                render();
+                return;
+            }
+
+            switch (key) {
+                case 'q':
+                case '\x03': // Ctrl-C
+                    cleanup();
+                    process.exit(EXIT.OK);
+                    break;
+                case '\x1b': // Escape - clear filter or quit
+                    if (filterText) {
+                        filterText = '';
+                        cursor = 0;
+                        scrollOffset = 0;
+                        render();
+                    } else {
+                        cleanup();
+                        process.exit(EXIT.OK);
+                    }
+                    break;
+                case 'j':
+                case '\x1b[B': // Down
+                    if (cursor < filtered.length - 1) cursor++;
+                    render();
+                    break;
+                case 'k':
+                case '\x1b[A': // Up
+                    if (cursor > 0) cursor--;
+                    render();
+                    break;
+                case ' ': // Space - toggle select
+                    if (filtered[cursor]) {
+                        const id = filtered[cursor].id;
+                        if (selected.has(id)) selected.delete(id);
+                        else selected.add(id);
+                    }
+                    render();
+                    break;
+                case 'a': // Select all / deselect all
+                    if (selected.size === filtered.length) {
+                        selected.clear();
+                    } else {
+                        for (const s of filtered) selected.add(s.id);
+                    }
+                    render();
+                    break;
+                case 'p': // Toggle preview
+                    showPreview = !showPreview;
+                    render();
+                    break;
+                case '/': // Filter mode
+                    filterMode = true;
+                    render();
+                    break;
+                case 'd': // Delete
+                    await handleDelete();
+                    break;
+                case 'e': // Export
+                    await handleExport();
+                    break;
+                case '\r': // Enter - view details with scroll (then return to list)
+                    if (filtered[cursor]) {
+                        const session = filtered[cursor];
+
+                        // Build content lines for scrollable view
+                        const viewLines = [];
+                        viewLines.push(c.bold(`Session: ${session.id}`));
+                        viewLines.push('');
+                        viewLines.push(`${c.cyan('Project:')}  ${session.project}`);
+                        viewLines.push(`${c.cyan('Size:')}     ${formatBytes(session.size)}`);
+                        viewLines.push(`${c.cyan('Modified:')} ${session.modified.toISOString()}`);
+                        viewLines.push(`${c.cyan('Active:')}   ${formatAgo(session.modified)}`);
+                        if (session.branch) viewLines.push(`${c.cyan('Branch:')}   ${session.branch}`);
+                        if (session.summary) viewLines.push(`${c.cyan('Summary:')}  ${session.summary}`);
+
+                        // Get full conversation
+                        const conversation = getConversationMessages(session, 50);
+                        if (conversation.length > 0) {
+                            viewLines.push('');
+                            viewLines.push(c.bold('Conversation:'));
+                            viewLines.push(c.dim('─'.repeat(70)));
+                            for (const msg of conversation) {
+                                const role = msg.role === 'user' ? c.blue('User') : c.green('Assistant');
+                                viewLines.push('');
+                                viewLines.push(`${role}:`);
+                                // Split content into lines
+                                const contentLines = msg.content.split('\n');
+                                for (const line of contentLines) {
+                                    viewLines.push(`  ${line}`);
+                                }
+                            }
+                        }
+
+                        let viewScroll = 0;
+                        const viewHeight = process.stdout.rows - 3;
+
+                        const renderView = () => {
+                            process.stdout.write('\x1b[2J\x1b[H');
+                            const visible = viewLines.slice(viewScroll, viewScroll + viewHeight);
+                            for (const line of visible) {
+                                console.log(line);
+                            }
+                            // Footer
+                            console.log('');
+                            console.log(c.dim('─'.repeat(70)));
+                            const scrollInfo = viewLines.length > viewHeight
+                                ? c.dim(` [${viewScroll + 1}-${Math.min(viewScroll + viewHeight, viewLines.length)}/${viewLines.length}]`)
+                                : '';
+                            console.log(c.dim('↑↓/jk scroll  q go back  d delete') + scrollInfo);
+                        };
+
+                        renderView();
+
+                        const handleViewKey = (viewKey) => {
+                            if (viewKey === 'q' || viewKey === '\x1b' || viewKey === '\x03') {
+                                process.stdin.removeListener('data', handleViewKey);
+                                render();
+                            } else if (viewKey === 'd') {
+                                process.stdin.removeListener('data', handleViewKey);
+                                selected.clear();
+                                selected.add(session.id);
+                                handleDelete();
+                            } else if (viewKey === 'j' || viewKey === '\x1b[B') {
+                                if (viewScroll < viewLines.length - viewHeight) {
+                                    viewScroll++;
+                                    renderView();
+                                }
+                            } else if (viewKey === 'k' || viewKey === '\x1b[A') {
+                                if (viewScroll > 0) {
+                                    viewScroll--;
+                                    renderView();
+                                }
+                            } else if (viewKey === 'g') {
+                                viewScroll = 0;
+                                renderView();
+                            } else if (viewKey === 'G') {
+                                viewScroll = Math.max(0, viewLines.length - viewHeight);
+                                renderView();
+                            }
+                        };
+                        process.stdin.on('data', handleViewKey);
+                    }
+                    break;
+            }
+        });
+    });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Commands
+// ─────────────────────────────────────────────────────────────────────────────
+
+const commands = {
+    stats(args, flags) {
+        const projects = getProjects();
+        const sessions = getAllSessions();
+        const totalSize = projects.reduce((s, p) => s + p.totalSize, 0);
+
+        const now = new Date();
+        const ageGroups = { today: 0, week: 0, month: 0, older: 0 };
+        for (const s of sessions) {
+            const days = Math.floor((now - s.modified) / (1000 * 60 * 60 * 24));
+            if (days < 1) ageGroups.today++;
+            else if (days < 7) ageGroups.week++;
+            else if (days < 30) ageGroups.month++;
+            else ageGroups.older++;
+        }
+
+        if (flags.json) {
+            console.log(JSON.stringify({
+                totalProjects: projects.length,
+                totalSessions: sessions.length,
+                totalSize,
+                totalSizeHuman: formatBytes(totalSize),
+                ageDistribution: ageGroups,
+                projects: projects.map(p => ({
+                    path: p.path,
+                    sessions: p.sessionCount,
+                    size: p.totalSize,
+                    sizeHuman: formatBytes(p.totalSize),
+                }))
+            }, null, 2));
+            return;
+        }
+
+        console.log(c.bold('\nClaude Code Session Stats\n'));
+        console.log(`${c.cyan('Projects:')}     ${projects.length}`);
+        console.log(`${c.cyan('Sessions:')}     ${sessions.length}`);
+        console.log(`${c.cyan('Total Size:')}   ${formatBytes(totalSize)}`);
+        console.log('');
+        console.log(c.bold('Age Distribution:'));
+        console.log(`  Today:      ${ageGroups.today}`);
+        console.log(`  This week:  ${ageGroups.week}`);
+        console.log(`  This month: ${ageGroups.month}`);
+        console.log(`  Older:      ${ageGroups.older}`);
+
+        const topProjects = [...projects].sort((a, b) => b.totalSize - a.totalSize).slice(0, 5);
+        if (topProjects.length > 0) {
+            console.log('');
+            console.log(c.bold('Top Projects by Size:'));
+            for (const p of topProjects) {
+                const name = p.path.split('/').pop();
+                console.log(`  ${c.yellow(formatBytes(p.totalSize).padStart(8))}  ${c.cyan(name)} ${c.dim(`(${p.sessionCount} sessions)`)}`);
+            }
+        }
+        console.log('');
+    },
+
+    list(args, flags) {
+        const sessions = getAllSessions(flags);
+        const limit = parseInt(flags.limit) || 20;
+        const display = sessions.slice(0, limit);
+
+        if (flags.json) {
+            const results = display.map(s => {
+                const base = {
+                    id: s.id,
+                    project: s.project,
+                    size: s.size,
+                    sizeHuman: formatBytes(s.size),
+                    modified: s.modified.toISOString(),
+                    created: s.created.toISOString(),
+                    summary: s.summary,
+                    firstPrompt: s.firstPrompt,
+                    messageCount: s.messageCount,
+                    branch: s.branch,
+                };
+                if (flags.preview) {
+                    const preview = getSessionPreview(s);
+                    base.preview = preview;
+                }
+                return base;
+            });
+            console.log(JSON.stringify(results, null, 2));
+            return;
+        }
+
+        if (display.length === 0) {
+            console.log(c.yellow('No sessions found'));
+            return;
+        }
+
+        for (const s of display) {
+            const age = formatAgo(s.modified).padEnd(10);
+            const size = formatBytes(s.size).padStart(7);
+            const project = c.cyan(s.projectName);
+            const branch = s.branch ? c.green(` (${s.branch})`) : '';
+            const msgs = s.messageCount ? c.dim(` [${s.messageCount}]`) : '';
+
+            // Show firstPrompt or summary as description
+            const desc = s.firstPrompt || s.summary;
+            const descText = desc ? c.dim(` - ${desc.slice(0, 50)}${desc.length > 50 ? '...' : ''}`) : '';
+
+            console.log(`${c.yellow(size)}  ${c.dim(age)}  ${project}${branch}${msgs}${descText}`);
+
+            if (flags.verbose) console.log(c.dim(`         ${s.id}`));
+
+            // Show full preview if --preview flag
+            if (flags.preview) {
+                const preview = getSessionPreview(s, 150);
+                if (preview.user) {
+                    console.log(c.blue('         User: ') + c.dim(preview.user.replace(/\n/g, ' ')));
+                }
+                if (preview.assistant) {
+                    console.log(c.green('         Assistant: ') + c.dim(preview.assistant.replace(/\n/g, ' ').slice(0, 100) + '...'));
+                }
+                console.log('');
+            }
+        }
+
+        if (sessions.length > limit) {
+            console.log(c.dim(`\n... and ${sessions.length - limit} more (use -n to show more)`));
+        }
+    },
+
+    projects(args, flags) {
+        const projects = getProjects();
+        const sorted = [...projects].sort((a, b) => b.totalSize - a.totalSize);
+        const limit = parseInt(flags.limit) || 20;
+        const display = sorted.slice(0, limit);
+
+        if (flags.json) {
+            console.log(JSON.stringify(display.map(p => ({
+                name: p.name,
+                path: p.path,
+                sessionCount: p.sessionCount,
+                totalSize: p.totalSize,
+                totalSizeHuman: formatBytes(p.totalSize),
+                latestModified: p.latestModified?.toISOString() || null,
+            })), null, 2));
+            return;
+        }
+
+        if (display.length === 0) {
+            console.log(c.yellow('No projects found'));
+            return;
+        }
+
+        console.log(c.bold('\nProjects by Size\n'));
+        for (const p of display) {
+            const size = formatBytes(p.totalSize).padStart(8);
+            const name = p.path.split('/').pop();
+            const age = p.latestModified ? formatAgo(p.latestModified) : 'never';
+            console.log(`${c.yellow(size)}  ${c.cyan(name.padEnd(30))} ${c.dim(`${p.sessionCount} sessions, last: ${age}`)}`);
+        }
+
+        if (projects.length > limit) console.log(c.dim(`\n... and ${projects.length - limit} more`));
+        console.log('');
+    },
+
+    get(args, flags) {
+        const id = args[0];
+        if (!id) {
+            console.error(c.red('Error: session ID required'));
+            console.error('Usage: session-manager get <id>');
+            process.exit(EXIT.USAGE);
+        }
+
+        const sessions = getAllSessions();
+        const session = findSession(id, sessions);
+
+        if (!session) {
+            console.error(c.red(`Session not found: ${id}`));
+            process.exit(EXIT.NOT_FOUND);
+        }
+
+        if (flags.json) {
+            console.log(exportSessionToJson(session));
+            return;
+        }
+
+        console.log(c.bold(`\nSession: ${session.id}\n`));
+        console.log(`${c.cyan('Project:')}  ${session.project}`);
+        console.log(`${c.cyan('Size:')}     ${formatBytes(session.size)}`);
+        console.log(`${c.cyan('Modified:')} ${session.modified.toISOString()}`);
+        console.log(`${c.cyan('Created:')}  ${session.created.toISOString()}`);
+        if (session.branch) console.log(`${c.cyan('Branch:')}   ${session.branch}`);
+        if (session.messageCount) console.log(`${c.cyan('Messages:')} ${session.messageCount}`);
+        if (session.summary) console.log(`${c.cyan('Summary:')}  ${session.summary}`);
+        console.log(`${c.cyan('Path:')}     ${session.path}`);
+
+        // Show conversation preview by default, or full messages with --messages
+        const msgLimit = flags.messages ? parseInt(flags.messages) || 10 : 4;
+        const conversation = getConversationMessages(session, msgLimit);
+
+        if (conversation.length > 0) {
+            console.log('');
+            console.log(c.bold('Conversation:'));
+            console.log(c.dim('─'.repeat(60)));
+
+            for (const msg of conversation) {
+                const role = msg.role === 'user' ? c.blue('User') : c.green('Assistant');
+                const content = msg.content.replace(/\n/g, '\n  ');
+                const truncated = flags.messages
+                    ? content
+                    : (content.length > 300 ? content.slice(0, 300) + c.dim('...') : content);
+                console.log(`\n${role}:`);
+                console.log(`  ${truncated}`);
+            }
+            console.log('');
+            if (!flags.messages && session.messageCount > conversation.length) {
+                console.log(c.dim(`Use --messages N to show more (${session.messageCount} total)`));
+            }
+        }
+        console.log('');
+    },
+
+    export(args, flags) {
+        let toExport = [];
+
+        if (args.length > 0) {
+            const sessions = getAllSessions(flags);
+            for (const id of args) {
+                const match = findSession(id, sessions);
+                if (match) toExport.push(match);
+                else console.error(c.yellow(`Session not found: ${id}`));
+            }
+        } else if (flags.older || flags.before || flags.after) {
+            toExport = getAllSessions(flags);
+        } else {
+            console.error(c.red('Error: specify session IDs or use --older/--before/--after'));
+            console.error('Usage: session-manager export <id...> [-o output] [-f format]');
+            console.error('       session-manager export --older 30d [-o output] [-f format]');
+            process.exit(EXIT.USAGE);
+        }
+
+        if (toExport.length === 0) {
+            console.log(c.yellow('No sessions to export'));
+            return;
+        }
+
+        const format = flags.format || 'json';
+        const ext = format === 'md' ? 'md' : 'json';
+
+        if (toExport.length === 1 && !flags.output) {
+            // Single session to stdout
+            const content = format === 'md'
+                ? exportSessionToMarkdown(toExport[0])
+                : exportSessionToJson(toExport[0]);
+            console.log(content);
+        } else if (toExport.length === 1 && flags.output) {
+            // Single session to file
+            const content = format === 'md'
+                ? exportSessionToMarkdown(toExport[0])
+                : exportSessionToJson(toExport[0]);
+            fs.writeFileSync(flags.output, content);
+            if (!flags.quiet) console.error(c.green(`Exported to ${flags.output}`));
+        } else {
+            // Multiple sessions to directory
+            const outDir = flags.output || './claude-sessions-export';
+            fs.mkdirSync(outDir, { recursive: true });
+
+            for (const s of toExport) {
+                const content = format === 'md'
+                    ? exportSessionToMarkdown(s)
+                    : exportSessionToJson(s);
+                const filename = `${s.id.slice(0, 8)}-${s.projectName}.${ext}`;
+                fs.writeFileSync(path.join(outDir, filename), content);
+            }
+
+            if (!flags.quiet) {
+                console.error(c.green(`Exported ${toExport.length} sessions to ${outDir}/`));
+            }
+        }
+    },
+
+    async delete(args, flags) {
+        let toDelete = [];
+
+        if (args.length > 0) {
+            const sessions = getAllSessions(flags);
+            for (const id of args) {
+                const match = findSession(id, sessions);
+                if (match) toDelete.push(match);
+                else console.error(c.yellow(`Session not found: ${id}`));
+            }
+        } else if (flags.older || flags.before) {
+            toDelete = getAllSessions(flags);
+        } else {
+            console.error(c.red('Error: specify session IDs or use --older/--before'));
+            console.error('Usage: session-manager delete <id...> [--yes]');
+            console.error('       session-manager delete --older 30d [--yes]');
+            process.exit(EXIT.USAGE);
+        }
+
+        if (toDelete.length === 0) {
+            console.log(c.yellow('No sessions to delete'));
+            return;
+        }
+
+        const totalSize = toDelete.reduce((s, sess) => s + sess.size, 0);
+
+        // Dry run
+        if (flags['dry-run']) {
+            console.log(c.bold(`Would delete ${toDelete.length} session(s) (${formatBytes(totalSize)})\n`));
+            for (const s of toDelete.slice(0, 10)) {
+                console.log(`  ${c.dim(formatAgo(s.modified).padEnd(10))} ${c.cyan(s.projectName)} ${c.dim(s.id.slice(0, 8))}`);
+            }
+            if (toDelete.length > 10) console.log(c.dim(`  ... and ${toDelete.length - 10} more`));
+            return;
+        }
+
+        // Preview
+        console.log(c.bold(`\nSessions to delete: ${toDelete.length}`));
+        console.log(c.bold(`Total size: ${formatBytes(totalSize)}\n`));
+
+        for (const s of toDelete.slice(0, 5)) {
+            console.log(`  ${c.dim(formatAgo(s.modified).padEnd(10))} ${c.cyan(s.projectName)} ${c.dim(s.id.slice(0, 8))}`);
+        }
+        if (toDelete.length > 5) console.log(c.dim(`  ... and ${toDelete.length - 5} more`));
+        console.log('');
+
+        // Confirm
+        if (!flags.yes) {
+            const confirmed = await confirm(c.red(`Delete ${toDelete.length} sessions?`));
+            if (!confirmed) {
+                console.log('Cancelled');
+                process.exit(EXIT.CANCELLED);
+            }
+        }
+
+        // Delete
+        let deleted = 0;
+        for (const s of toDelete) {
+            try {
+                deleteSession(s);
+                deleted++;
+                if (!flags.quiet) process.stderr.write(`\rDeleted ${deleted}/${toDelete.length}...`);
+            } catch (err) {
+                console.error(c.red(`\nFailed to delete ${s.id}: ${err.message}`));
+            }
+        }
+
+        if (!flags.quiet) {
+            console.log(`\n${c.green('✓')} Deleted ${deleted} sessions (${formatBytes(totalSize)} freed)`);
+        }
+    },
+
+    async tui(args, flags) {
+        const sessions = getAllSessions(flags);
+        await runTui(sessions, flags);
+    },
+
+    help(args, flags) {
+        const cmd = args[0];
+        if (cmd && commandHelp[cmd]) {
+            console.log(commandHelp[cmd]);
+        } else {
+            console.log(helpText);
+        }
+    }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Help text
+// ─────────────────────────────────────────────────────────────────────────────
+
+const helpText = `${c.bold('session-manager')} - Manage Claude Code sessions
+
+${c.bold('USAGE')}
+  session-manager                       Launch interactive TUI
+  session-manager <command> [options]
+
+${c.bold('COMMANDS')}
+  stats              Show storage statistics
+  list               List sessions
+  projects           List projects by size
+  get <id>           Get session details
+  export <id...>     Export sessions to JSON/markdown
+  delete <id...>     Delete sessions
+  tui                Interactive session browser
+  help [command]     Show help
+
+${c.bold('GLOBAL FLAGS')}
+  -h, --help         Show help
+  --version          Print version
+  -q, --quiet        Suppress non-essential output
+  --json             Machine-readable JSON output
+  --no-color         Disable colors
+
+${c.bold('FILTER FLAGS')}
+  -p, --project P    Filter by project (partial match)
+  --older DATE       Sessions older than date
+  --before DATE      Sessions before date
+  --after DATE       Sessions after date
+
+${c.bold('DATE FORMATS')}
+  Relative: 7d (days), 2w (weeks), 1m (months)
+  Absolute: YYYY-MM-DD
+
+${c.bold('EXAMPLES')}
+  ${c.dim('# Launch interactive TUI')}
+  session-manager
+
+  ${c.dim('# View storage stats')}
+  session-manager stats
+
+  ${c.dim('# List largest sessions')}
+  session-manager list -s size -n 10
+
+  ${c.dim('# Export session to markdown')}
+  session-manager export abc123 -f md -o backup.md
+
+  ${c.dim('# Preview what would be deleted')}
+  session-manager delete --older 60d --dry-run
+
+  ${c.dim('# Delete old sessions')}
+  session-manager delete --older 30d
+
+${c.dim('Sessions: ~/.claude/projects/')}
+`;
+
+const commandHelp = {
+    stats: `${c.bold('session-manager stats')} - Show storage statistics
+
+${c.bold('USAGE')}
+  session-manager stats [--json]
+
+${c.bold('OUTPUT')}
+  Total projects, sessions, disk usage
+  Age distribution (today, week, month, older)
+  Top projects by size
+`,
+    list: `${c.bold('session-manager list')} - List sessions
+
+${c.bold('USAGE')}
+  session-manager list [flags]
+
+${c.bold('FLAGS')}
+  -n, --limit N       Number of sessions (default: 20)
+  -p, --project P     Filter by project
+  -s, --sort FIELD    Sort: modified (default), created, size
+  --older DATE        Older than date
+  --before DATE       Before date
+  --after DATE        After date
+  --preview           Show first user/assistant message preview
+  -v, --verbose       Show session IDs
+  --json              JSON output
+`,
+    projects: `${c.bold('session-manager projects')} - List projects by size
+
+${c.bold('USAGE')}
+  session-manager projects [-n <limit>] [--json]
+`,
+    get: `${c.bold('session-manager get')} - Get session details
+
+${c.bold('USAGE')}
+  session-manager get <id> [flags]
+
+${c.bold('ARGUMENTS')}
+  <id>    Full or partial session UUID
+
+${c.bold('FLAGS')}
+  --messages N    Show N conversation messages (default: 4)
+  --json          Output full session as JSON
+`,
+    export: `${c.bold('session-manager export')} - Export sessions
+
+${c.bold('USAGE')}
+  session-manager export <id...> [flags]
+  session-manager export --older 30d [flags]
+
+${c.bold('FLAGS')}
+  -o, --output PATH   Output file or directory
+  -f, --format FMT    Format: json (default), md
+  -p, --project P     Filter by project
+  --older DATE        Export sessions older than
+`,
+    delete: `${c.bold('session-manager delete')} - Delete sessions
+
+${c.bold('USAGE')}
+  session-manager delete <id...> [flags]
+  session-manager delete --older 30d [flags]
+
+${c.bold('FLAGS')}
+  --older DATE        Delete sessions older than date
+  --before DATE       Delete sessions before date
+  -p, --project P     Filter by project
+  -n, --dry-run       Preview only, don't delete
+  -y, --yes           Skip confirmation
+  -f, --force         Alias for --yes
+`,
+    tui: `${c.bold('session-manager tui')} - Interactive session browser
+
+${c.bold('USAGE')}
+  session-manager tui [-p <project>] [--older <date>]
+
+${c.bold('LIST VIEW')}
+  ↑/k         Move up
+  ↓/j         Move down
+  space       Toggle select
+  a           Select all / deselect all
+  p           Toggle preview pane
+  d           Delete selected
+  e           Export selected
+  enter       View full session
+  /           Start filter
+  esc         Clear filter / quit
+  q           Quit
+
+${c.bold('VIEW MODE')} (after pressing enter)
+  ↑/k         Scroll up
+  ↓/j         Scroll down
+  g           Go to top
+  G           Go to bottom
+  d           Delete this session
+  q/esc       Go back to list
+`
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Main
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function main() {
+    const { _, flags: rawFlags } = parseArgs(process.argv.slice(2));
+    const flags = expandFlags(rawFlags);
+
+    // Handle --no-color
+    if (flags.color === false) {
+        Object.keys(c).forEach(k => c[k] = s => s);
+    }
+
+    if (flags.version) {
+        console.log(VERSION);
+        process.exit(EXIT.OK);
+    }
+
+    if (flags.help && _.length === 0) {
+        console.log(helpText);
+        process.exit(EXIT.OK);
+    }
+
+    // No command → TUI
+    const cmd = _[0] || 'tui';
+    const args = _.slice(1);
+
+    if (flags.help && cmd !== 'help') {
+        commands.help([cmd], flags);
+        process.exit(EXIT.OK);
+    }
+
+    if (commands[cmd]) {
+        await commands[cmd](args, flags);
+    } else {
+        console.error(c.red(`Unknown command: ${cmd}`));
+        console.error(`Run 'session-manager help' for usage`);
+        process.exit(EXIT.USAGE);
+    }
+}
+
+main().catch(err => {
+    console.error(c.red('Error:'), err.message);
+    process.exit(EXIT.ERROR);
+});
