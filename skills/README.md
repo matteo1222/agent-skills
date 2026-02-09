@@ -50,47 +50,47 @@ git clone https://github.com/matteo1222/agent-skills ~/agent-skills
 
 # Symlink individual skills (user-level)
 mkdir -p ~/.claude/skills
-ln -s ~/agent-skills/brave-search ~/.claude/skills/brave-search
-ln -s ~/agent-skills/browser-tools ~/.claude/skills/browser-tools
-ln -s ~/agent-skills/gccli ~/.claude/skills/gccli
-ln -s ~/agent-skills/gdcli ~/.claude/skills/gdcli
-ln -s ~/agent-skills/gmcli ~/.claude/skills/gmcli
-ln -s ~/agent-skills/transcribe ~/.claude/skills/transcribe
-ln -s ~/agent-skills/vscode ~/.claude/skills/vscode
-ln -s ~/agent-skills/youtube-transcript ~/.claude/skills/youtube-transcript
-ln -s ~/agent-skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
-ln -s ~/agent-skills/twitter-tools ~/.claude/skills/twitter-tools
-ln -s ~/agent-skills/create-cli ~/.claude/skills/create-cli
-ln -s ~/agent-skills/app-polish ~/.claude/skills/app-polish
-ln -s ~/agent-skills/context-efficient ~/.claude/skills/context-efficient
-ln -s ~/agent-skills/agent-browser ~/.claude/skills/agent-browser
-ln -s ~/agent-skills/trellocli ~/.claude/skills/trellocli
-ln -s ~/agent-skills/sec-context ~/.claude/skills/sec-context
-ln -s ~/agent-skills/fly-logs ~/.claude/skills/fly-logs
-ln -s ~/agent-skills/search-past-sessions ~/.claude/skills/search-past-sessions
-ln -s ~/agent-skills/logging-best-practices ~/.claude/skills/logging-best-practices
+ln -s ~/agent-skills/skills/brave-search ~/.claude/skills/brave-search
+ln -s ~/agent-skills/skills/browser-tools ~/.claude/skills/browser-tools
+ln -s ~/agent-skills/skills/gccli ~/.claude/skills/gccli
+ln -s ~/agent-skills/skills/gdcli ~/.claude/skills/gdcli
+ln -s ~/agent-skills/skills/gmcli ~/.claude/skills/gmcli
+ln -s ~/agent-skills/skills/transcribe ~/.claude/skills/transcribe
+ln -s ~/agent-skills/skills/vscode ~/.claude/skills/vscode
+ln -s ~/agent-skills/skills/youtube-transcript ~/.claude/skills/youtube-transcript
+ln -s ~/agent-skills/skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
+ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
+ln -s ~/agent-skills/skills/create-cli ~/.claude/skills/create-cli
+ln -s ~/agent-skills/skills/app-polish ~/.claude/skills/app-polish
+ln -s ~/agent-skills/skills/context-efficient ~/.claude/skills/context-efficient
+ln -s ~/agent-skills/skills/agent-browser ~/.claude/skills/agent-browser
+ln -s ~/agent-skills/skills/trellocli ~/.claude/skills/trellocli
+ln -s ~/agent-skills/skills/sec-context ~/.claude/skills/sec-context
+ln -s ~/agent-skills/skills/fly-logs ~/.claude/skills/fly-logs
+ln -s ~/agent-skills/skills/search-past-sessions ~/.claude/skills/search-past-sessions
+ln -s ~/agent-skills/skills/logging-best-practices ~/.claude/skills/logging-best-practices
 
 # Or project-level
 mkdir -p .claude/skills
-ln -s ~/agent-skills/brave-search .claude/skills/brave-search
-ln -s ~/agent-skills/browser-tools .claude/skills/browser-tools
-ln -s ~/agent-skills/gccli .claude/skills/gccli
-ln -s ~/agent-skills/gdcli .claude/skills/gdcli
-ln -s ~/agent-skills/gmcli .claude/skills/gmcli
-ln -s ~/agent-skills/transcribe .claude/skills/transcribe
-ln -s ~/agent-skills/vscode .claude/skills/vscode
-ln -s ~/agent-skills/youtube-transcript .claude/skills/youtube-transcript
-ln -s ~/agent-skills/nano-banana-pro .claude/skills/nano-banana-pro
-ln -s ~/agent-skills/twitter-tools .claude/skills/twitter-tools
-ln -s ~/agent-skills/create-cli .claude/skills/create-cli
-ln -s ~/agent-skills/app-polish .claude/skills/app-polish
-ln -s ~/agent-skills/context-efficient .claude/skills/context-efficient
-ln -s ~/agent-skills/agent-browser .claude/skills/agent-browser
-ln -s ~/agent-skills/trellocli .claude/skills/trellocli
-ln -s ~/agent-skills/sec-context .claude/skills/sec-context
-ln -s ~/agent-skills/fly-logs .claude/skills/fly-logs
-ln -s ~/agent-skills/search-past-sessions .claude/skills/search-past-sessions
-ln -s ~/agent-skills/logging-best-practices .claude/skills/logging-best-practices
+ln -s ~/agent-skills/skills/brave-search .claude/skills/brave-search
+ln -s ~/agent-skills/skills/browser-tools .claude/skills/browser-tools
+ln -s ~/agent-skills/skills/gccli .claude/skills/gccli
+ln -s ~/agent-skills/skills/gdcli .claude/skills/gdcli
+ln -s ~/agent-skills/skills/gmcli .claude/skills/gmcli
+ln -s ~/agent-skills/skills/transcribe .claude/skills/transcribe
+ln -s ~/agent-skills/skills/vscode .claude/skills/vscode
+ln -s ~/agent-skills/skills/youtube-transcript .claude/skills/youtube-transcript
+ln -s ~/agent-skills/skills/nano-banana-pro .claude/skills/nano-banana-pro
+ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
+ln -s ~/agent-skills/skills/create-cli .claude/skills/create-cli
+ln -s ~/agent-skills/skills/app-polish .claude/skills/app-polish
+ln -s ~/agent-skills/skills/context-efficient .claude/skills/context-efficient
+ln -s ~/agent-skills/skills/agent-browser .claude/skills/agent-browser
+ln -s ~/agent-skills/skills/trellocli .claude/skills/trellocli
+ln -s ~/agent-skills/skills/sec-context .claude/skills/sec-context
+ln -s ~/agent-skills/skills/fly-logs .claude/skills/fly-logs
+ln -s ~/agent-skills/skills/search-past-sessions .claude/skills/search-past-sessions
+ln -s ~/agent-skills/skills/logging-best-practices .claude/skills/logging-best-practices
 ```
 
 **Optional: UI/UX Pro Max skill**
