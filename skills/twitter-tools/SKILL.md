@@ -1,6 +1,6 @@
 ---
 name: twitter-tools
-description: Fetch tweets and download Twitter/X videos without API key
+description: Fetch tweets, articles, and download Twitter/X videos without API key. Use for saving tweets to knowledge base, reading X articles, or downloading video content.
 ---
 
 # Twitter Tools
@@ -44,6 +44,35 @@ Retrieve tweet data including text, metrics, and media URLs.
 ```
 
 **Output:** JSON with tweet text, user info, metrics, and media URLs.
+
+### Fetch Article
+
+Fetch full content from X articles and long tweets via Jina Reader API.
+
+```bash
+./twitter-article.js <tweet-url> [options]
+```
+
+**Options:**
+- `--raw` - Output raw Jina markdown without cleanup
+- `--json` - Output as JSON with title, content, source
+- `--force` - Bypass cache and fetch fresh
+
+**Examples:**
+```bash
+# Fetch article content (cleaned)
+./twitter-article.js https://x.com/koylanai/status/2025286163641118915
+
+# Get as JSON (useful for knowledge base storage)
+./twitter-article.js https://x.com/user/status/123456 --json
+
+# Force fresh fetch
+./twitter-article.js https://x.com/user/status/123456 --force
+```
+
+**When to use:** For tweets that link to X Articles (`x.com/i/article/...`), or when the syndication API returns minimal text (e.g., just a `t.co` link). Falls back to Jina's `r.jina.ai` proxy which renders full page content.
+
+**Output:** Cleaned markdown with images stripped, or JSON with title + content.
 
 ### Download Video
 
