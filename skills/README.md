@@ -72,6 +72,7 @@ ln -s ~/agent-skills/skills/logging-best-practices ~/.claude/skills/logging-best
 ln -s ~/agent-skills/skills/systematic-debugging ~/.claude/skills/systematic-debugging
 ln -s ~/agent-skills/skills/test-driven-development ~/.claude/skills/test-driven-development
 ln -s ~/agent-skills/skills/agent-device ~/.claude/skills/agent-device
+ln -s ~/agent-skills/skills/dogfood-device ~/.claude/skills/dogfood-device
 
 # Or project-level
 mkdir -p .claude/skills
@@ -97,6 +98,7 @@ ln -s ~/agent-skills/skills/logging-best-practices .claude/skills/logging-best-p
 ln -s ~/agent-skills/skills/systematic-debugging .claude/skills/systematic-debugging
 ln -s ~/agent-skills/skills/test-driven-development .claude/skills/test-driven-development
 ln -s ~/agent-skills/skills/agent-device .claude/skills/agent-device
+ln -s ~/agent-skills/skills/dogfood-device .claude/skills/dogfood-device
 ```
 
 **Optional: UI/UX Pro Max skill**
@@ -116,6 +118,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 |-------|-------------|
 | [agent-browser](agent-browser/SKILL.md) | Headless browser automation CLI optimized for AI agents |
 | [agent-device](agent-device/SKILL.md) | Mobile automation for iOS simulators/devices and Android emulators/devices |
+| [dogfood-device](dogfood-device/SKILL.md) | Systematically QA test mobile apps on iOS/Android with structured reports, screenshots, and repro videos |
 | [brave-search](brave-search/SKILL.md) | Web search and content extraction via Brave Search |
 | [browser-tools](browser-tools/SKILL.md) | Interactive browser automation via Chrome DevTools Protocol |
 | [gccli](gccli/SKILL.md) | Google Calendar CLI for events and availability |
@@ -161,6 +164,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 
 - **agent-browser**: Requires Node.js. Install globally with `npm install -g agent-browser && agent-browser install`.
 - **agent-device**: Requires Node.js. Install globally with `npm install -g agent-device`. Needs Xcode (iOS) or Android SDK (Android).
+- **dogfood-device**: Requires `agent-device` CLI installed. See agent-device requirements above.
 - **brave-search**: Requires Node.js. Run `npm install` in the skill directory.
 - **browser-tools**: Requires Chrome and Node.js. Run `npm install` in the skill directory.
 - **gccli**: Requires Node.js. Install globally with `npm install -g @mariozechner/gccli`.
