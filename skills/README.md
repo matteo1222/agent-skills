@@ -73,6 +73,7 @@ ln -s ~/agent-skills/skills/systematic-debugging ~/.claude/skills/systematic-deb
 ln -s ~/agent-skills/skills/test-driven-development ~/.claude/skills/test-driven-development
 ln -s ~/agent-skills/skills/agent-device ~/.claude/skills/agent-device
 ln -s ~/agent-skills/skills/dogfood-device ~/.claude/skills/dogfood-device
+ln -s ~/agent-skills/skills/showboat-walkthrough ~/.claude/skills/showboat-walkthrough
 
 # Or project-level
 mkdir -p .claude/skills
@@ -99,6 +100,7 @@ ln -s ~/agent-skills/skills/systematic-debugging .claude/skills/systematic-debug
 ln -s ~/agent-skills/skills/test-driven-development .claude/skills/test-driven-development
 ln -s ~/agent-skills/skills/agent-device .claude/skills/agent-device
 ln -s ~/agent-skills/skills/dogfood-device .claude/skills/dogfood-device
+ln -s ~/agent-skills/skills/showboat-walkthrough .claude/skills/showboat-walkthrough
 ```
 
 **Optional: UI/UX Pro Max skill**
@@ -139,6 +141,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [logging-best-practices](logging-best-practices/SKILL.md) | Wide events and canonical log lines for debuggable systems |
 | [systematic-debugging](systematic-debugging/SKILL.md) | 4-phase root cause debugging: investigation, pattern analysis, hypothesis, implementation |
 | [test-driven-development](test-driven-development/SKILL.md) | Red-green-refactor TDD methodology with anti-pattern reference |
+| [showboat-walkthrough](showboat-walkthrough/SKILL.md) | Build linear, executable code walkthroughs using showboat |
 
 ## Skill Format
 
@@ -185,6 +188,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **logging-best-practices**: No dependencies (documentation/patterns skill).
 - **systematic-debugging**: No dependencies (methodology/patterns skill). Includes supporting techniques and shell scripts.
 - **test-driven-development**: No dependencies (methodology/patterns skill). Includes testing anti-patterns reference.
+- **showboat-walkthrough**: Requires Python 3.x and `uvx` (from [uv](https://docs.astral.sh/uv/)). Showboat is auto-installed via `uvx`.
 
 ## License
 
