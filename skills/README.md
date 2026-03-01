@@ -74,6 +74,10 @@ ln -s ~/agent-skills/skills/test-driven-development ~/.claude/skills/test-driven
 ln -s ~/agent-skills/skills/agent-device ~/.claude/skills/agent-device
 ln -s ~/agent-skills/skills/dogfood-device ~/.claude/skills/dogfood-device
 ln -s ~/agent-skills/skills/showboat-walkthrough ~/.claude/skills/showboat-walkthrough
+ln -s ~/agent-skills/skills/ghidra ~/.claude/skills/ghidra
+ln -s ~/agent-skills/skills/sentry ~/.claude/skills/sentry
+ln -s ~/agent-skills/skills/summarize ~/.claude/skills/summarize
+ln -s ~/agent-skills/skills/tmux ~/.claude/skills/tmux
 
 # Or project-level
 mkdir -p .claude/skills
@@ -101,6 +105,10 @@ ln -s ~/agent-skills/skills/test-driven-development .claude/skills/test-driven-d
 ln -s ~/agent-skills/skills/agent-device .claude/skills/agent-device
 ln -s ~/agent-skills/skills/dogfood-device .claude/skills/dogfood-device
 ln -s ~/agent-skills/skills/showboat-walkthrough .claude/skills/showboat-walkthrough
+ln -s ~/agent-skills/skills/ghidra .claude/skills/ghidra
+ln -s ~/agent-skills/skills/sentry .claude/skills/sentry
+ln -s ~/agent-skills/skills/summarize .claude/skills/summarize
+ln -s ~/agent-skills/skills/tmux .claude/skills/tmux
 ```
 
 **Optional: UI/UX Pro Max skill**
