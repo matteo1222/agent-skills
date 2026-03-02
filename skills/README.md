@@ -78,6 +78,7 @@ ln -s ~/agent-skills/skills/ghidra ~/.claude/skills/ghidra
 ln -s ~/agent-skills/skills/sentry ~/.claude/skills/sentry
 ln -s ~/agent-skills/skills/summarize ~/.claude/skills/summarize
 ln -s ~/agent-skills/skills/tmux ~/.claude/skills/tmux
+ln -s ~/agent-skills/skills/visual-explainer ~/.claude/skills/visual-explainer
 
 # Or project-level
 mkdir -p .claude/skills
@@ -109,7 +110,23 @@ ln -s ~/agent-skills/skills/ghidra .claude/skills/ghidra
 ln -s ~/agent-skills/skills/sentry .claude/skills/sentry
 ln -s ~/agent-skills/skills/summarize .claude/skills/summarize
 ln -s ~/agent-skills/skills/tmux .claude/skills/tmux
+ln -s ~/agent-skills/skills/visual-explainer .claude/skills/visual-explainer
 ```
+
+**Optional: visual-explainer skill (external repo)**
+
+Generates beautiful, self-contained HTML pages for diagrams, diff reviews, visual plans, slide decks, and data tables. Includes 7 slash commands.
+
+```bash
+# Clone into skills directory
+git clone https://github.com/nicobailon/visual-explainer ~/agent-skills/skills/visual-explainer
+
+# Copy slash commands to Claude Code commands directory
+mkdir -p ~/.claude/commands
+cp ~/agent-skills/skills/visual-explainer/prompts/*.md ~/.claude/commands/
+```
+
+Commands: `/generate-web-diagram`, `/generate-visual-plan`, `/generate-slides`, `/diff-review`, `/plan-review`, `/project-recap`, `/fact-check`. [More info](https://github.com/nicobailon/visual-explainer)
 
 **Optional: UI/UX Pro Max skill**
 
@@ -150,6 +167,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [systematic-debugging](systematic-debugging/SKILL.md) | 4-phase root cause debugging: investigation, pattern analysis, hypothesis, implementation |
 | [test-driven-development](test-driven-development/SKILL.md) | Red-green-refactor TDD methodology with anti-pattern reference |
 | [showboat-walkthrough](showboat-walkthrough/SKILL.md) | Build linear, executable code walkthroughs using showboat |
+| [visual-explainer](https://github.com/nicobailon/visual-explainer) | Generate beautiful HTML pages for diagrams, diff reviews, visual plans, slide decks, and data tables (external) |
 
 ## Skill Format
 
@@ -197,6 +215,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **systematic-debugging**: No dependencies (methodology/patterns skill). Includes supporting techniques and shell scripts.
 - **test-driven-development**: No dependencies (methodology/patterns skill). Includes testing anti-patterns reference.
 - **showboat-walkthrough**: Requires Python 3.x and `uvx` (from [uv](https://docs.astral.sh/uv/)). Showboat is auto-installed via `uvx`.
+- **visual-explainer**: No build dependencies (generates self-contained HTML). Optional: `surf` CLI for AI-generated images. Clone separately from [nicobailon/visual-explainer](https://github.com/nicobailon/visual-explainer).
 
 ## License
 
