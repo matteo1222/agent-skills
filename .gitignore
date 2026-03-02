@@ -4,3 +4,6 @@ node_modules/
 # Compiled binaries
 mdview/mdview-bin
 nano-banana-pro/generate
+
+# External skills (cloned separately)
+skills/visual-explainer/
