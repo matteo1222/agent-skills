@@ -79,6 +79,8 @@ ln -s ~/agent-skills/skills/sentry ~/.claude/skills/sentry
 ln -s ~/agent-skills/skills/summarize ~/.claude/skills/summarize
 ln -s ~/agent-skills/skills/tmux ~/.claude/skills/tmux
 ln -s ~/agent-skills/skills/visual-explainer ~/.claude/skills/visual-explainer
+ln -s ~/agent-skills/skills/triad ~/.claude/skills/triad
+ln -s ~/agent-skills/skills/triad-review ~/.claude/skills/triad-review
 
 # Or project-level
 mkdir -p .claude/skills
@@ -111,6 +113,8 @@ ln -s ~/agent-skills/skills/sentry .claude/skills/sentry
 ln -s ~/agent-skills/skills/summarize .claude/skills/summarize
 ln -s ~/agent-skills/skills/tmux .claude/skills/tmux
 ln -s ~/agent-skills/skills/visual-explainer .claude/skills/visual-explainer
+ln -s ~/agent-skills/skills/triad .claude/skills/triad
+ln -s ~/agent-skills/skills/triad-review .claude/skills/triad-review
 ```
 
 **Optional: visual-explainer skill (external repo)**
@@ -167,6 +171,8 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [systematic-debugging](systematic-debugging/SKILL.md) | 4-phase root cause debugging: investigation, pattern analysis, hypothesis, implementation |
 | [test-driven-development](test-driven-development/SKILL.md) | Red-green-refactor TDD methodology with anti-pattern reference |
 | [showboat-walkthrough](showboat-walkthrough/SKILL.md) | Build linear, executable code walkthroughs using showboat |
+| [triad](triad/SKILL.md) | Three-agent adversarial analysis (Finder/Adversary/Referee) for any code dimension |
+| [triad-review](triad-review/SKILL.md) | Multi-dimensional code review running triad across bugs, security, performance, maintainability, and simplicity |
 | [visual-explainer](https://github.com/nicobailon/visual-explainer) | Generate beautiful HTML pages for diagrams, diff reviews, visual plans, slide decks, and data tables (external) |
 
 ## Skill Format
@@ -215,6 +221,8 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **systematic-debugging**: No dependencies (methodology/patterns skill). Includes supporting techniques and shell scripts.
 - **test-driven-development**: No dependencies (methodology/patterns skill). Includes testing anti-patterns reference.
 - **showboat-walkthrough**: Requires Python 3.x and `uvx` (from [uv](https://docs.astral.sh/uv/)). Showboat is auto-installed via `uvx`.
+- **triad**: No dependencies (methodology/patterns skill). Uses sequential subagents for adversarial analysis.
+- **triad-review**: No dependencies. Wrapper that runs triad across multiple lenses (bugs, security, performance, maintainability, simplicity).
 - **visual-explainer**: No build dependencies (generates self-contained HTML). Optional: `surf` CLI for AI-generated images. Clone separately from [nicobailon/visual-explainer](https://github.com/nicobailon/visual-explainer).
 
 ## License
