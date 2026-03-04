@@ -1,11 +1,12 @@
 ---
 name: triad-review
-description: "Multi-dimensional code review using adversarial triad analysis. Runs the triad skill (Finder/Adversary/Referee) across multiple lenses: bugs, security, performance, maintainability, simplicity. Use when asked to 'triad review', 'full review', 'deep review', or 'multi-dimensional analysis' on code."
+description: "Multi-dimensional code review using adversarial triad analysis. Runs the triad script (Finder/Adversary/Referee) across multiple lenses: bugs, security, performance, maintainability, simplicity. Use when asked to 'triad review', 'full review', 'deep review', or 'multi-dimensional analysis' on code."
+allowed-tools: Bash(triad:*)
 ---
 
 # Triad Review
 
-Multi-dimensional code review that runs the `triad` skill across multiple lenses, then consolidates findings into a unified report.
+Multi-dimensional code review that runs the `triad` script across multiple lenses, then consolidates findings into a unified report.
 
 ## Usage
 
@@ -22,18 +23,20 @@ Ask the user (if not already specified):
 
 ### 2. Run triad for each lens
 
-For each selected lens, invoke the `triad` skill pattern by spawning the three subagents (Finder → Adversary → Referee) sequentially.
+Run the triad script once per lens. Lenses are independent — you MAY run them in parallel using Bash `run_in_background`.
 
-Read the core triad skill at `{SKILL_DIR}/../triad/SKILL.md` for the exact prompts and process.
+```bash
+# Run each lens
+{baseDir}/../triad/triad.sh --target <paths> --lens bugs --verbose
+{baseDir}/../triad/triad.sh --target <paths> --lens security --verbose
+{baseDir}/../triad/triad.sh --target <paths> --lens performance --verbose
+{baseDir}/../triad/triad.sh --target <paths> --lens maintainability --verbose
+{baseDir}/../triad/triad.sh --target <paths> --lens simplicity --verbose
+```
 
-**Important**: Each lens gets its own fresh set of three subagents. Do NOT reuse context across lenses. This keeps each analysis clean and unbiased.
+**Do NOT implement the triad pipeline yourself.** Do NOT use Agent tool calls. Do NOT read files and pass content. Just call the script — it handles all orchestration and agent isolation.
 
-Run lenses in this order (most concrete to most subjective):
-1. **Bugs** — logic errors, crashes, incorrect behavior
-2. **Security** — vulnerabilities, attack surfaces
-3. **Performance** — bottlenecks, waste, scaling issues
-4. **Maintainability** — code health, readability, extensibility
-5. **Simplicity** — over-engineering, accidental complexity, YAGNI violations
+Each script invocation runs 3 separate `claude -p` processes (Finder → Adversary → Referee) with full context isolation.
 
 ### 3. Consolidate results
 
@@ -81,11 +84,11 @@ After presenting the report, ask the user if they want to:
 - Fix any specific findings
 - Deep-dive into a particular lens
 - Re-run the triad on a specific file with more focus
-- Get the full Finder/Adversary/Referee transcript for any lens
 
 ## Tips
 
 - For large codebases, suggest the user scope to specific directories or recently changed files
 - If a codebase is small (<500 lines), running all 5 lenses may be overkill — suggest 2-3 most relevant ones
+- Use `--model opus` for higher fidelity on critical codebases
 - The simplicity lens is especially valuable for greenfield projects and architecture reviews
 - The bugs lens is most valuable for pre-merge code review

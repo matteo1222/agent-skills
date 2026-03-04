@@ -221,8 +221,8 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **systematic-debugging**: No dependencies (methodology/patterns skill). Includes supporting techniques and shell scripts.
 - **test-driven-development**: No dependencies (methodology/patterns skill). Includes testing anti-patterns reference.
 - **showboat-walkthrough**: Requires Python 3.x and `uvx` (from [uv](https://docs.astral.sh/uv/)). Showboat is auto-installed via `uvx`.
-- **triad**: No dependencies (methodology/patterns skill). Uses sequential subagents for adversarial analysis.
-- **triad-review**: No dependencies. Wrapper that runs triad across multiple lenses (bugs, security, performance, maintainability, simplicity).
+- **triad**: Requires `claude` CLI in PATH. Runs 3 separate `claude -p` processes per analysis (Finder → Adversary → Referee).
+- **triad-review**: Requires `claude` CLI in PATH. Wrapper that runs triad across multiple lenses.
 - **visual-explainer**: No build dependencies (generates self-contained HTML). Optional: `surf` CLI for AI-generated images. Clone separately from [nicobailon/visual-explainer](https://github.com/nicobailon/visual-explainer).
 
 ## License
