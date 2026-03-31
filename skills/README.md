@@ -81,6 +81,25 @@ ln -s ~/agent-skills/skills/tmux ~/.claude/skills/tmux
 ln -s ~/agent-skills/skills/visual-explainer ~/.claude/skills/visual-explainer
 ln -s ~/agent-skills/skills/triad ~/.claude/skills/triad
 ln -s ~/agent-skills/skills/triad-review ~/.claude/skills/triad-review
+ln -s ~/agent-skills/skills/trycycle ~/.claude/skills/trycycle
+ln -s ~/agent-skills/skills/design-an-interface ~/.claude/skills/design-an-interface
+ln -s ~/agent-skills/skills/edit-article ~/.claude/skills/edit-article
+ln -s ~/agent-skills/skills/git-guardrails-claude-code ~/.claude/skills/git-guardrails-claude-code
+ln -s ~/agent-skills/skills/grill-me ~/.claude/skills/grill-me
+ln -s ~/agent-skills/skills/improve-codebase-architecture ~/.claude/skills/improve-codebase-architecture
+ln -s ~/agent-skills/skills/migrate-to-shoehorn ~/.claude/skills/migrate-to-shoehorn
+ln -s ~/agent-skills/skills/obsidian-vault ~/.claude/skills/obsidian-vault
+ln -s ~/agent-skills/skills/prd-to-issues ~/.claude/skills/prd-to-issues
+ln -s ~/agent-skills/skills/prd-to-plan ~/.claude/skills/prd-to-plan
+ln -s ~/agent-skills/skills/qa ~/.claude/skills/qa
+ln -s ~/agent-skills/skills/request-refactor-plan ~/.claude/skills/request-refactor-plan
+ln -s ~/agent-skills/skills/scaffold-exercises ~/.claude/skills/scaffold-exercises
+ln -s ~/agent-skills/skills/setup-pre-commit ~/.claude/skills/setup-pre-commit
+ln -s ~/agent-skills/skills/tdd ~/.claude/skills/tdd
+ln -s ~/agent-skills/skills/triage-issue ~/.claude/skills/triage-issue
+ln -s ~/agent-skills/skills/ubiquitous-language ~/.claude/skills/ubiquitous-language
+ln -s ~/agent-skills/skills/write-a-prd ~/.claude/skills/write-a-prd
+ln -s ~/agent-skills/skills/write-a-skill ~/.claude/skills/write-a-skill
 
 # Or project-level
 mkdir -p .claude/skills
@@ -115,6 +134,25 @@ ln -s ~/agent-skills/skills/tmux .claude/skills/tmux
 ln -s ~/agent-skills/skills/visual-explainer .claude/skills/visual-explainer
 ln -s ~/agent-skills/skills/triad .claude/skills/triad
 ln -s ~/agent-skills/skills/triad-review .claude/skills/triad-review
+ln -s ~/agent-skills/skills/trycycle .claude/skills/trycycle
+ln -s ~/agent-skills/skills/design-an-interface .claude/skills/design-an-interface
+ln -s ~/agent-skills/skills/edit-article .claude/skills/edit-article
+ln -s ~/agent-skills/skills/git-guardrails-claude-code .claude/skills/git-guardrails-claude-code
+ln -s ~/agent-skills/skills/grill-me .claude/skills/grill-me
+ln -s ~/agent-skills/skills/improve-codebase-architecture .claude/skills/improve-codebase-architecture
+ln -s ~/agent-skills/skills/migrate-to-shoehorn .claude/skills/migrate-to-shoehorn
+ln -s ~/agent-skills/skills/obsidian-vault .claude/skills/obsidian-vault
+ln -s ~/agent-skills/skills/prd-to-issues .claude/skills/prd-to-issues
+ln -s ~/agent-skills/skills/prd-to-plan .claude/skills/prd-to-plan
+ln -s ~/agent-skills/skills/qa .claude/skills/qa
+ln -s ~/agent-skills/skills/request-refactor-plan .claude/skills/request-refactor-plan
+ln -s ~/agent-skills/skills/scaffold-exercises .claude/skills/scaffold-exercises
+ln -s ~/agent-skills/skills/setup-pre-commit .claude/skills/setup-pre-commit
+ln -s ~/agent-skills/skills/tdd .claude/skills/tdd
+ln -s ~/agent-skills/skills/triage-issue .claude/skills/triage-issue
+ln -s ~/agent-skills/skills/ubiquitous-language .claude/skills/ubiquitous-language
+ln -s ~/agent-skills/skills/write-a-prd .claude/skills/write-a-prd
+ln -s ~/agent-skills/skills/write-a-skill .claude/skills/write-a-skill
 ```
 
 **Optional: visual-explainer skill (external repo)**
@@ -173,7 +211,26 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [showboat-walkthrough](showboat-walkthrough/SKILL.md) | Build linear, executable code walkthroughs using showboat |
 | [triad](triad/SKILL.md) | Three-agent adversarial analysis (Finder/Adversary/Referee) for any code dimension |
 | [triad-review](triad-review/SKILL.md) | Multi-dimensional code review running triad across bugs, security, performance, maintainability, and simplicity |
+| [trycycle](trycycle/SKILL.md) | Iterative plan-build-review workflow with hill-climbing refinement ([danshapiro/trycycle](https://github.com/danshapiro/trycycle)) |
 | [visual-explainer](https://github.com/nicobailon/visual-explainer) | Generate beautiful HTML pages for diagrams, diff reviews, visual plans, slide decks, and data tables (external) |
+| [design-an-interface](design-an-interface/SKILL.md) | Generate multiple distinct interface designs using parallel sub-agents ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [edit-article](edit-article/SKILL.md) | Enhance articles through restructuring and clarity improvements ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [git-guardrails-claude-code](git-guardrails-claude-code/SKILL.md) | Set up Claude Code hooks to block dangerous git commands ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [grill-me](grill-me/SKILL.md) | Relentless interview about a plan or design until every decision is resolved ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [improve-codebase-architecture](improve-codebase-architecture/SKILL.md) | Analyze projects for architectural enhancements focusing on module depth and testability ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [migrate-to-shoehorn](migrate-to-shoehorn/SKILL.md) | Convert test files from `as` assertions to @total-typescript/shoehorn ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [obsidian-vault](obsidian-vault/SKILL.md) | Manage Obsidian vault notes with wikilinks support ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [prd-to-issues](prd-to-issues/SKILL.md) | Break product requirements into independently-assignable GitHub issues ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [prd-to-plan](prd-to-plan/SKILL.md) | Transform product requirements into phased implementation strategies ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [qa](qa/SKILL.md) | Quality assurance testing skill ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [request-refactor-plan](request-refactor-plan/SKILL.md) | Create detailed refactoring strategies with granular commit steps ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [scaffold-exercises](scaffold-exercises/SKILL.md) | Create exercise directory structures with sections, problems, solutions, and explainers ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [setup-pre-commit](setup-pre-commit/SKILL.md) | Configure Husky hooks with linting, formatting, type checking, and testing ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [tdd](tdd/SKILL.md) | Test-driven development with red-green-refactor loop and vertical slices ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [triage-issue](triage-issue/SKILL.md) | Investigate bugs by exploring codebases, identifying root causes, and creating fix plans ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [ubiquitous-language](ubiquitous-language/SKILL.md) | Extract a DDD-style ubiquitous language glossary from the current conversation ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [write-a-prd](write-a-prd/SKILL.md) | Create a PRD through interactive interview and codebase exploration ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [write-a-skill](write-a-skill/SKILL.md) | Create new skills with proper structure and bundled resources ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 
 ## Skill Format
 
@@ -223,7 +280,26 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **showboat-walkthrough**: Requires Python 3.x and `uvx` (from [uv](https://docs.astral.sh/uv/)). Showboat is auto-installed via `uvx`.
 - **triad**: Requires `claude` CLI in PATH. Runs 3 separate `claude -p` processes per analysis (Finder → Adversary → Referee).
 - **triad-review**: Requires `claude` CLI in PATH. Wrapper that runs triad across multiple lenses.
+- **trycycle**: Requires Python 3. Iterative plan-build-review workflow from [danshapiro/trycycle](https://github.com/danshapiro/trycycle) (MIT, by Dan Shapiro; adapted from Jesse Vincent's "superpowers").
 - **visual-explainer**: No build dependencies (generates self-contained HTML). Optional: `surf` CLI for AI-generated images. Clone separately from [nicobailon/visual-explainer](https://github.com/nicobailon/visual-explainer).
+- **design-an-interface**: No dependencies (methodology/patterns skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **edit-article**: No dependencies (methodology/patterns skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **git-guardrails-claude-code**: No dependencies (hooks configuration skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **grill-me**: No dependencies (interview/planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **improve-codebase-architecture**: No dependencies (methodology/patterns skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **migrate-to-shoehorn**: Requires `@total-typescript/shoehorn` package. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **obsidian-vault**: Requires an Obsidian vault directory. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **prd-to-issues**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **prd-to-plan**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **qa**: No dependencies (quality assurance skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **request-refactor-plan**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **scaffold-exercises**: No dependencies (scaffolding skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **setup-pre-commit**: Requires Node.js and Husky. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **tdd**: No dependencies (methodology/patterns skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **triage-issue**: No dependencies (debugging/investigation skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **ubiquitous-language**: No dependencies (documentation skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **write-a-prd**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **write-a-skill**: No dependencies (meta skill for creating skills). From [mattpocock/skills](https://github.com/mattpocock/skills).
 
 ## License
 

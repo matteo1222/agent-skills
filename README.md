@@ -3,6 +3,10 @@
 A collection of skills and extensions for AI coding agents, compatible with Claude Code, pi-coding-agent, Codex CLI, Amp, and Droid.
 
 > **Attribution:** Forked from [badlogic/pi-skills](https://github.com/badlogic/pi-skills)
+>
+> **Includes:** [danshapiro/trycycle](https://github.com/danshapiro/trycycle) — an iterative plan-build-review skill for Claude Code and Codex CLI (MIT, by Dan Shapiro; adapted from Jesse Vincent's "superpowers" project)
+>
+> **Includes:** [mattpocock/skills](https://github.com/mattpocock/skills) — planning, design, development, and writing skills for Claude Code (MIT, by Matt Pocock)
 
 ## Contents
 
