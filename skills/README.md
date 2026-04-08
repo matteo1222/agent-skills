@@ -101,6 +101,8 @@ ln -s ~/agent-skills/skills/triage-issue ~/.claude/skills/triage-issue
 ln -s ~/agent-skills/skills/ubiquitous-language ~/.claude/skills/ubiquitous-language
 ln -s ~/agent-skills/skills/write-a-prd ~/.claude/skills/write-a-prd
 ln -s ~/agent-skills/skills/write-a-skill ~/.claude/skills/write-a-skill
+ln -s ~/agent-skills/skills/no-use-effect ~/.claude/skills/no-use-effect
+ln -s ~/agent-skills/skills/harness-engineering ~/.claude/skills/harness-engineering
 
 # Or project-level
 mkdir -p .claude/skills
@@ -155,6 +157,8 @@ ln -s ~/agent-skills/skills/triage-issue .claude/skills/triage-issue
 ln -s ~/agent-skills/skills/ubiquitous-language .claude/skills/ubiquitous-language
 ln -s ~/agent-skills/skills/write-a-prd .claude/skills/write-a-prd
 ln -s ~/agent-skills/skills/write-a-skill .claude/skills/write-a-skill
+ln -s ~/agent-skills/skills/no-use-effect .claude/skills/no-use-effect
+ln -s ~/agent-skills/skills/harness-engineering .claude/skills/harness-engineering
 ```
 
 **Optional: visual-explainer skill (external repo)**
@@ -234,6 +238,8 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [ubiquitous-language](ubiquitous-language/SKILL.md) | Extract a DDD-style ubiquitous language glossary from the current conversation ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [write-a-prd](write-a-prd/SKILL.md) | Create a PRD through interactive interview and codebase exploration ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [write-a-skill](write-a-skill/SKILL.md) | Create new skills with proper structure and bundled resources ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [no-use-effect](no-use-effect/skill.md) | Enforce no-useEffect rule in React code with 5 replacement patterns and useMountEffect escape hatch ([alvinsng](https://x.com/alvinsng/status/2033969062834045089)) |
+| [harness-engineering](harness-engineering/skill.md) | Design environments so AI agents build reliable software — context management, mechanical enforcement, and feedback loops (Ryan Lopopolo, OpenAI) |
 
 ## Skill Format
 
@@ -304,6 +310,8 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **ubiquitous-language**: No dependencies (documentation skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **write-a-prd**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **write-a-skill**: No dependencies (meta skill for creating skills). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **no-use-effect**: No dependencies (documentation/patterns skill). From [alvinsng](https://gist.github.com/alvinsng/5dd68c6ece355dbdbd65340ec2927b1d).
+- **harness-engineering**: No dependencies (methodology/patterns skill). Based on Ryan Lopopolo's "Harnessing Engineering" (OpenAI, Feb 2025).
 
 ## License
 
