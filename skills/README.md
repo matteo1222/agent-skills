@@ -82,6 +82,7 @@ ln -s ~/agent-skills/skills/visual-explainer ~/.claude/skills/visual-explainer
 ln -s ~/agent-skills/skills/triad ~/.claude/skills/triad
 ln -s ~/agent-skills/skills/triad-review ~/.claude/skills/triad-review
 ln -s ~/agent-skills/skills/trycycle ~/.claude/skills/trycycle
+ln -s ~/agent-skills/skills/babysit-pr ~/.claude/skills/babysit-pr
 ln -s ~/agent-skills/skills/design-an-interface ~/.claude/skills/design-an-interface
 ln -s ~/agent-skills/skills/edit-article ~/.claude/skills/edit-article
 ln -s ~/agent-skills/skills/git-guardrails-claude-code ~/.claude/skills/git-guardrails-claude-code
@@ -135,6 +136,7 @@ ln -s ~/agent-skills/skills/visual-explainer .claude/skills/visual-explainer
 ln -s ~/agent-skills/skills/triad .claude/skills/triad
 ln -s ~/agent-skills/skills/triad-review .claude/skills/triad-review
 ln -s ~/agent-skills/skills/trycycle .claude/skills/trycycle
+ln -s ~/agent-skills/skills/babysit-pr .claude/skills/babysit-pr
 ln -s ~/agent-skills/skills/design-an-interface .claude/skills/design-an-interface
 ln -s ~/agent-skills/skills/edit-article .claude/skills/edit-article
 ln -s ~/agent-skills/skills/git-guardrails-claude-code .claude/skills/git-guardrails-claude-code
@@ -185,6 +187,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 
 | Skill | Description |
 |-------|-------------|
+| [babysit-pr](babysit-pr/SKILL.md) | Babysit a GitHub PR by polling review comments, CI checks, and mergeability until merged/closed ([openai/codex](https://github.com/openai/codex)) |
 | [agent-browser](agent-browser/SKILL.md) | Headless browser automation CLI optimized for AI agents |
 | [agent-device](agent-device/SKILL.md) | Mobile automation for iOS simulators/devices and Android emulators/devices |
 | [dogfood-device](dogfood-device/SKILL.md) | Systematically QA test mobile apps on iOS/Android with structured reports, screenshots, and repro videos |
@@ -254,6 +257,7 @@ The `{baseDir}` placeholder is replaced with the skill's directory path at runti
 
 Some skills require additional setup. Generally, the agent will walk you through that. But if not, here you go:
 
+- **babysit-pr**: Requires Python 3 and `gh` CLI authenticated. From [openai/codex](https://github.com/openai/codex).
 - **agent-browser**: Requires Node.js. Install globally with `npm install -g agent-browser && agent-browser install`.
 - **agent-device**: Requires Node.js. Install globally with `npm install -g agent-device`. Needs Xcode (iOS) or Android SDK (Android).
 - **dogfood-device**: Requires `agent-device` CLI installed. See agent-device requirements above.
