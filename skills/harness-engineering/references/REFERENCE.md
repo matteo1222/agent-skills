@@ -14,7 +14,9 @@ Enforced by custom linters and structural tests. Violations are blocked mechanic
 
 **Why this matters for agents:** Without enforced boundaries, agents produce code that works but drifts — inconsistent patterns, duplicated logic, broken abstractions spreading via copy. Constraints enable speed.
 
-## Codebase Knowledge Layout
+## Full Codebase Structure
+
+### Knowledge Layer — What the agent reads
 
 ```
 AGENTS.md              # ~100 line map (table of contents)
@@ -22,14 +24,19 @@ ARCHITECTURE.md        # Domain + package layering overview
 docs/
 ├── design-docs/       # Cataloged, indexed, with validation status
 │   ├── index.md
-│   └── core-beliefs.md   # Team identity, customers, product vision
+│   ├── core-beliefs.md   # Team identity, customers, product vision
+│   └── <feature>.md      # One per design decision
 ├── exec-plans/        # Active plans, completed, tech-debt tracker
 │   ├── active/
 │   ├── completed/
 │   └── tech-debt-tracker.md
 ├── generated/         # Auto-generated (e.g., db-schema.md)
+│   └── db-schema.md
 ├── product-specs/     # Product requirements
+│   ├── index.md
+│   └── <feature>.md
 ├── references/        # External reference materials (llms.txt style)
+│   └── *.txt
 ├── DESIGN.md
 ├── FRONTEND.md
 ├── PLANS.md
@@ -40,9 +47,70 @@ docs/
 ```
 
 **Key files:**
-- `core-beliefs.md` — Who's on the team, what product, who the customers are, 12-month vision. Informs how agents make design trade-offs.
+- `core-beliefs.md` — Who's on the team, what product, who the customers are, who the pilot customers are, the full 12-month vision. This is the most important file — without it, agents make design decisions in a vacuum. Include team culture (even emoji/meme conventions).
 - `QUALITY_SCORE.md` — Markdown table scoring each area. Hook for gardening agents to assess and propose follow-up work.
+- `RELIABILITY.md` — Non-negotiable reliability rules (e.g., all network calls must have timeouts). Updated whenever a production incident reveals a gap.
 - `tech-debt-tracker.md` — Known debt items. Agents can be spawned on cron to burn these down.
+
+### Enforcement Layer — Source code structure
+
+```
+src/
+├── <domain>/              # Each business domain
+│   ├── types/             # Layer 1: Pure types, no imports from other layers
+│   ├── config/            # Layer 2: Can import types
+│   ├── repo/              # Layer 3: Can import types, config
+│   ├── providers/         # Cross-cutting: validation, connectors, telemetry
+│   ├── service/           # Layer 4: Can import types, config, repo, providers
+│   ├── runtime/           # Layer 5: Can import everything above
+│   └── ui/                # Layer 6: Can import everything above
+├── shared/
+│   ├── utils/             # Shared utilities (preferred over hand-rolled)
+│   └── primitives/        # Base classes like Command (observability for free)
+└── app/                   # App wiring, entry point
+
+tools/
+├── linters/               # Custom linters — error messages coach the agent
+│   ├── layer-imports       # Enforces dependency direction
+│   ├── naming-conventions  # Schema/type naming patterns
+│   ├── file-size-limit     # Max lines per file
+│   ├── structured-logging  # No console.log, use logger
+│   └── boundary-validation # Parse data at boundaries (Zod etc.)
+└── scripts/
+    ├── quality-score       # Scans codebase, updates QUALITY_SCORE.md
+    └── doc-gardening       # Finds stale docs, opens fix PRs
+```
+
+Dependency rule: within each domain, imports flow DOWN only (Types → Config → Repo → Service → Runtime → UI). Cross-domain imports are forbidden. Violations blocked by linters, not caught in review.
+
+**Lint error messages must coach the agent:** include what's wrong, why, and how to fix — this injects fix instructions into context at the exact moment of failure.
+
+### Execution Layer — Agent tooling
+
+```
+.codex/ or .claude/        # Agent config
+├── skills/
+│   ├── land/SKILL.md      # Full PR merge lifecycle
+│   ├── commit/SKILL.md    # Commit conventions
+│   ├── pull/SKILL.md      # Sync with origin/main
+│   └── push/SKILL.md      # Push and publish
+
+.github/workflows/
+├── ci.yml                 # Standard CI
+├── doc-validation.yml     # Are docs fresh? Cross-linked?
+└── architecture-check.yml # Run custom linters on PR
+
+scripts/
+├── dev/
+│   ├── boot-app.sh        # Start app in worktree
+│   ├── boot-observability.sh  # Start Vector + Victoria stack
+│   └── teardown.sh        # Clean up everything
+├── agent/
+│   ├── review-pr.sh       # Agent-driven code review
+│   └── gardening.sh       # Scheduled cleanup scan
+└── build/
+    └── build.sh           # Must complete in <1 minute
+```
 
 ## Agent Review Loops
 
