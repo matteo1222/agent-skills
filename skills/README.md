@@ -103,6 +103,7 @@ ln -s ~/agent-skills/skills/write-a-prd ~/.claude/skills/write-a-prd
 ln -s ~/agent-skills/skills/write-a-skill ~/.claude/skills/write-a-skill
 ln -s ~/agent-skills/skills/no-use-effect ~/.claude/skills/no-use-effect
 ln -s ~/agent-skills/skills/harness-engineering ~/.claude/skills/harness-engineering
+ln -s ~/agent-skills/skills/frontend-slides ~/.claude/skills/frontend-slides
 
 # Or project-level
 mkdir -p .claude/skills
@@ -159,6 +160,7 @@ ln -s ~/agent-skills/skills/write-a-prd .claude/skills/write-a-prd
 ln -s ~/agent-skills/skills/write-a-skill .claude/skills/write-a-skill
 ln -s ~/agent-skills/skills/no-use-effect .claude/skills/no-use-effect
 ln -s ~/agent-skills/skills/harness-engineering .claude/skills/harness-engineering
+ln -s ~/agent-skills/skills/frontend-slides .claude/skills/frontend-slides
 ```
 
 **Optional: visual-explainer skill (external repo)**
@@ -239,6 +241,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [write-a-prd](write-a-prd/SKILL.md) | Create a PRD through interactive interview and codebase exploration ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [write-a-skill](write-a-skill/SKILL.md) | Create new skills with proper structure and bundled resources ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [no-use-effect](no-use-effect/skill.md) | Enforce no-useEffect rule in React code with 5 replacement patterns and useMountEffect escape hatch ([alvinsng](https://x.com/alvinsng/status/2033969062834045089)) |
+| [frontend-slides](frontend-slides/SKILL.md) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files ([zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)) |
 | [harness-engineering](harness-engineering/skill.md) | Design environments so AI agents build reliable software — context management, mechanical enforcement, and feedback loops (Ryan Lopopolo, OpenAI) |
 
 ## Skill Format
@@ -311,6 +314,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **write-a-prd**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **write-a-skill**: No dependencies (meta skill for creating skills). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **no-use-effect**: No dependencies (documentation/patterns skill). From [alvinsng](https://gist.github.com/alvinsng/5dd68c6ece355dbdbd65340ec2927b1d).
+- **frontend-slides**: For PPT conversion: Python with `python-pptx`. For deployment: Node.js + Vercel account (free). For PDF export: Node.js (Playwright installs automatically). From [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides).
 - **harness-engineering**: No dependencies (methodology/patterns skill). Based on Ryan Lopopolo's "Harnessing Engineering" (OpenAI, Feb 2025).
 
 ## License

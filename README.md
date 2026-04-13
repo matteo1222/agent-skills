@@ -9,6 +9,8 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 > **Includes:** [mattpocock/skills](https://github.com/mattpocock/skills) — planning, design, development, and writing skills for Claude Code (MIT, by Matt Pocock)
 >
 > **Includes:** [openai/codex](https://github.com/openai/codex) — babysit-pr skill for autonomous PR monitoring (Apache 2.0, by OpenAI)
+>
+> **Includes:** [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) — create stunning HTML presentations from scratch or by converting PowerPoint files (MIT, by Zara Zhang)
 
 ## Contents
 
