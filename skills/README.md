@@ -242,7 +242,8 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [write-a-skill](write-a-skill/SKILL.md) | Create new skills with proper structure and bundled resources ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [no-use-effect](no-use-effect/skill.md) | Enforce no-useEffect rule in React code with 5 replacement patterns and useMountEffect escape hatch ([alvinsng](https://x.com/alvinsng/status/2033969062834045089)) |
 | [frontend-slides](frontend-slides/SKILL.md) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files ([zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)) |
-| [harness-engineering](harness-engineering/skill.md) | Design environments so AI agents build reliable software — context management, mechanical enforcement, and feedback loops (Ryan Lopopolo, OpenAI) |
+| [harness-engineering](harness-engineering/SKILL.md) | Design environments so AI agents build reliable software — context management, mechanical enforcement, and feedback loops (Ryan Lopopolo, OpenAI) |
+>>>>>>> 2e32f5d (Fix harness-engineering skill filename)
 
 ## Skill Format
 
