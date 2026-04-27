@@ -255,6 +255,22 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [no-use-effect](no-use-effect/skill.md) | Enforce no-useEffect rule in React code with 5 replacement patterns and useMountEffect escape hatch ([alvinsng](https://x.com/alvinsng/status/2033969062834045089)) |
 | [frontend-slides](frontend-slides/SKILL.md) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files ([zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)) |
 | [harness-engineering](harness-engineering/SKILL.md) | Design environments so AI agents build reliable software — context management, mechanical enforcement, and feedback loops (Ryan Lopopolo, OpenAI) |
+| [app-store-changelog](app-store-changelog/SKILL.md) | Create user-facing App Store release notes from git history since the last tag or a specified ref ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [bug-hunt-swarm](bug-hunt-swarm/SKILL.md) | Run a parallel, read-only multi-agent root-cause investigation for bugs, regressions, crashes, and flaky behavior ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [github](github/SKILL.md) | Interact with GitHub issues, pull requests, workflow runs, and API data through the `gh` CLI ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [ios-debugger-agent](ios-debugger-agent/SKILL.md) | Use XcodeBuildMCP to build, launch, inspect, and debug iOS apps on a booted simulator ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [macos-menubar-tuist-app](macos-menubar-tuist-app/SKILL.md) | Build, refactor, or review SwiftUI menubar apps with a Tuist-first workflow ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [macos-spm-app-packaging](macos-spm-app-packaging/SKILL.md) | Scaffold, build, package, sign, and release SwiftPM-based macOS apps without an Xcode project ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [orchestrate-batch-refactor](orchestrate-batch-refactor/SKILL.md) | Plan and execute large refactors or rewrites with dependency-aware, parallel multi-agent work packets ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [project-skill-audit](project-skill-audit/SKILL.md) | Audit project history, memory, and existing skills to recommend the highest-value skill additions or updates ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [react-component-performance](react-component-performance/SKILL.md) | Diagnose slow React components, re-render churn, and laggy lists, then suggest targeted optimizations ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [review-and-simplify-changes](review-and-simplify-changes/SKILL.md) | Review a diff for reuse, quality, efficiency, and clarity issues, then optionally apply safe simplifications ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [review-swarm](review-swarm/SKILL.md) | Run a parallel, read-only diff review focused on regressions, security, reliability, and coverage gaps ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [swift-concurrency-expert](swift-concurrency-expert/SKILL.md) | Review and remediate Swift 6.2+ concurrency issues including actor isolation and `Sendable` violations ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [swiftui-liquid-glass](swiftui-liquid-glass/SKILL.md) | Implement or review SwiftUI features using the iOS 26+ Liquid Glass API correctly and consistently ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [swiftui-performance-audit](swiftui-performance-audit/SKILL.md) | Audit SwiftUI runtime performance from code and architecture, with profiling guidance when needed ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [swiftui-ui-patterns](swiftui-ui-patterns/SKILL.md) | Apply best-practice SwiftUI patterns for navigation, state, layouts, and reusable components ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
+| [swiftui-view-refactor](swiftui-view-refactor/SKILL.md) | Refactor SwiftUI view files toward smaller subviews, stable view trees, and cleaner MV-style data flow ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 
 ## Skill Format
 
