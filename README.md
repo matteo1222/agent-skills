@@ -10,6 +10,8 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [openai/codex](https://github.com/openai/codex) — babysit-pr skill for autonomous PR monitoring (Apache 2.0, by OpenAI)
 >
+> **Includes:** [noamseg/interview-coach-skill](https://github.com/noamseg/interview-coach-skill) — adaptive interview and job-search coaching across prep, transcript analysis, practice, storybanking, application materials, and negotiation (MIT, by Noam Segal)
+>
 > **Includes:** [Dimillian/Skills](https://github.com/Dimillian/Skills) — Apple platform, GitHub workflow, refactoring, review swarm, and performance skills for Codex (MIT, by Dimillian)
 >
 > **Includes:** [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) — create stunning HTML presentations from scratch or by converting PowerPoint files (MIT, by Zara Zhang)
