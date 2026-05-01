@@ -58,6 +58,7 @@ ln -s ~/agent-skills/skills/gmcli ~/.claude/skills/gmcli
 ln -s ~/agent-skills/skills/transcribe ~/.claude/skills/transcribe
 ln -s ~/agent-skills/skills/vscode ~/.claude/skills/vscode
 ln -s ~/agent-skills/skills/youtube-transcript ~/.claude/skills/youtube-transcript
+ln -s ~/agent-skills/skills/youtube-cc ~/.claude/skills/youtube-cc
 ln -s ~/agent-skills/skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
 ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/create-cli ~/.claude/skills/create-cli
@@ -118,6 +119,7 @@ ln -s ~/agent-skills/skills/gmcli .claude/skills/gmcli
 ln -s ~/agent-skills/skills/transcribe .claude/skills/transcribe
 ln -s ~/agent-skills/skills/vscode .claude/skills/vscode
 ln -s ~/agent-skills/skills/youtube-transcript .claude/skills/youtube-transcript
+ln -s ~/agent-skills/skills/youtube-cc .claude/skills/youtube-cc
 ln -s ~/agent-skills/skills/nano-banana-pro .claude/skills/nano-banana-pro
 ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/create-cli .claude/skills/create-cli
