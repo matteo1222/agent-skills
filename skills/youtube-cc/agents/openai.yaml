@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube CC"
+  short_description: "Create, fix, and translate YouTube captions"
+  default_prompt: "Use $youtube-cc to create SRT and VTT captions for a YouTube video."
