@@ -7,6 +7,8 @@ description: Create, translate, preview, and validate timed caption/subtitle fil
 
 Create timed YouTube caption files from a video URL. Prefer existing YouTube captions first; use local ASR only when captions are missing, low quality, or the user asks for a fresh transcription. Treat ASR output as a draft: verify, correct obvious mistakes, ask the user to resolve uncertain terms, then render final or translated captions.
 
+Strict source-first rule: for translated captions, always create and correct source-language captions first, then translate the corrected source JSON. Do not use Whisper's direct `--task translate` output as final captions, even for English. Direct Whisper translation may be used only as a disposable reference draft while translating from the corrected source.
+
 ## Quick Start
 
 ```bash
@@ -19,8 +21,11 @@ Useful variants:
 # Prefer Chinese captions if present, then English.
 python3 {baseDir}/scripts/youtube_cc.py URL --caption-langs "zh.*,en.*" --format all
 
-# Force local transcription instead of downloading existing captions.
-python3 {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend faster-whisper --model small --format srt
+# Force a quick local draft instead of downloading existing captions.
+python3 {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend faster-whisper --model small --asr-language zh --task transcribe --format srt
+
+# Publish-quality source pass. Use this when captions will be uploaded or translated.
+python3 {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend faster-whisper --model large-v3 --asr-language zh --task transcribe --format all
 
 # Use whisper.cpp when a local whisper-cli model is already installed.
 python3 {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend whisper-cpp --whisper-cpp-model /path/to/ggml-model.bin
@@ -39,10 +44,10 @@ python3 {baseDir}/scripts/render_captions.py translated.en.json --format all
 
 1. Resolve the YouTube URL with `yt-dlp -J` and identify available manual and automatic captions.
 2. If `--mode prefer-existing`, download the best matching manual caption first, then auto caption, using `--write-subs` or `--write-auto-subs`.
-3. If no acceptable caption exists, extract audio with `yt-dlp -x` and transcribe locally.
+3. If no acceptable caption exists, extract audio with `yt-dlp -x` and transcribe locally with the spoken/source language, using `--task transcribe`.
 4. Proofread and correct the source caption JSON before final output. Normalize repeated names, places, brands, technical terms, and homophones.
 5. If any term is vague, ambiguous, or not safely inferable, ask the user with a compact decision list before applying that correction.
-6. If the user asked for translated captions, confirm the target language first. Translate the corrected source segments yourself as the AI agent while preserving `index`, `start`, and `end`.
+6. If the user asked for translated captions, confirm the target language first. Translate the corrected source segments yourself as the AI agent while preserving `index`, `start`, and `end`. Never skip directly from raw ASR or Whisper `--task translate` to final translated captions.
 7. Emit the requested caption files:
    - `.srt` for YouTube upload and broad editor support
    - `.vtt` for web preview and HTML video
@@ -50,12 +55,54 @@ python3 {baseDir}/scripts/render_captions.py translated.en.json --format all
 8. For preview, prefer `scripts/make_preview.py`; it embeds caption text in the page and renders an always-visible overlay instead of depending on native browser subtitle controls.
 9. If the user wants to publish captions, guide them through YouTube Studio upload or the YouTube Data API. They must own or have edit access to the channel/video.
 
+## Failure Prevention Checklist
+
+Use this checklist before calling any translated caption file final.
+
+1. Dependency and download reliability:
+   - If the system `yt-dlp` gets YouTube `403` errors or looks stale, rerun with a fresh package: `uv run --with yt-dlp yt-dlp ...`.
+   - If `faster_whisper` is missing from system Python, use `uv run --with faster-whisper ...` rather than stopping or silently downgrading the workflow.
+   - Keep the downloaded audio/video path in metadata so later repair passes do not redownload or use a different source.
+2. Model selection:
+   - Use `small` only for quick drafts.
+   - Use `medium` or `large-v3` for publish-quality source captions, especially when translating.
+   - For translated captions, run Whisper with `task=transcribe` in the spoken/source language. Never use `task=translate` for final output.
+3. VAD strategy:
+   - Start with a full source-language pass using normal VAD.
+   - Audit suspicious gaps and long captions, then rerun short windows with VAD disabled (`--no-vad` or `vad_filter=False`).
+   - Do not blindly adopt a full no-VAD transcript. It can recover quiet speech, but it can also hallucinate during silence, music, or B-roll, including fake credit lines such as `中文字幕提供` or `由 Amara.org 社群提供的字幕`.
+   - Merge only recovered no-VAD lines that match audible speech.
+4. Gap and timing audit:
+   - Check if the first real caption starts after visible speech begins.
+   - Search for caption gaps over 6-8 seconds during visible talking or narration.
+   - Search for single caption segments longer than 8 seconds. Long segments often hide missed speech or silence hallucinations.
+   - For each suspicious gap, extract a window with a few seconds of padding, rerun ASR with the same or larger model and VAD off, and record the recovery in `metadata.recovered_gaps`.
+5. Source correction:
+   - Normalize script before translation, such as converting mixed Simplified/Traditional Chinese into the requested target script.
+   - Keep a glossary of confirmed names, places, brands, restaurants, dishes, and technical terms.
+   - Web-search proper nouns that are not confirmed by the title, description, on-screen text, or source context.
+   - Ask the user before guessing unresolved names, food terms, technical terms, or branding-sensitive text.
+6. Translation:
+   - Translate every segment from the corrected source JSON. Preserve `index`, `start`, and `end`.
+   - Do not copy from Whisper's direct English output into final captions. At most, use it as a reference draft while translating from the corrected source.
+   - Add `metadata.translation_method` describing that the final translation was produced from the corrected source.
+7. File naming and version control:
+   - Use clear suffixes such as `.source.raw.json`, `.zh-Hant.corrected.json`, `.en.hand-translated.final.json`, and `.preview.html`.
+   - Avoid presenting older hybrid or raw files as final when newer corrected files exist.
+8. Final acceptance checks:
+   - Source and translated JSON files must have the same number of segments unless a deliberate timing split/merge is documented.
+   - English final files must contain no `[Needs translation]` placeholders and no CJK text, except intentional proper nouns.
+   - Render final `.srt`/`.vtt` with `render_captions.py` after every JSON edit.
+   - Regenerate preview HTML after every caption edit because `make_preview.py` embeds caption text.
+   - Spot-check first speech, one middle section, one late section, and every recovered gap in a rendered player or with short FFmpeg hard-subtitle checks.
+
 ## Tool Choices
 
 - Use `faster-whisper` as the default ASR backend. It is fast, Python-friendly, supports VAD, and returns segment timestamps directly.
 - Use `whisper.cpp` when the machine already has `whisper-cli` plus a local GGML model, especially on Apple Silicon or CPU-only setups.
 - Use existing YouTube captions when the user mainly needs a caption file, because manual captions usually beat ASR and auto captions are already timed.
-- For translation to arbitrary target languages, the agent should translate `segments[].text` from the generated JSON in batches and then render the translated JSON with `scripts/render_captions.py`. Whisper's built-in `--task translate` is only suitable for English translation, not arbitrary target languages.
+- For all translation targets, including English, the agent must translate `segments[].text` from the corrected source JSON in batches and then render the translated JSON with `scripts/render_captions.py`.
+- Whisper's built-in `--task translate` must not be used for final captions. It skips source-language proofreading and can hide ASR mistakes. If used at all, treat it as a reference draft only and rebuild final output from the corrected source JSON.
 
 Read `references/tooling.md` only when choosing installs, models, backend tradeoffs, or troubleshooting missing tools.
 
@@ -77,7 +124,7 @@ python3 -m pip install faster-whisper
 
 or provide a working `whisper-cli` plus a `ggml-*.bin` model path.
 
-No translation API or local translator is required by default. Translation is performed by the AI agent using the generated JSON as the timing scaffold.
+No translation API or local translator is required by default. Translation is performed by the AI agent using the corrected source JSON as the timing scaffold.
 
 ## Agent Review And Correction
 
@@ -125,20 +172,23 @@ Always run a correction pass before calling captions final, especially for local
 When the user asks for translated captions:
 
 1. Ask for the target language if the user did not provide it.
-2. Generate and correct source captions first. Do not translate raw ASR when obvious or unresolved source mistakes remain.
-3. Read the corrected `.json` and create a translated JSON sibling:
+2. Generate source-language captions first. If local ASR is needed, use Whisper `task=transcribe`, not `task=translate`.
+3. Correct the source JSON before any translation. Do not translate raw ASR when obvious or unresolved source mistakes remain.
+4. Read the corrected `.json` and create a translated JSON sibling:
    - Preserve `metadata`.
    - Add `metadata.translation_target` and `metadata.translation_source`.
    - Preserve every segment's `index`, `start`, and `end`.
    - Replace only `segments[].text` with the translation.
-4. For long videos, translate in batches of 25-50 segments to preserve consistency and reduce mistakes. Reuse the reviewed glossary for names, places, brands, and technical terms.
-5. Render the translated JSON:
+5. For long videos, translate in batches of 25-50 segments to preserve consistency and reduce mistakes. Reuse the reviewed glossary for names, places, brands, and technical terms.
+6. Render the translated JSON:
 
    ```bash
    python3 {baseDir}/scripts/render_captions.py translated.en.json --format all
    ```
 
-6. Preview the translated `.vtt` or `.srt` with `make_preview.py` and spot-check sync and meaning.
+7. Preview the translated `.vtt` or `.srt` with `make_preview.py` and spot-check sync and meaning against the corrected source track.
+
+If a previous run used Whisper `task=translate`, redo the captions source-first before calling the translated captions final.
 
 ## Upload To YouTube
 
@@ -177,7 +227,9 @@ Official references:
 - Ask for the desired language when it is ambiguous. Use `--caption-langs "zh.*,en.*"` for Chinese-first caption discovery.
 - Ask for the target language when the user says "translate" without naming one. Use natural names such as `English`, `Japanese`, `Traditional Chinese`, or locale tags such as `zh-Hant`.
 - Use `--asr-language zh` or `--asr-language en` when the spoken language is known; otherwise leave auto-detection on.
-- Use `--model medium` or `--model large-v3` for publish-quality captions when runtime is acceptable. Use `small` for quick drafts.
+- For translated captions, source transcript quality gates translation quality. Always inspect and correct the source-language `.json` first, then translate that corrected file.
+- Do not use Whisper `--task translate` as a shortcut for English final captions. Direct translation can miss quiet speech, mistranslate proper nouns, and make source errors harder to detect.
+- Use `--model medium` or `--model large-v3` for publish-quality captions when runtime is acceptable. Use `small` only for quick drafts.
 - For long videos, inspect the `.json` output for repeated phrases or obvious hallucinations before treating the caption file as final.
 
 ## Verification
