@@ -1,11 +1,11 @@
 ---
 name: review-swarm
-description: "Parallel read-only multi-agent review of a current git diff or explicit file scope to find behavioral regressions, security or privacy risks, performance or reliability issues, and contract or test coverage gaps. Use when the user asks for a review swarm, parallel review, diff review, regression review, security review, or wants high-signal issues plus a prioritized fix path without editing files."
+description: "Parallel read-only multi-agent review of a current git diff or explicit file scope to find behavioral regressions, security or privacy risks, performance or reliability issues, contract or test coverage gaps, and unnecessary abstraction or complexity. Use when the user asks for a review swarm, parallel review, diff review, regression review, security review, simplicity review, or wants high-signal issues plus a prioritized fix path without editing files."
 ---
 
 # Review Swarm
 
-Review a diff with four read-only sub-agents in parallel, then have the main agent filter, order, and summarize only the issues that matter. This skill is review-only: sub-agents do not edit files, and the main agent does not apply fixes as part of this workflow.
+Review a diff with five read-only sub-agents in parallel, then have the main agent filter, order, and summarize only the issues that matter. This skill is review-only: sub-agents do not edit files, and the main agent does not apply fixes as part of this workflow.
 
 ## Step 1: Determine Scope and Intent
 
@@ -39,9 +39,9 @@ Build a short intent packet for the reviewers:
 
 If the user did not state the intent clearly, infer it from the diff and say that the inference may be incomplete.
 
-## Step 2: Launch Four Read-Only Reviewers in Parallel
+## Step 2: Launch Five Read-Only Reviewers in Parallel
 
-Launch four sub-agents when the scope is large enough for parallel review to help. For a tiny diff or one very small file, it is acceptable to review locally instead.
+Launch five sub-agents when the scope is large enough for parallel review to help. For a tiny diff or one very small file, it is acceptable to review locally instead.
 
 For every sub-agent:
 
@@ -53,7 +53,7 @@ For every sub-agent:
 - tell the sub-agent to avoid nits, style preferences, and speculative concerns without concrete impact
 - tell the sub-agent to send findings back to the main agent only
 
-Use these four review roles.
+Use these five review roles.
 
 ### Sub-Agent 1: Intent and Regression Review
 
@@ -115,13 +115,57 @@ This sub-agent is read-only. It must not edit files, apply patches, or make any 
 
 Recommended sub-agent role: `reviewer`
 
-Report only issues that materially affect correctness, security, privacy, reliability, compatibility, or confidence in the change. It is better to miss a nit than to bury the user in low-value noise.
+### Sub-Agent 5: Simplicity and Abstraction Review
+
+Review whether the diff keeps the codebase simple, boring, and easy to change without flattening useful structure, forcing premature DRYness, leaving unnecessary code behind, or exposing APIs that agents are likely to misuse.
+
+Use this consolidated principle packet:
+
+1. KISS: prefer the smallest design that satisfies the current behavior. Cleverness, extra layers, and broad configurability must earn their cost.
+2. Simple is not the same as easy: familiar or quick-to-write code can still be complex if it intertwines state, time, I/O, policy, data shape, and control flow.
+3. DRY applies to knowledge, not text. Consolidate duplicated business rules, constants, schemas, and invariants that must change together.
+4. WET and AHA: similar code can stay duplicated while the shape is still emerging. Avoid hasty abstractions; let concrete uses reveal stable boundaries.
+5. Wrong abstraction: shared code that grows parameters, flags, callbacks, or conditionals for "almost the same" cases is a signal to inline, split, or re-discover the abstraction.
+6. YAGNI: reject future-proof extension points and presumptive generality that increase today's complexity without serving the current requirement.
+7. Deep modules and orthogonality: good abstractions hide meaningful complexity behind small, stable interfaces and keep independent decisions independent.
+8. Less code is often the clearest code: remove dead paths, redundant wrappers, stale compatibility branches, unused options, and no-op transformations when they no longer serve behavior.
+9. Agent-safe design: encode important invariants in types, schemas, APIs, tests, and framework defaults so agents and humans are guided toward valid usage and away from sharp edges.
+
+Check for:
+
+1. New abstractions that do not hide enough complexity to justify their indirection
+2. Shared helpers, base classes, hooks, components, or config layers with multiple reasons to change
+3. Duplicate code that is actually duplicate knowledge and likely to drift
+4. Duplicate code that should remain WET because the callers represent different concepts or are likely to diverge
+5. Parameters, boolean flags, mode switches, inheritance, or callbacks that make one unit handle unrelated cases
+6. Entanglement of state, effects, time, rendering, persistence, validation, and policy that makes local reasoning harder
+7. APIs that push coordination burden or implementation details onto callers
+8. Future-proofing, speculative extensibility, or reusable infrastructure not required by the current change
+9. Clever or terse code that is easy to write but hard to inspect, test, replace, or delete
+10. Unused, unreachable, obsolete, or redundant code added by the diff or made removable by the diff
+11. Repeated conditionals, fallback branches, conversions, validations, guards, memoization, caching, logging, or tests that do not change behavior or confidence
+12. Pass-through functions, wrappers, aliases, adapters, constants, files, or configuration that add a name or layer without reducing caller knowledge
+13. Code that preserves an old path even though the reviewed change removes its last real caller or supported state
+14. Public or internal APIs that accept raw strings, loose maps, booleans, optional bags, or mode flags where a typed value, narrow command, schema, or builder would prevent misuse
+15. Business or safety invariants enforced only by comments, conventions, scattered call-site checks, or prompt instructions instead of code-level constraints
+16. Abstractions that expose low-level sequencing, lifecycle, permission, rollout, or validation details that callers and agents should not need to coordinate manually
+17. Missing affordances that would make the correct path obvious: safe defaults, required fields, constrained enums, capability-scoped helpers, single-purpose entry points, or tests for invalid states
+
+Recommended follow-ups should be concrete and small: delete, inline, split, rename, co-locate, narrow an interface, move knowledge to a single source of truth, encode an invariant, or leave duplication in place until the right abstraction is visible. Prefer deletion when code is provably unused, redundant, or behavior-preserving ceremony. Prefer stronger constraints when they prevent likely misuse without adding ceremony. Do not recommend broad rewrites, architecture churn, or abstracting solely because code looks similar.
+
+This sub-agent is read-only. It must not edit files, apply patches, or make any other workspace changes.
+
+Recommended sub-agent role: `reviewer`
+
+Report only issues that materially affect correctness, security, privacy, reliability, compatibility, maintainability, or confidence in the change. It is better to miss a nit than to bury the user in low-value noise.
+
+Source notes for the simplicity principle packet live in `references/simplification-principles.md`.
 
 ## Step 3: Aggregate and Filter Findings
 
 The main agent owns synthesis. Treat sub-agent output as raw review input, not final output.
 
-Merge findings across all four reviewers and filter aggressively:
+Merge findings across all five reviewers and filter aggressively:
 
 - drop duplicates
 - drop weak or speculative claims
@@ -131,7 +175,7 @@ Merge findings across all four reviewers and filter aggressively:
 Normalize surviving findings into this shape:
 
 1. File and line or nearest symbol
-2. Category: regression, security, reliability, or contracts
+2. Category: regression, security, reliability, contracts, or simplicity
 3. Severity: high, medium, or low
 4. Why it matters
 5. Recommended fix or follow-up
