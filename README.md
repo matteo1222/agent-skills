@@ -15,6 +15,8 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 > **Includes:** [Dimillian/Skills](https://github.com/Dimillian/Skills) — Apple platform, GitHub workflow, refactoring, review swarm, and performance skills for Codex (MIT, by Dimillian)
 >
 > **Includes:** [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) — create stunning HTML presentations from scratch or by converting PowerPoint files (MIT, by Zara Zhang)
+>
+> **Inspired by:** [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b) — incremental teaching, restatement, and quiz workflow adapted as a Codex-compatible skill
 
 ## Contents
 

@@ -61,6 +61,7 @@ ln -s ~/agent-skills/skills/youtube-transcript ~/.claude/skills/youtube-transcri
 ln -s ~/agent-skills/skills/youtube-cc ~/.claude/skills/youtube-cc
 ln -s ~/agent-skills/skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
 ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
+ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/create-cli ~/.claude/skills/create-cli
 ln -s ~/agent-skills/skills/app-polish ~/.claude/skills/app-polish
 ln -s ~/agent-skills/skills/context-efficient ~/.claude/skills/context-efficient
@@ -122,6 +123,7 @@ ln -s ~/agent-skills/skills/youtube-transcript .claude/skills/youtube-transcript
 ln -s ~/agent-skills/skills/youtube-cc .claude/skills/youtube-cc
 ln -s ~/agent-skills/skills/nano-banana-pro .claude/skills/nano-banana-pro
 ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
+ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/create-cli .claude/skills/create-cli
 ln -s ~/agent-skills/skills/app-polish .claude/skills/app-polish
 ln -s ~/agent-skills/skills/context-efficient .claude/skills/context-efficient
@@ -215,6 +217,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [youtube-transcript](youtube-transcript/SKILL.md) | Fetch YouTube video transcripts |
 | [nano-banana-pro](nano-banana-pro/SKILL.md) | Generate images using Google's Nano Banana Pro via Replicate |
 | [twitter-tools](twitter-tools/SKILL.md) | Fetch tweets and download Twitter/X videos (no API key) |
+| [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [app-polish](app-polish/SKILL.md) | Add micro-animations, haptics, and polish to make apps stand out |
 | [context-efficient](context-efficient/SKILL.md) | Context-efficient backpressure patterns for AI agents running tests, builds, and linting |
@@ -309,6 +312,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **youtube-transcript**: Requires Node.js. Run `npm install` in the skill directory.
 - **nano-banana-pro**: Standalone binary. Requires `REPLICATE_API_TOKEN` env var.
 - **twitter-tools**: Requires Node.js. Run `npm install` in the skill directory.
+- **learn-quiz**: No dependencies (teaching/checklist/quiz workflow). Inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b).
 - **create-cli**: No dependencies (documentation-only skill).
 - **app-polish**: No dependencies (documentation/patterns skill).
 - **context-efficient**: No dependencies (bash utilities included).
