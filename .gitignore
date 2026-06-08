@@ -3,9 +3,13 @@ node_modules/
 __pycache__/
 *.pyc
 
-# Compiled binaries
-mdview/mdview-bin
-nano-banana-pro/generate
+# Compiled skill binaries
+skills/mdview/mdview-bin
+skills/nano-banana-pro/generate
+
+# Generated caption/output artifacts
+youtube-cc-output/
 
 # External skills (cloned separately)
 skills/visual-explainer/
+skills/trycycle/

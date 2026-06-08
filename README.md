@@ -12,9 +12,15 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [noamseg/interview-coach-skill](https://github.com/noamseg/interview-coach-skill) — adaptive interview and job-search coaching across prep, transcript analysis, practice, storybanking, application materials, and negotiation (MIT, by Noam Segal)
 >
+> **Includes:** [steipete/agent-scripts](https://github.com/steipete/agent-scripts) — Codex review closeout and CLI design skills (MIT, by Peter Steinberger)
+>
 > **Includes:** [Dimillian/Skills](https://github.com/Dimillian/Skills) — Apple platform, GitHub workflow, refactoring, review swarm, and performance skills for Codex (MIT, by Dimillian)
 >
 > **Includes:** [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) — create stunning HTML presentations from scratch or by converting PowerPoint files (MIT, by Zara Zhang)
+>
+> **Includes:** [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill) — research what people are saying about a topic across recent social, community, and web sources (MIT, by mvanhorn)
+>
+> **Includes:** [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) — source-driven development workflow for grounding framework-specific code in official documentation (MIT, by Addy Osmani)
 >
 > **Inspired by:** [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b) — incremental teaching, restatement, and quiz workflow adapted as a Codex-compatible skill
 

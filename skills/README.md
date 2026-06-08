@@ -61,8 +61,11 @@ ln -s ~/agent-skills/skills/youtube-transcript ~/.claude/skills/youtube-transcri
 ln -s ~/agent-skills/skills/youtube-cc ~/.claude/skills/youtube-cc
 ln -s ~/agent-skills/skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
 ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
+ln -s ~/agent-skills/skills/last30days ~/.claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
+ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/create-cli ~/.claude/skills/create-cli
+ln -s ~/agent-skills/skills/codex-review ~/.claude/skills/codex-review
 ln -s ~/agent-skills/skills/app-polish ~/.claude/skills/app-polish
 ln -s ~/agent-skills/skills/context-efficient ~/.claude/skills/context-efficient
 ln -s ~/agent-skills/skills/agent-browser ~/.claude/skills/agent-browser
@@ -123,8 +126,11 @@ ln -s ~/agent-skills/skills/youtube-transcript .claude/skills/youtube-transcript
 ln -s ~/agent-skills/skills/youtube-cc .claude/skills/youtube-cc
 ln -s ~/agent-skills/skills/nano-banana-pro .claude/skills/nano-banana-pro
 ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
+ln -s ~/agent-skills/skills/last30days .claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
+ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/create-cli .claude/skills/create-cli
+ln -s ~/agent-skills/skills/codex-review .claude/skills/codex-review
 ln -s ~/agent-skills/skills/app-polish .claude/skills/app-polish
 ln -s ~/agent-skills/skills/context-efficient .claude/skills/context-efficient
 ln -s ~/agent-skills/skills/agent-browser .claude/skills/agent-browser
@@ -217,8 +223,11 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [youtube-transcript](youtube-transcript/SKILL.md) | Fetch YouTube video transcripts |
 | [nano-banana-pro](nano-banana-pro/SKILL.md) | Generate images using Google's Nano Banana Pro via Replicate |
 | [twitter-tools](twitter-tools/SKILL.md) | Fetch tweets and download Twitter/X videos (no API key) |
+| [last30days](last30days/SKILL.md) | Research recent social, community, and web discussion around any topic (from [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill)) |
 | [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
+| [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
+| [codex-review](codex-review/SKILL.md) | Run Codex review closeout checks for dirty local work, PR branches, and parallel test runs (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [app-polish](app-polish/SKILL.md) | Add micro-animations, haptics, and polish to make apps stand out |
 | [context-efficient](context-efficient/SKILL.md) | Context-efficient backpressure patterns for AI agents running tests, builds, and linting |
 | [trellocli](trellocli/SKILL.md) | Trello CLI for managing boards, lists, cards, and downloading attachments for AI image analysis |
@@ -312,8 +321,11 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **youtube-transcript**: Requires Node.js. Run `npm install` in the skill directory.
 - **nano-banana-pro**: Standalone binary. Requires `REPLICATE_API_TOKEN` env var.
 - **twitter-tools**: Requires Node.js. Run `npm install` in the skill directory.
+- **last30days**: Requires Python 3 and Node.js. Optional provider/API credentials unlock broader source coverage. From [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill).
 - **learn-quiz**: No dependencies (teaching/checklist/quiz workflow). Inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b).
+- **source-driven-development**: No dependencies (documentation/source-citation workflow). From [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
 - **create-cli**: No dependencies (documentation-only skill).
+- **codex-review**: Requires Codex CLI. Optional `gh` CLI is used to discover PR base branches. From [steipete/agent-scripts](https://github.com/steipete/agent-scripts).
 - **app-polish**: No dependencies (documentation/patterns skill).
 - **context-efficient**: No dependencies (bash utilities included).
 - **trellocli**: Requires Node.js. Run `npm link` in the skill directory. Needs Trello API key and token.

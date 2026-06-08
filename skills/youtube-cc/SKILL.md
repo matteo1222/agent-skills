@@ -1,18 +1,18 @@
 ---
 name: youtube-cc
-description: Create, translate, preview, and validate timed caption/subtitle files from YouTube videos. Use when Codex needs to generate YouTube CC, subtitles, 字幕, translated subtitles, SRT, VTT, or timestamped transcript JSON from a YouTube URL by reusing existing captions with yt-dlp or transcribing downloaded audio locally with faster-whisper or whisper.cpp.
+description: Create, translate, preview, and validate timed caption/subtitle files from YouTube videos. Use when Codex needs to generate YouTube CC, subtitles, 字幕, translated subtitles, SRT, VTT, or timestamped transcript JSON from a YouTube URL by reusing existing captions with yt-dlp or transcribing downloaded audio locally with WhisperX, faster-whisper, or whisper.cpp.
 ---
 
 # YouTube CC
 
-Create timed YouTube caption files from a video URL. Prefer existing YouTube captions first; use local ASR only when captions are missing, low quality, or the user asks for a fresh transcription. Treat ASR output as a draft: verify, correct obvious mistakes, ask the user to resolve uncertain terms, then render final or translated captions.
+Create timed YouTube caption files from a video URL. Prefer existing YouTube captions first; use local ASR only when captions are missing, low quality, or the user asks for a fresh transcription. Use WhisperX as the default ASR backend because it adds VAD and forced alignment for better caption timing. Treat ASR output as a draft: verify, correct obvious mistakes, ask the user to resolve uncertain terms, then render final or translated captions.
 
 Strict source-first rule: for translated captions, always create and correct source-language captions first, then translate the corrected source JSON. Do not use Whisper's direct `--task translate` output as final captions, even for English. Direct Whisper translation may be used only as a disposable reference draft while translating from the corrected source.
 
 ## Quick Start
 
 ```bash
-python3 {baseDir}/scripts/youtube_cc.py "https://www.youtube.com/watch?v=VIDEO_ID" --format all
+uv run --with yt-dlp --with whisperx python {baseDir}/scripts/youtube_cc.py "https://www.youtube.com/watch?v=VIDEO_ID" --format all
 ```
 
 Useful variants:
@@ -22,10 +22,16 @@ Useful variants:
 python3 {baseDir}/scripts/youtube_cc.py URL --caption-langs "zh.*,en.*" --format all
 
 # Force a quick local draft instead of downloading existing captions.
-python3 {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend faster-whisper --model small --asr-language zh --task transcribe --format srt
+uv run --with whisperx --with yt-dlp python {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend whisperx --model small --asr-language zh --task transcribe --format srt
 
 # Publish-quality source pass. Use this when captions will be uploaded or translated.
-python3 {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend faster-whisper --model large-v3 --asr-language zh --task transcribe --format all
+uv run --with whisperx --with yt-dlp python {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend whisperx --model large-v3 --asr-language zh --task transcribe --format all
+
+# Tune generated caption chunk size after WhisperX word alignment.
+uv run --with whisperx --with yt-dlp python {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend whisperx --max-segment-duration 6 --max-segment-chars 42 --format all
+
+# Fallback to faster-whisper when WhisperX cannot install or align a language.
+uv run --with faster-whisper --with yt-dlp python {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend faster-whisper --model medium --asr-language zh --task transcribe --format all
 
 # Use whisper.cpp when a local whisper-cli model is already installed.
 python3 {baseDir}/scripts/youtube_cc.py URL --mode transcribe --backend whisper-cpp --whisper-cpp-model /path/to/ggml-model.bin
@@ -38,6 +44,9 @@ python3 {baseDir}/scripts/make_preview.py video.mp4 --track "Raw ASR=raw.vtt" --
 
 # Render translated JSON created by the agent back to SRT/VTT.
 python3 {baseDir}/scripts/render_captions.py translated.en.json --format all
+
+# Audit caption coverage against non-silent audio to find likely missed speech.
+python3 {baseDir}/scripts/audit_caption_coverage.py video-or-audio.m4a captions.json --min-uncovered 8 --output coverage-audit.txt
 ```
 
 ## Workflow
@@ -61,12 +70,14 @@ Use this checklist before calling any translated caption file final.
 
 1. Dependency and download reliability:
    - If the system `yt-dlp` gets YouTube `403` errors or looks stale, rerun with a fresh package: `uv run --with yt-dlp yt-dlp ...`.
-   - If `faster_whisper` is missing from system Python, use `uv run --with faster-whisper ...` rather than stopping or silently downgrading the workflow.
+   - If `whisperx` is missing, use `uv run --with whisperx --with yt-dlp ...` rather than stopping or silently downgrading the workflow.
+   - If `faster_whisper` is missing from system Python for fallback runs, use `uv run --with faster-whisper ...`.
    - Keep the downloaded audio/video path in metadata so later repair passes do not redownload or use a different source.
 2. Model selection:
    - Use `small` only for quick drafts.
    - Use `medium` or `large-v3` for publish-quality source captions, especially when translating.
-   - For translated captions, run Whisper with `task=transcribe` in the spoken/source language. Never use `task=translate` for final output.
+   - WhisperX output is split from aligned word timings by default. Tune `--max-segment-duration` and `--max-segment-chars` if captions feel too fast or too dense.
+   - For translated captions, run WhisperX or Whisper with `task=transcribe` in the spoken/source language. Never use `task=translate` for final output.
 3. VAD strategy:
    - Start with a full source-language pass using normal VAD.
    - Audit suspicious gaps and long captions, then rerun short windows with VAD disabled (`--no-vad` or `vad_filter=False`).
@@ -77,6 +88,7 @@ Use this checklist before calling any translated caption file final.
    - Search for caption gaps over 6-8 seconds during visible talking or narration.
    - Search for single caption segments longer than 8 seconds. Long segments often hide missed speech or silence hallucinations.
    - For each suspicious gap, extract a window with a few seconds of padding, rerun ASR with the same or larger model and VAD off, and record the recovery in `metadata.recovered_gaps`.
+   - Run `scripts/audit_caption_coverage.py` against the kept audio/video and current caption JSON to catch non-silent audio ranges with no caption coverage, long caption gaps, long captions, invalid timings, and overlaps.
 5. Source correction:
    - Normalize script before translation, such as converting mixed Simplified/Traditional Chinese into the requested target script.
    - Keep a glossary of confirmed names, places, brands, restaurants, dishes, and technical terms.
@@ -98,8 +110,10 @@ Use this checklist before calling any translated caption file final.
 
 ## Tool Choices
 
-- Use `faster-whisper` as the default ASR backend. It is fast, Python-friendly, supports VAD, and returns segment timestamps directly.
+- Use `whisperx` as the default ASR backend. It wraps Whisper/faster-whisper with VAD plus forced alignment, which is the best local default for caption timing.
+- Use `faster-whisper` as the fallback ASR backend when WhisperX cannot install cleanly or the language has no usable alignment model.
 - Use `whisper.cpp` when the machine already has `whisper-cli` plus a local GGML model, especially on Apple Silicon or CPU-only setups.
+- WhisperX JSON contains word-level timings. The helper converts those `word_segments` into caption-sized segments instead of trusting WhisperX's often-too-long sentence chunks.
 - Use existing YouTube captions when the user mainly needs a caption file, because manual captions usually beat ASR and auto captions are already timed.
 - For all translation targets, including English, the agent must translate `segments[].text` from the corrected source JSON in batches and then render the translated JSON with `scripts/render_captions.py`.
 - Whisper's built-in `--task translate` must not be used for final captions. It skips source-language proofreading and can hide ASR mistakes. If used at all, treat it as a reference draft only and rebuild final output from the corrected source JSON.
@@ -113,10 +127,17 @@ Check tools before running:
 ```bash
 command -v yt-dlp
 command -v ffmpeg
+command -v whisperx
 python3 -c 'import faster_whisper'
 ```
 
-For local ASR, install one backend:
+For the default local ASR backend:
+
+```bash
+uv run --with whisperx --with yt-dlp python {baseDir}/scripts/youtube_cc.py URL --mode transcribe
+```
+
+For fallback local ASR, install one backend:
 
 ```bash
 python3 -m pip install faster-whisper
@@ -236,13 +257,19 @@ Official references:
 
 When the user asks to test or validate the captions:
 
-1. Download a local preview copy of the video, using a current `yt-dlp` if the system install gets YouTube `403` errors.
+1. Run the coverage audit against the kept audio/video and final caption JSON. Treat `uncovered_activity` as candidates for review, not proof of missed speech, because music and B-roll can also be non-silent.
+
+   ```bash
+   python3 {baseDir}/scripts/audit_caption_coverage.py audio.m4a captions.final.json --min-uncovered 8 --output coverage-audit.txt
+   ```
+
+2. Download a local preview copy of the video, using a current `yt-dlp` if the system install gets YouTube `403` errors.
 
    ```bash
    uv run --with yt-dlp yt-dlp URL -f "bestvideo[height<=720]+bestaudio/best[height<=720]/best" --merge-output-format mp4 -o "video.%(ext)s"
    ```
 
-2. Create a self-rendering browser preview. This avoids browser-native caption controls hiding the subtitles.
+3. Create a self-rendering browser preview. This avoids browser-native caption controls hiding the subtitles.
 
    ```bash
    python3 {baseDir}/scripts/make_preview.py video.mp4 captions.vtt --output preview.html
@@ -254,7 +281,7 @@ When the user asks to test or validate the captions:
    python3 {baseDir}/scripts/make_preview.py video.mp4 --track "Raw ASR=raw.vtt" --track "Proofread zh=corrected.vtt" --track "English=translated.en.vtt" --output preview.html
    ```
 
-3. For quick review, create short hard-subtitled clips so the user can just press play:
+4. For quick review, create short hard-subtitled clips so the user can just press play:
 
    ```bash
    ffmpeg -y -ss 39 -t 20 -i video.mp4 -vf subtitles=captions.srt -c:v libx264 -c:a aac sample-0039.mp4
@@ -262,4 +289,4 @@ When the user asks to test or validate the captions:
    ffmpeg -y -ss 600 -t 20 -i video.mp4 -vf subtitles=captions.srt -c:v libx264 -c:a aac sample-1000.mp4
    ```
 
-4. Report quality honestly: distinguish rendering/sync success from transcript accuracy. ASR drafts often need cleanup for place names, brand names, homophones, and quiet speech.
+5. Report quality honestly: distinguish rendering/sync success from transcript accuracy. ASR drafts often need cleanup for place names, brand names, homophones, and quiet speech.

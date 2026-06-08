@@ -261,6 +261,174 @@ def transcribe_faster_whisper(audio_path: Path, args: argparse.Namespace) -> tup
     }
 
 
+def contains_cjk(value: str) -> bool:
+    return re.search(r"[\u3040-\u30ff\u3400-\u9fff]", value) is not None
+
+
+def join_caption_words(words: list[str], *, language: str | None) -> str:
+    if language in {"zh", "ja", "yue"} or any(contains_cjk(word) for word in words):
+        return "".join(words).strip()
+    return " ".join(words).strip()
+
+
+def split_whisperx_word_segments(
+    raw_words: list[dict],
+    *,
+    language: str | None,
+    max_duration: float,
+    max_chars: int,
+) -> list[CaptionSegment]:
+    segments: list[CaptionSegment] = []
+    chunk_words: list[str] = []
+    chunk_start: float | None = None
+    chunk_end: float | None = None
+
+    def flush() -> None:
+        nonlocal chunk_words, chunk_start, chunk_end
+        if chunk_start is None or chunk_end is None or not chunk_words:
+            return
+        text = join_caption_words(chunk_words, language=language)
+        if text:
+            segments.append(CaptionSegment(index=len(segments) + 1, start=chunk_start, end=chunk_end, text=text))
+        chunk_words = []
+        chunk_start = None
+        chunk_end = None
+
+    for raw_word in raw_words:
+        if not isinstance(raw_word, dict):
+            continue
+        word = str(raw_word.get("word", "")).strip()
+        start = raw_word.get("start")
+        end = raw_word.get("end")
+        if not word or start is None or end is None:
+            continue
+        word_start = float(start)
+        word_end = float(end)
+        if word_end <= word_start:
+            continue
+
+        candidate_words = [*chunk_words, word]
+        candidate_text = join_caption_words(candidate_words, language=language)
+        candidate_start = chunk_start if chunk_start is not None else word_start
+        candidate_duration = word_end - candidate_start
+        if chunk_words and (candidate_duration > max_duration or len(candidate_text) > max_chars):
+            flush()
+
+        if chunk_start is None:
+            chunk_start = word_start
+        chunk_words.append(word)
+        chunk_end = word_end
+    flush()
+    return segments
+
+
+def parse_whisperx_json(path: Path, args: argparse.Namespace) -> tuple[list[CaptionSegment], dict]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    language = payload.get("language")
+    word_segments = payload.get("word_segments")
+    if isinstance(word_segments, list):
+        segments = split_whisperx_word_segments(
+            word_segments,
+            language=language,
+            max_duration=args.max_segment_duration,
+            max_chars=args.max_segment_chars,
+        )
+        if segments:
+            return segments, {
+                "language": language,
+                "whisperx_json": str(path),
+                "whisperx_segment_source": "word_segments",
+                "max_segment_duration": args.max_segment_duration,
+                "max_segment_chars": args.max_segment_chars,
+            }
+
+    raw_segments = payload.get("segments")
+    if not isinstance(raw_segments, list):
+        raise RuntimeError(f"WhisperX JSON did not contain a segments array: {path}")
+
+    segments: list[CaptionSegment] = []
+    for raw_segment in raw_segments:
+        if not isinstance(raw_segment, dict):
+            continue
+        text = str(raw_segment.get("text", "")).strip()
+        start = raw_segment.get("start")
+        end = raw_segment.get("end")
+        if not text or start is None or end is None:
+            continue
+        segments.append(
+            CaptionSegment(
+                index=len(segments) + 1,
+                start=float(start),
+                end=float(end),
+                text=text,
+            )
+        )
+    return segments, {
+        "language": language,
+        "whisperx_json": str(path),
+        "whisperx_segment_source": "segments",
+    }
+
+
+def transcribe_whisperx(audio_path: Path, work_dir: Path, args: argparse.Namespace) -> tuple[list[CaptionSegment], dict]:
+    if not shutil.which("whisperx"):
+        raise SystemExit("Missing whisperx. Run with: uv run --with whisperx --with yt-dlp python scripts/youtube_cc.py ...")
+    require_tool("ffmpeg")
+    output_dir = work_dir / "whisperx"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    cmd = [
+        "whisperx",
+        str(audio_path),
+        "--model",
+        args.model,
+        "--device",
+        args.device,
+        "--compute_type",
+        args.compute_type,
+        "--batch_size",
+        str(args.whisperx_batch_size),
+        "--task",
+        args.task,
+        "--output_dir",
+        str(output_dir),
+        "--output_format",
+        "json",
+        "--vad_method",
+        args.whisperx_vad_method,
+        "--segment_resolution",
+        args.whisperx_segment_resolution,
+        "--beam_size",
+        str(args.beam_size),
+    ]
+    if args.asr_language != "auto":
+        cmd.extend(["--language", args.asr_language])
+    if args.whisperx_align_model:
+        cmd.extend(["--align_model", args.whisperx_align_model])
+    if args.condition_on_previous_text:
+        cmd.extend(["--condition_on_previous_text", "True"])
+    if args.whisperx_model_dir:
+        cmd.extend(["--model_dir", args.whisperx_model_dir])
+
+    run(cmd, capture=False)
+    json_path = output_dir / f"{audio_path.stem}.json"
+    if not json_path.exists():
+        candidates = sorted(output_dir.glob("*.json"), key=lambda path: path.stat().st_mtime)
+        if not candidates:
+            raise RuntimeError("WhisperX did not produce a JSON transcript")
+        json_path = candidates[-1]
+
+    segments, metadata = parse_whisperx_json(json_path, args)
+    return segments, {
+        "backend": "whisperx",
+        "model": args.model,
+        "vad_method": args.whisperx_vad_method,
+        "segment_resolution": args.whisperx_segment_resolution,
+        "align_model": args.whisperx_align_model,
+        **metadata,
+    }
+
+
 def transcribe_whisper_cpp(audio_path: Path, work_dir: Path, output_base: Path, args: argparse.Namespace) -> tuple[list[CaptionSegment], dict]:
     require_tool("whisper-cli")
     require_tool("ffmpeg")
@@ -333,15 +501,27 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--caption-langs", default="en.*,zh.*", help='yt-dlp language patterns, e.g. "zh.*,en.*"')
     parser.add_argument("--format", choices=["srt", "vtt", "all"], default="all", help="Caption format to write")
     parser.add_argument("--mode", choices=["prefer-existing", "existing-only", "transcribe"], default="prefer-existing")
-    parser.add_argument("--backend", choices=["faster-whisper", "whisper-cpp"], default="faster-whisper")
-    parser.add_argument("--model", default="small", help="faster-whisper model name or local model path")
-    parser.add_argument("--device", default="auto", help="faster-whisper device: auto, cpu, cuda")
-    parser.add_argument("--compute-type", default="default", help="faster-whisper compute type, e.g. default, int8, float16")
+    parser.add_argument("--backend", choices=["whisperx", "faster-whisper", "whisper-cpp"], default="whisperx")
+    parser.add_argument("--model", default="small", help="ASR model name or local model path")
+    parser.add_argument("--device", default="cpu", help="ASR device: cpu, cuda, or auto for faster-whisper")
+    parser.add_argument("--compute-type", default="int8", help="ASR compute type, e.g. default, int8, float16")
     parser.add_argument("--asr-language", default="auto", help="Spoken language for ASR, e.g. auto, en, zh, ja")
     parser.add_argument("--task", choices=["transcribe", "translate"], default="transcribe")
     parser.add_argument("--beam-size", type=int, default=5)
+    parser.add_argument("--max-segment-duration", type=float, default=6.0, help="Maximum generated caption duration in seconds")
+    parser.add_argument("--max-segment-chars", type=int, default=42, help="Maximum generated caption text length before splitting")
     parser.add_argument("--no-vad", action="store_true", help="Disable faster-whisper VAD")
     parser.add_argument("--condition-on-previous-text", action="store_true", help="Enable Whisper previous-text conditioning")
+    parser.add_argument("--whisperx-batch-size", type=int, default=8, help="WhisperX batch size")
+    parser.add_argument("--whisperx-vad-method", choices=["silero", "pyannote"], default="silero", help="WhisperX VAD method")
+    parser.add_argument(
+        "--whisperx-segment-resolution",
+        choices=["sentence", "chunk"],
+        default="sentence",
+        help="WhisperX caption segment resolution",
+    )
+    parser.add_argument("--whisperx-align-model", help="Optional WhisperX alignment model override")
+    parser.add_argument("--whisperx-model-dir", help="Optional WhisperX model cache directory")
     parser.add_argument("--whisper-cpp-model", help="Path to ggml model for whisper-cli")
     parser.add_argument("--keep-audio", action="store_true", help="Copy downloaded audio into the output directory")
     return parser
@@ -381,7 +561,9 @@ def main() -> int:
                     shutil.copy2(audio_path, kept_audio)
                     metadata["audio_path"] = str(kept_audio)
 
-                if args.backend == "faster-whisper":
+                if args.backend == "whisperx":
+                    segments, asr_metadata = transcribe_whisperx(audio_path, work_dir, args)
+                elif args.backend == "faster-whisper":
                     segments, asr_metadata = transcribe_faster_whisper(audio_path, args)
                 else:
                     segments, asr_metadata = transcribe_whisper_cpp(audio_path, work_dir, output_dir / base, args)
@@ -395,7 +577,9 @@ def main() -> int:
                 shutil.copy2(audio_path, kept_audio)
                 metadata["audio_path"] = str(kept_audio)
 
-            if args.backend == "faster-whisper":
+            if args.backend == "whisperx":
+                segments, asr_metadata = transcribe_whisperx(audio_path, work_dir, args)
+            elif args.backend == "faster-whisper":
                 segments, asr_metadata = transcribe_faster_whisper(audio_path, args)
             else:
                 segments, asr_metadata = transcribe_whisper_cpp(audio_path, work_dir, output_dir / base, args)
