@@ -66,6 +66,7 @@ ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/create-cli ~/.claude/skills/create-cli
 ln -s ~/agent-skills/skills/codex-review ~/.claude/skills/codex-review
+ln -s ~/agent-skills/skills/autoreview ~/.claude/skills/autoreview
 ln -s ~/agent-skills/skills/app-polish ~/.claude/skills/app-polish
 ln -s ~/agent-skills/skills/context-efficient ~/.claude/skills/context-efficient
 ln -s ~/agent-skills/skills/agent-browser ~/.claude/skills/agent-browser
@@ -131,6 +132,7 @@ ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/create-cli .claude/skills/create-cli
 ln -s ~/agent-skills/skills/codex-review .claude/skills/codex-review
+ln -s ~/agent-skills/skills/autoreview .claude/skills/autoreview
 ln -s ~/agent-skills/skills/app-polish .claude/skills/app-polish
 ln -s ~/agent-skills/skills/context-efficient .claude/skills/context-efficient
 ln -s ~/agent-skills/skills/agent-browser .claude/skills/agent-browser
@@ -228,6 +230,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [codex-review](codex-review/SKILL.md) | Run Codex review closeout checks for dirty local work, PR branches, and parallel test runs (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
+| [autoreview](autoreview/SKILL.md) | Run structured closeout code reviews through Codex, Claude, Droid, or Copilot with bundled review helper scripts (from [openclaw/agent-skills](https://github.com/openclaw/agent-skills)) |
 | [app-polish](app-polish/SKILL.md) | Add micro-animations, haptics, and polish to make apps stand out |
 | [context-efficient](context-efficient/SKILL.md) | Context-efficient backpressure patterns for AI agents running tests, builds, and linting |
 | [trellocli](trellocli/SKILL.md) | Trello CLI for managing boards, lists, cards, and downloading attachments for AI image analysis |
@@ -326,6 +329,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **source-driven-development**: No dependencies (documentation/source-citation workflow). From [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
 - **create-cli**: No dependencies (documentation-only skill).
 - **codex-review**: Requires Codex CLI. Optional `gh` CLI is used to discover PR base branches. From [steipete/agent-scripts](https://github.com/steipete/agent-scripts).
+- **autoreview**: Requires Python 3 and at least one supported review engine CLI (`codex`, `claude`, `droid`, or `copilot`). Optional `gh` CLI improves PR/base detection. From [openclaw/agent-skills](https://github.com/openclaw/agent-skills).
 - **app-polish**: No dependencies (documentation/patterns skill).
 - **context-efficient**: No dependencies (bash utilities included).
 - **trellocli**: Requires Node.js. Run `npm link` in the skill directory. Needs Trello API key and token.

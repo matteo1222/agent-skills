@@ -22,6 +22,8 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) — source-driven development workflow for grounding framework-specific code in official documentation (MIT, by Addy Osmani)
 >
+> **Includes:** [openclaw/agent-skills](https://github.com/openclaw/agent-skills) — structured autoreview closeout workflow and helper scripts for Codex, Claude, Droid, and Copilot review engines (MIT, by openclaw)
+>
 > **Inspired by:** [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b) — incremental teaching, restatement, and quiz workflow adapted as a Codex-compatible skill
 
 ## Contents
