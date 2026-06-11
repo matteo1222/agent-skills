@@ -1,0 +1,4 @@
+interface:
+  display_name: "System Design Interview Coach"
+  short_description: "Practice system design interviews"
+  default_prompt: "Use $system-design-interview-coach to run a system design mock interview and give me rigorous feedback."
