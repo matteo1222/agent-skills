@@ -64,6 +64,7 @@ ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/last30days ~/.claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
+ln -s ~/agent-skills/skills/taste-skill ~/.claude/skills/taste-skill
 ln -s ~/agent-skills/skills/create-cli ~/.claude/skills/create-cli
 ln -s ~/agent-skills/skills/codex-review ~/.claude/skills/codex-review
 ln -s ~/agent-skills/skills/autoreview ~/.claude/skills/autoreview
@@ -131,6 +132,7 @@ ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/last30days .claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
+ln -s ~/agent-skills/skills/taste-skill .claude/skills/taste-skill
 ln -s ~/agent-skills/skills/create-cli .claude/skills/create-cli
 ln -s ~/agent-skills/skills/codex-review .claude/skills/codex-review
 ln -s ~/agent-skills/skills/autoreview .claude/skills/autoreview
@@ -230,6 +232,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [last30days](last30days/SKILL.md) | Research recent social, community, and web discussion around any topic (from [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill)) |
 | [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
+| [taste-skill](taste-skill/SKILL.md) | Anti-slop frontend design workflow for landing pages, portfolios, and redesigns; install name `design-taste-frontend` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [codex-review](codex-review/SKILL.md) | Run Codex review closeout checks for dirty local work, PR branches, and parallel test runs (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [autoreview](autoreview/SKILL.md) | Run structured closeout code reviews through Codex, Claude, Droid, or Copilot with bundled review helper scripts (from [openclaw/agent-skills](https://github.com/openclaw/agent-skills)) |
@@ -330,6 +333,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **last30days**: Requires Python 3 and Node.js. Optional provider/API credentials unlock broader source coverage. From [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill).
 - **learn-quiz**: No dependencies (teaching/checklist/quiz workflow). Inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b).
 - **source-driven-development**: No dependencies (documentation/source-citation workflow). From [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
+- **taste-skill**: No dependencies (frontend design guidance skill; frontmatter name `design-taste-frontend`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **create-cli**: No dependencies (documentation-only skill).
 - **codex-review**: Requires Codex CLI. Optional `gh` CLI is used to discover PR base branches. From [steipete/agent-scripts](https://github.com/steipete/agent-scripts).
 - **autoreview**: Requires Python 3 and at least one supported review engine CLI (`codex`, `claude`, `droid`, or `copilot`). Optional `gh` CLI improves PR/base detection. From [openclaw/agent-skills](https://github.com/openclaw/agent-skills).
