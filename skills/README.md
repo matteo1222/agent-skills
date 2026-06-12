@@ -102,6 +102,7 @@ ln -s ~/agent-skills/skills/prd-to-plan ~/.claude/skills/prd-to-plan
 ln -s ~/agent-skills/skills/scaffold-exercises ~/.claude/skills/scaffold-exercises
 ln -s ~/agent-skills/skills/setup-matt-pocock-skills ~/.claude/skills/setup-matt-pocock-skills
 ln -s ~/agent-skills/skills/setup-pre-commit ~/.claude/skills/setup-pre-commit
+ln -s ~/agent-skills/skills/teach ~/.claude/skills/teach
 ln -s ~/agent-skills/skills/tdd ~/.claude/skills/tdd
 ln -s ~/agent-skills/skills/to-issues ~/.claude/skills/to-issues
 ln -s ~/agent-skills/skills/to-prd ~/.claude/skills/to-prd
@@ -168,6 +169,7 @@ ln -s ~/agent-skills/skills/prd-to-plan .claude/skills/prd-to-plan
 ln -s ~/agent-skills/skills/scaffold-exercises .claude/skills/scaffold-exercises
 ln -s ~/agent-skills/skills/setup-matt-pocock-skills .claude/skills/setup-matt-pocock-skills
 ln -s ~/agent-skills/skills/setup-pre-commit .claude/skills/setup-pre-commit
+ln -s ~/agent-skills/skills/teach .claude/skills/teach
 ln -s ~/agent-skills/skills/tdd .claude/skills/tdd
 ln -s ~/agent-skills/skills/to-issues .claude/skills/to-issues
 ln -s ~/agent-skills/skills/to-prd .claude/skills/to-prd
@@ -258,6 +260,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [scaffold-exercises](scaffold-exercises/SKILL.md) | Create exercise directory structures with sections, problems, solutions, and explainers ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [setup-matt-pocock-skills](setup-matt-pocock-skills/SKILL.md) | Scaffold per-repo issue tracker and triage-label configuration for the Matt Pocock skill set ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [setup-pre-commit](setup-pre-commit/SKILL.md) | Configure Husky hooks with linting, formatting, type checking, and testing ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [teach](teach/SKILL.md) | Create a stateful teaching workspace with missions, learning records, references, and interactive lessons ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [tdd](tdd/SKILL.md) | Test-driven development with red-green-refactor loop and vertical slices ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [to-issues](to-issues/SKILL.md) | Break plans, specs, or PRDs into independently-grabbable issues using tracer-bullet vertical slices ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [to-prd](to-prd/SKILL.md) | Turn current conversation context into a PRD and publish it to the project issue tracker ([mattpocock/skills](https://github.com/mattpocock/skills)) |
@@ -357,6 +360,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **scaffold-exercises**: No dependencies (scaffolding skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **setup-matt-pocock-skills**: No dependencies (repo setup/configuration skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **setup-pre-commit**: Requires Node.js and Husky. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **teach**: No external dependencies (stateful teaching workspace skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **tdd**: No dependencies (methodology/patterns skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **to-issues**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **to-prd**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
