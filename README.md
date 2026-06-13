@@ -24,7 +24,7 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [openclaw/agent-skills](https://github.com/openclaw/agent-skills) — structured autoreview closeout workflow and helper scripts for Codex, Claude, Droid, and Copilot review engines (MIT, by openclaw)
 >
-> **Includes:** [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) — anti-slop frontend design workflow for landing pages, portfolios, and redesigns (MIT, by Leonxlnx)
+> **Includes:** [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) — anti-slop frontend design, redesign, image-to-code, output enforcement, and image-generation skills (MIT, by Leonxlnx)
 >
 > **Inspired by:** [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b) — incremental teaching, restatement, and quiz workflow adapted as a Codex-compatible skill
 

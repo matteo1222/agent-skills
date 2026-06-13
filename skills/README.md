@@ -65,6 +65,18 @@ ln -s ~/agent-skills/skills/last30days ~/.claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/taste-skill ~/.claude/skills/taste-skill
+ln -s ~/agent-skills/skills/taste-skill-v1 ~/.claude/skills/taste-skill-v1
+ln -s ~/agent-skills/skills/gpt-tasteskill ~/.claude/skills/gpt-tasteskill
+ln -s ~/agent-skills/skills/image-to-code-skill ~/.claude/skills/image-to-code-skill
+ln -s ~/agent-skills/skills/redesign-skill ~/.claude/skills/redesign-skill
+ln -s ~/agent-skills/skills/soft-skill ~/.claude/skills/soft-skill
+ln -s ~/agent-skills/skills/output-skill ~/.claude/skills/output-skill
+ln -s ~/agent-skills/skills/minimalist-skill ~/.claude/skills/minimalist-skill
+ln -s ~/agent-skills/skills/brutalist-skill ~/.claude/skills/brutalist-skill
+ln -s ~/agent-skills/skills/stitch-skill ~/.claude/skills/stitch-skill
+ln -s ~/agent-skills/skills/imagegen-frontend-web ~/.claude/skills/imagegen-frontend-web
+ln -s ~/agent-skills/skills/imagegen-frontend-mobile ~/.claude/skills/imagegen-frontend-mobile
+ln -s ~/agent-skills/skills/brandkit ~/.claude/skills/brandkit
 ln -s ~/agent-skills/skills/create-cli ~/.claude/skills/create-cli
 ln -s ~/agent-skills/skills/codex-review ~/.claude/skills/codex-review
 ln -s ~/agent-skills/skills/autoreview ~/.claude/skills/autoreview
@@ -133,6 +145,18 @@ ln -s ~/agent-skills/skills/last30days .claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/taste-skill .claude/skills/taste-skill
+ln -s ~/agent-skills/skills/taste-skill-v1 .claude/skills/taste-skill-v1
+ln -s ~/agent-skills/skills/gpt-tasteskill .claude/skills/gpt-tasteskill
+ln -s ~/agent-skills/skills/image-to-code-skill .claude/skills/image-to-code-skill
+ln -s ~/agent-skills/skills/redesign-skill .claude/skills/redesign-skill
+ln -s ~/agent-skills/skills/soft-skill .claude/skills/soft-skill
+ln -s ~/agent-skills/skills/output-skill .claude/skills/output-skill
+ln -s ~/agent-skills/skills/minimalist-skill .claude/skills/minimalist-skill
+ln -s ~/agent-skills/skills/brutalist-skill .claude/skills/brutalist-skill
+ln -s ~/agent-skills/skills/stitch-skill .claude/skills/stitch-skill
+ln -s ~/agent-skills/skills/imagegen-frontend-web .claude/skills/imagegen-frontend-web
+ln -s ~/agent-skills/skills/imagegen-frontend-mobile .claude/skills/imagegen-frontend-mobile
+ln -s ~/agent-skills/skills/brandkit .claude/skills/brandkit
 ln -s ~/agent-skills/skills/create-cli .claude/skills/create-cli
 ln -s ~/agent-skills/skills/codex-review .claude/skills/codex-review
 ln -s ~/agent-skills/skills/autoreview .claude/skills/autoreview
@@ -233,6 +257,18 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
 | [taste-skill](taste-skill/SKILL.md) | Anti-slop frontend design workflow for landing pages, portfolios, and redesigns; install name `design-taste-frontend` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [taste-skill-v1](taste-skill-v1/SKILL.md) | Original v1 Taste Skill preserved for exact backward-compatible behavior; install name `design-taste-frontend-v1` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [gpt-tasteskill](gpt-tasteskill/SKILL.md) | Stricter GPT/Codex-oriented Taste Skill variant with stronger layout and motion enforcement; install name `gpt-taste` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [image-to-code-skill](image-to-code-skill/SKILL.md) | Image-first website workflow: generate references, analyze them, then implement matching frontend code; install name `image-to-code` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [redesign-skill](redesign-skill/SKILL.md) | Audit and upgrade existing websites/apps without breaking functionality; install name `redesign-existing-projects` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [soft-skill](soft-skill/SKILL.md) | High-end visual design guidance for polished, calm, expensive-feeling UIs; install name `high-end-visual-design` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [output-skill](output-skill/SKILL.md) | Enforce complete, unabridged output and clean continuation behavior; install name `full-output-enforcement` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [minimalist-skill](minimalist-skill/SKILL.md) | Editorial minimalist UI guidance with restrained palettes and crisp structure; install name `minimalist-ui` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [brutalist-skill](brutalist-skill/SKILL.md) | Industrial brutalist UI guidance for raw mechanical interfaces and tactical telemetry aesthetics; install name `industrial-brutalist-ui` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [stitch-skill](stitch-skill/SKILL.md) | Google Stitch-compatible semantic design system rules with optional `DESIGN.md` export format; install name `stitch-design-taste` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [imagegen-frontend-web](imagegen-frontend-web/SKILL.md) | Image-generation direction for premium website comps and section references (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [imagegen-frontend-mobile](imagegen-frontend-mobile/SKILL.md) | Image-generation direction for premium mobile app screens and flows (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
+| [brandkit](brandkit/SKILL.md) | Image-generation direction for brand-kit boards, logo systems, and visual identity decks (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [create-cli](create-cli/SKILL.md) | Design CLI parameters and UX (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [codex-review](codex-review/SKILL.md) | Run Codex review closeout checks for dirty local work, PR branches, and parallel test runs (from [steipete/agent-scripts](https://github.com/steipete/agent-scripts)) |
 | [autoreview](autoreview/SKILL.md) | Run structured closeout code reviews through Codex, Claude, Droid, or Copilot with bundled review helper scripts (from [openclaw/agent-skills](https://github.com/openclaw/agent-skills)) |
@@ -334,6 +370,18 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **learn-quiz**: No dependencies (teaching/checklist/quiz workflow). Inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b).
 - **source-driven-development**: No dependencies (documentation/source-citation workflow). From [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
 - **taste-skill**: No dependencies (frontend design guidance skill; frontmatter name `design-taste-frontend`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **taste-skill-v1**: No dependencies (original frontend design guidance skill; frontmatter name `design-taste-frontend-v1`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **gpt-tasteskill**: No dependencies (stricter frontend design guidance skill; frontmatter name `gpt-taste`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **image-to-code-skill**: No dependencies beyond the chosen coding/image-generation environment; frontmatter name `image-to-code`. From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **redesign-skill**: No dependencies (existing-project redesign guidance skill; frontmatter name `redesign-existing-projects`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **soft-skill**: No dependencies (high-end visual design guidance skill; frontmatter name `high-end-visual-design`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **output-skill**: No dependencies (full-output enforcement skill; frontmatter name `full-output-enforcement`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **minimalist-skill**: No dependencies (minimalist UI guidance skill; frontmatter name `minimalist-ui`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **brutalist-skill**: No dependencies (industrial brutalist UI guidance skill; frontmatter name `industrial-brutalist-ui`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **stitch-skill**: No dependencies (Google Stitch design guidance skill; frontmatter name `stitch-design-taste`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **imagegen-frontend-web**: No dependencies beyond an image-capable agent/model. From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **imagegen-frontend-mobile**: No dependencies beyond an image-capable agent/model. From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
+- **brandkit**: No dependencies beyond an image-capable agent/model. From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **create-cli**: No dependencies (documentation-only skill).
 - **codex-review**: Requires Codex CLI. Optional `gh` CLI is used to discover PR base branches. From [steipete/agent-scripts](https://github.com/steipete/agent-scripts).
 - **autoreview**: Requires Python 3 and at least one supported review engine CLI (`codex`, `claude`, `droid`, or `copilot`). Optional `gh` CLI improves PR/base detection. From [openclaw/agent-skills](https://github.com/openclaw/agent-skills).
