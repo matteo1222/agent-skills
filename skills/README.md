@@ -22,6 +22,13 @@ git clone https://github.com/matteo1222/agent-skills .pi/skills/agent-skills
 git clone https://github.com/matteo1222/agent-skills ~/.codex/skills/agent-skills
 ```
 
+Optional Explain Diff skill setup:
+
+```bash
+ln -s ~/.codex/skills/agent-skills/skills/explain-diff-html ~/.codex/skills/explain-diff-html
+ln -s ~/.codex/skills/agent-skills/skills/explain-diff-notion ~/.codex/skills/explain-diff-notion
+```
+
 ### Amp
 
 Amp finds skills recursively in toolboxes:
@@ -63,6 +70,8 @@ ln -s ~/agent-skills/skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
 ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/last30days ~/.claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
+ln -s ~/agent-skills/skills/explain-diff-html ~/.claude/skills/explain-diff-html
+ln -s ~/agent-skills/skills/explain-diff-notion ~/.claude/skills/explain-diff-notion
 ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/taste-skill ~/.claude/skills/taste-skill
 ln -s ~/agent-skills/skills/taste-skill-v1 ~/.claude/skills/taste-skill-v1
@@ -143,6 +152,8 @@ ln -s ~/agent-skills/skills/nano-banana-pro .claude/skills/nano-banana-pro
 ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/last30days .claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
+ln -s ~/agent-skills/skills/explain-diff-html .claude/skills/explain-diff-html
+ln -s ~/agent-skills/skills/explain-diff-notion .claude/skills/explain-diff-notion
 ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/taste-skill .claude/skills/taste-skill
 ln -s ~/agent-skills/skills/taste-skill-v1 .claude/skills/taste-skill-v1
@@ -255,6 +266,8 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [twitter-tools](twitter-tools/SKILL.md) | Fetch tweets and download Twitter/X videos (no API key) |
 | [last30days](last30days/SKILL.md) | Research recent social, community, and web discussion around any topic (from [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill)) |
 | [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
+| [explain-diff-html](explain-diff-html/SKILL.md) | Create a rich, interactive HTML explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
+| [explain-diff-notion](explain-diff-notion/SKILL.md) | Create a rich Notion-page explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
 | [taste-skill](taste-skill/SKILL.md) | Anti-slop frontend design workflow for landing pages, portfolios, and redesigns; install name `design-taste-frontend` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [taste-skill-v1](taste-skill-v1/SKILL.md) | Original v1 Taste Skill preserved for exact backward-compatible behavior; install name `design-taste-frontend-v1` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |

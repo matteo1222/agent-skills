@@ -1,0 +1,7 @@
+interface:
+  display_name: "Explain Diff Notion"
+  short_description: "Rich Notion explanations for code changes"
+  default_prompt: "Use $explain-diff-notion to explain this diff or PR as a rich Notion page."
+
+policy:
+  allow_implicit_invocation: true
