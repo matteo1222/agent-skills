@@ -117,7 +117,9 @@ ln -s ~/agent-skills/skills/triad ~/.claude/skills/triad
 ln -s ~/agent-skills/skills/triad-review ~/.claude/skills/triad-review
 ln -s ~/agent-skills/skills/trycycle ~/.claude/skills/trycycle
 ln -s ~/agent-skills/skills/babysit-pr ~/.claude/skills/babysit-pr
+ln -s ~/agent-skills/skills/ask-matt ~/.claude/skills/ask-matt
 ln -s ~/agent-skills/skills/caveman ~/.claude/skills/caveman
+ln -s ~/agent-skills/skills/code-review ~/.claude/skills/code-review
 ln -s ~/agent-skills/skills/codebase-design ~/.claude/skills/codebase-design
 ln -s ~/agent-skills/skills/diagnose ~/.claude/skills/diagnose
 ln -s ~/agent-skills/skills/diagnosing-bugs ~/.claude/skills/diagnosing-bugs
@@ -127,6 +129,8 @@ ln -s ~/agent-skills/skills/git-guardrails-claude-code ~/.claude/skills/git-guar
 ln -s ~/agent-skills/skills/grill-me ~/.claude/skills/grill-me
 ln -s ~/agent-skills/skills/grill-with-docs ~/.claude/skills/grill-with-docs
 ln -s ~/agent-skills/skills/grilling ~/.claude/skills/grilling
+ln -s ~/agent-skills/skills/handoff ~/.claude/skills/handoff
+ln -s ~/agent-skills/skills/implement ~/.claude/skills/implement
 ln -s ~/agent-skills/skills/improve-codebase-architecture ~/.claude/skills/improve-codebase-architecture
 ln -s ~/agent-skills/skills/migrate-to-shoehorn ~/.claude/skills/migrate-to-shoehorn
 ln -s ~/agent-skills/skills/obsidian-vault ~/.claude/skills/obsidian-vault
@@ -139,8 +143,8 @@ ln -s ~/agent-skills/skills/setup-matt-pocock-skills ~/.claude/skills/setup-matt
 ln -s ~/agent-skills/skills/setup-pre-commit ~/.claude/skills/setup-pre-commit
 ln -s ~/agent-skills/skills/teach ~/.claude/skills/teach
 ln -s ~/agent-skills/skills/tdd ~/.claude/skills/tdd
-ln -s ~/agent-skills/skills/to-issues ~/.claude/skills/to-issues
-ln -s ~/agent-skills/skills/to-prd ~/.claude/skills/to-prd
+ln -s ~/agent-skills/skills/to-spec ~/.claude/skills/to-spec
+ln -s ~/agent-skills/skills/to-tickets ~/.claude/skills/to-tickets
 ln -s ~/agent-skills/skills/triage ~/.claude/skills/triage
 ln -s ~/agent-skills/skills/triage-issue ~/.claude/skills/triage-issue
 ln -s ~/agent-skills/skills/interview-coach ~/.claude/skills/interview-coach
@@ -208,7 +212,9 @@ ln -s ~/agent-skills/skills/triad .claude/skills/triad
 ln -s ~/agent-skills/skills/triad-review .claude/skills/triad-review
 ln -s ~/agent-skills/skills/trycycle .claude/skills/trycycle
 ln -s ~/agent-skills/skills/babysit-pr .claude/skills/babysit-pr
+ln -s ~/agent-skills/skills/ask-matt .claude/skills/ask-matt
 ln -s ~/agent-skills/skills/caveman .claude/skills/caveman
+ln -s ~/agent-skills/skills/code-review .claude/skills/code-review
 ln -s ~/agent-skills/skills/codebase-design .claude/skills/codebase-design
 ln -s ~/agent-skills/skills/diagnose .claude/skills/diagnose
 ln -s ~/agent-skills/skills/diagnosing-bugs .claude/skills/diagnosing-bugs
@@ -218,6 +224,8 @@ ln -s ~/agent-skills/skills/git-guardrails-claude-code .claude/skills/git-guardr
 ln -s ~/agent-skills/skills/grill-me .claude/skills/grill-me
 ln -s ~/agent-skills/skills/grill-with-docs .claude/skills/grill-with-docs
 ln -s ~/agent-skills/skills/grilling .claude/skills/grilling
+ln -s ~/agent-skills/skills/handoff .claude/skills/handoff
+ln -s ~/agent-skills/skills/implement .claude/skills/implement
 ln -s ~/agent-skills/skills/improve-codebase-architecture .claude/skills/improve-codebase-architecture
 ln -s ~/agent-skills/skills/migrate-to-shoehorn .claude/skills/migrate-to-shoehorn
 ln -s ~/agent-skills/skills/obsidian-vault .claude/skills/obsidian-vault
@@ -230,8 +238,8 @@ ln -s ~/agent-skills/skills/setup-matt-pocock-skills .claude/skills/setup-matt-p
 ln -s ~/agent-skills/skills/setup-pre-commit .claude/skills/setup-pre-commit
 ln -s ~/agent-skills/skills/teach .claude/skills/teach
 ln -s ~/agent-skills/skills/tdd .claude/skills/tdd
-ln -s ~/agent-skills/skills/to-issues .claude/skills/to-issues
-ln -s ~/agent-skills/skills/to-prd .claude/skills/to-prd
+ln -s ~/agent-skills/skills/to-spec .claude/skills/to-spec
+ln -s ~/agent-skills/skills/to-tickets .claude/skills/to-tickets
 ln -s ~/agent-skills/skills/triage .claude/skills/triage
 ln -s ~/agent-skills/skills/triage-issue .claude/skills/triage-issue
 ln -s ~/agent-skills/skills/interview-coach .claude/skills/interview-coach
@@ -323,7 +331,9 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [triad-review](triad-review/SKILL.md) | Multi-dimensional code review running triad across bugs, security, performance, maintainability, and simplicity |
 | [trycycle](trycycle/SKILL.md) | Iterative plan-build-review workflow with hill-climbing refinement ([danshapiro/trycycle](https://github.com/danshapiro/trycycle)) |
 | [visual-explainer](https://github.com/nicobailon/visual-explainer) | Generate beautiful HTML pages for diagrams, diff reviews, visual plans, slide decks, and data tables (external) |
+| [ask-matt](ask-matt/SKILL.md) | Router for choosing the right Matt Pocock skill or flow for the situation ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [caveman](caveman/SKILL.md) | Ultra-compressed communication mode for terse, low-token collaboration ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [code-review](code-review/SKILL.md) | Review a diff against repo standards and the originating spec in parallel axes ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [codebase-design](codebase-design/SKILL.md) | Shared vocabulary for designing deep modules with small interfaces and clean seams ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [diagnose](diagnose/SKILL.md) | Legacy local diagnosis skill; prefer `diagnosing-bugs` for the current upstream flow ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [diagnosing-bugs](diagnosing-bugs/SKILL.md) | Current upstream diagnosis loop for hard bugs and performance regressions ([mattpocock/skills](https://github.com/mattpocock/skills)) |
@@ -333,6 +343,8 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [grill-me](grill-me/SKILL.md) | Relentless interview about a plan or design until every decision is resolved ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [grill-with-docs](grill-with-docs/SKILL.md) | Stress-test plans against project terminology and update `CONTEXT.md` and ADRs inline ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [grilling](grilling/SKILL.md) | Shared one-question-at-a-time interview primitive behind `grill-me` and `grill-with-docs` ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [handoff](handoff/SKILL.md) | Write a compact handoff document for continuing work in a fresh session ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [implement](implement/SKILL.md) | Implement work from a spec or ticket set using TDD and code review ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [improve-codebase-architecture](improve-codebase-architecture/SKILL.md) | Find deepening opportunities informed by `CONTEXT.md` and `docs/adr/` ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [migrate-to-shoehorn](migrate-to-shoehorn/SKILL.md) | Convert test files from `as` assertions to @total-typescript/shoehorn ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [obsidian-vault](obsidian-vault/SKILL.md) | Manage Obsidian vault notes with wikilinks support ([mattpocock/skills](https://github.com/mattpocock/skills)) |
@@ -345,8 +357,8 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [setup-pre-commit](setup-pre-commit/SKILL.md) | Configure Husky hooks with linting, formatting, type checking, and testing ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [teach](teach/SKILL.md) | Create a stateful teaching workspace with missions, learning records, references, and interactive lessons ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [tdd](tdd/SKILL.md) | Test-driven development with red-green-refactor loop and vertical slices ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [to-issues](to-issues/SKILL.md) | Break plans, specs, or PRDs into independently-grabbable issues using tracer-bullet vertical slices ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [to-prd](to-prd/SKILL.md) | Turn current conversation context into a PRD and publish it to the project issue tracker ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [to-spec](to-spec/SKILL.md) | Turn the current conversation into a spec and publish it to the project issue tracker ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [to-tickets](to-tickets/SKILL.md) | Break a plan, spec, or conversation into tracer-bullet tickets with blocking edges ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [triage](triage/SKILL.md) | Triage issues through a state machine driven by triage roles ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [triage-issue](triage-issue/SKILL.md) | Investigate bugs by exploring codebases, identifying root causes, and creating fix plans (local derivative inspired by [mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [interview-coach](interview-coach/SKILL.md) | Adaptive interview and job-search coaching across prep, transcript analysis, practice, storybanking, resume, LinkedIn, outreach, salary, and negotiation ([noamseg/interview-coach-skill](https://github.com/noamseg/interview-coach-skill)) |
@@ -375,6 +387,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [swiftui-view-refactor](swiftui-view-refactor/SKILL.md) | Refactor SwiftUI view files toward smaller subviews, stable view trees, and cleaner MV-style data flow ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 
 > Note: upstream `mattpocock/skills` treats `design-an-interface`, `qa`, `request-refactor-plan`, and `ubiquitous-language` as deprecated. Those deprecated upstream folders have been removed here in favor of the current upstream names and flow.
+> Upstream also renamed `to-prd` to `to-spec` and replaced `to-issues` with `to-tickets`.
 
 ## Skill Format
 
@@ -445,7 +458,9 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **triad-review**: Requires `claude` CLI in PATH. Wrapper that runs triad across multiple lenses.
 - **trycycle**: Requires Python 3. Iterative plan-build-review workflow from [danshapiro/trycycle](https://github.com/danshapiro/trycycle) (MIT, by Dan Shapiro; adapted from Jesse Vincent's "superpowers").
 - **visual-explainer**: No build dependencies (generates self-contained HTML). Optional: `surf` CLI for AI-generated images. Clone separately from [nicobailon/visual-explainer](https://github.com/nicobailon/visual-explainer).
+- **ask-matt**: No dependencies (routing/reference skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **caveman**: No dependencies (communication mode skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **code-review**: No dependencies beyond Git, the configured issue tracker for spec lookup, and normal repo inspection. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **codebase-design**: No dependencies (architecture vocabulary/reference skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **diagnose**: No dependencies (legacy debugging/diagnosis skill). Prefer `diagnosing-bugs` for the current upstream flow. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **diagnosing-bugs**: No dependencies (debugging/diagnosis skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
@@ -455,6 +470,8 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **grill-me**: No dependencies (interview/planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **grill-with-docs**: No dependencies (documentation/planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **grilling**: No dependencies (shared interview primitive). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **handoff**: No dependencies (session handoff skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **implement**: Uses the repo's normal typecheck/test commands and the configured issue/spec workflow. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **improve-codebase-architecture**: No dependencies (architecture review skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **migrate-to-shoehorn**: Requires `@total-typescript/shoehorn` package. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **obsidian-vault**: Requires an Obsidian vault directory. From [mattpocock/skills](https://github.com/mattpocock/skills).
@@ -467,8 +484,8 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **setup-pre-commit**: Requires Node.js and Husky. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **teach**: No external dependencies (stateful teaching workspace skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **tdd**: No dependencies (methodology/patterns skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
-- **to-issues**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
-- **to-prd**: No dependencies (planning skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **to-spec**: Requires a configured issue tracker if publishing the spec. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **to-tickets**: Requires a configured issue tracker for ticket publishing; local markdown is supported by setup. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **triage**: Requires an issue tracker; for GitHub workflows, use an authenticated `gh` CLI in the current repo. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **triage-issue**: No dependencies (debugging/investigation skill). Local derivative inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 - **interview-coach**: No external dependencies (reference-driven skill). Writes a persistent `coaching_state.md` file in the working directory and benefits from web access when doing company research. From [noamseg/interview-coach-skill](https://github.com/noamseg/interview-coach-skill).
