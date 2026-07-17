@@ -301,6 +301,18 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [explain-diff-html](explain-diff-html/SKILL.md) | Create a rich, interactive HTML explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
 | [explain-diff-notion](explain-diff-notion/SKILL.md) | Create a rich Notion-page explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
+| [grilling-frontend-prototyping](grilling-frontend-prototyping/SKILL.md) | Converge on frontend look and feel through prototype-backed grilling rounds (from [will-ness-ai/skills](https://github.com/will-ness-ai/skills)) |
+| [emil-design-eng](emil-design-eng/SKILL.md) | Emil Kowalski's design-engineering philosophy for polished UI, components, and animation (from [emilkowalski/skill](https://github.com/emilkowalski/skill)) |
+| [make-interfaces-feel-better](make-interfaces-feel-better/SKILL.md) | Practical polish details for typography, surfaces, motion, and interaction feel (from [jakubkrehel/make-interfaces-feel-better](https://github.com/jakubkrehel/make-interfaces-feel-better)) |
+| [12-principles-of-animation](12-principles-of-animation/SKILL.md) | Audit web animation against Disney's 12 principles adapted for interface motion (from [raphaelsalaja/skill](https://github.com/raphaelsalaja/skill)) |
+| [fixing-accessibility](fixing-accessibility/SKILL.md) | Audit and fix HTML accessibility, ARIA, keyboard navigation, focus, contrast, and form errors (from [ibelick/ui-skills](https://github.com/ibelick/ui-skills)) |
+| [shadcn](shadcn/SKILL.md) | Project-aware shadcn/ui workflow for adding, composing, updating, and fixing components (from [shadcn-ui/ui](https://github.com/shadcn-ui/ui)) |
+| [vercel-react-best-practices](vercel-react-best-practices/SKILL.md) | Vercel React and Next.js performance optimization guidance with focused rule references (from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills)) |
+| [react-doctor](react-doctor/SKILL.md) | Run React Doctor checks and triage React security, performance, correctness, and architecture issues (from [millionco/react-doctor](https://github.com/millionco/react-doctor)) |
+| [vitest](vitest/SKILL.md) | Vitest testing guidance for configuration, mocking, coverage, filtering, fixtures, and advanced APIs (from [antfu/skills](https://github.com/antfu/skills)) |
+| [pnpm](pnpm/SKILL.md) | pnpm workspace, package-management, catalog, patch, override, and configuration guidance (from [antfu/skills](https://github.com/antfu/skills)) |
+| [playwright-cli](playwright-cli/SKILL.md) | Browser automation, test generation, tracing, and Playwright CLI workflows (from [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli)) |
+| [impeccable](impeccable/SKILL.md) | Impeccable frontend design, critique, audit, polish, live iteration, and design-system workflow (from [pbakaus/impeccable](https://github.com/pbakaus/impeccable)) |
 | [taste-skill](taste-skill/SKILL.md) | Anti-slop frontend design workflow for landing pages, portfolios, and redesigns; install name `design-taste-frontend` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [taste-skill-v1](taste-skill-v1/SKILL.md) | Original v1 Taste Skill preserved for exact backward-compatible behavior; install name `design-taste-frontend-v1` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [gpt-tasteskill](gpt-tasteskill/SKILL.md) | Stricter GPT/Codex-oriented Taste Skill variant with stronger layout and motion enforcement; install name `gpt-taste` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
@@ -428,6 +440,18 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **last30days**: Requires Python 3 and Node.js. Optional provider/API credentials unlock broader source coverage. From [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill).
 - **learn-quiz**: No dependencies (teaching/checklist/quiz workflow). Inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b).
 - **source-driven-development**: No dependencies (documentation/source-citation workflow). From [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
+- **grilling-frontend-prototyping**: No dependencies beyond the current frontend/runtime needed to render prototypes. From [will-ness-ai/skills](https://github.com/will-ness-ai/skills).
+- **emil-design-eng**: No dependencies (frontend design-engineering guidance skill). From [emilkowalski/skill](https://github.com/emilkowalski/skill).
+- **make-interfaces-feel-better**: No dependencies (frontend polish/reference skill). From [jakubkrehel/make-interfaces-feel-better](https://github.com/jakubkrehel/make-interfaces-feel-better).
+- **12-principles-of-animation**: No dependencies (animation review/reference skill). From [raphaelsalaja/skill](https://github.com/raphaelsalaja/skill).
+- **fixing-accessibility**: No dependencies beyond normal browser/code inspection tools. From [ibelick/ui-skills](https://github.com/ibelick/ui-skills).
+- **shadcn**: Requires the project package runner and `shadcn` CLI access through `npx`, `pnpm dlx`, or `bunx`. From [shadcn-ui/ui](https://github.com/shadcn-ui/ui).
+- **vercel-react-best-practices**: No dependencies beyond the repo's normal React/Next.js tooling. From [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills).
+- **react-doctor**: Requires Node.js; runs `npx react-doctor@latest` for scans and triage. From [millionco/react-doctor](https://github.com/millionco/react-doctor).
+- **vitest**: Requires the project's Vitest setup or package-runner access to Vitest. From [antfu/skills](https://github.com/antfu/skills).
+- **pnpm**: Requires `pnpm` when executing pnpm-specific commands. From [antfu/skills](https://github.com/antfu/skills).
+- **playwright-cli**: Requires `playwright-cli` or local Playwright CLI access via `npx playwright cli`. From [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli).
+- **impeccable**: Requires Node.js for bundled scripts and optional `npx impeccable` install/update flows. From [pbakaus/impeccable](https://github.com/pbakaus/impeccable).
 - **taste-skill**: No dependencies (frontend design guidance skill; frontmatter name `design-taste-frontend`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **taste-skill-v1**: No dependencies (original frontend design guidance skill; frontmatter name `design-taste-frontend-v1`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **gpt-tasteskill**: No dependencies (stricter frontend design guidance skill; frontmatter name `gpt-taste`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
