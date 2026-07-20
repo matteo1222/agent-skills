@@ -380,7 +380,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [zoom-out](zoom-out/SKILL.md) | Ask the agent for a broader map of the relevant code and callers using the project's domain glossary ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [no-use-effect](no-use-effect/skill.md) | Enforce no-useEffect rule in React code with 5 replacement patterns and useMountEffect escape hatch ([alvinsng](https://x.com/alvinsng/status/2033969062834045089)) |
 | [frontend-slides](frontend-slides/SKILL.md) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files ([zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)) |
-| [harness-engineering](harness-engineering/SKILL.md) | Design environments so AI agents build reliable software — context management, mechanical enforcement, and feedback loops (Ryan Lopopolo, OpenAI) |
+| [harness-engineering](harness-engineering/SKILL.md) | Follow Ryan Lopopolo's harness-engineering corpus for agent environment design, repository context, tool legibility, proof, authority, and feedback loops (from [lopopolo/harness-engineering](https://github.com/lopopolo/harness-engineering)) |
 | [app-store-changelog](app-store-changelog/SKILL.md) | Create user-facing App Store release notes from git history since the last tag or a specified ref ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [bug-hunt-swarm](bug-hunt-swarm/SKILL.md) | Run a parallel, read-only multi-agent root-cause investigation for bugs, regressions, crashes, and flaky behavior ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [github](github/SKILL.md) | Interact with GitHub issues, pull requests, workflow runs, and API data through the `gh` CLI ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
@@ -519,7 +519,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **zoom-out**: No dependencies (navigation/context skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **no-use-effect**: No dependencies (documentation/patterns skill). From [alvinsng](https://gist.github.com/alvinsng/5dd68c6ece355dbdbd65340ec2927b1d).
 - **frontend-slides**: For PPT conversion: Python with `python-pptx`. For deployment: Node.js + Vercel account (free). For PDF export: Node.js (Playwright installs automatically). From [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides).
-- **harness-engineering**: No dependencies (methodology/patterns skill). Based on Ryan Lopopolo's "Harnessing Engineering" (OpenAI, Feb 2025).
+- **harness-engineering**: No dependencies (vendored corpus and routing skill). From [lopopolo/harness-engineering](https://github.com/lopopolo/harness-engineering).
 
 ## License
 
