@@ -1,0 +1,4 @@
+interface:
+  display_name: "Step Change"
+  short_description: "Find nonlinear paths to impossible goals"
+  default_prompt: "Use $step-change to reframe this goal, raise the floor, and find the shortest evidence-backed path."
