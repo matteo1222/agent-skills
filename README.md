@@ -24,6 +24,8 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [openclaw/agent-skills](https://github.com/openclaw/agent-skills) — structured autoreview closeout workflow and helper scripts for Codex, Claude, Droid, and Copilot review engines (MIT, by openclaw)
 >
+> **Includes:** [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills) — LLM evaluation audit, error analysis, synthetic data, judge design and validation, RAG evaluation, and trace review skills (MIT, by Hamel Husain)
+>
 > **Includes:** [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) — anti-slop frontend design, redesign, image-to-code, output enforcement, and image-generation skills (MIT, by Leonxlnx)
 >
 > **Includes:** [elayadesign/ai-design-skills](https://github.com/elayadesign/ai-design-skills) — landing-page strategy, conversion copy, SEO, and visual-system guidance (MIT, by elayadesign)

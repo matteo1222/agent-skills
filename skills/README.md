@@ -35,6 +35,18 @@ Optional Writing Great Skills setup:
 ln -s ~/.codex/skills/agent-skills/skills/writing-great-skills ~/.codex/skills/writing-great-skills
 ```
 
+Optional Eval Skills setup:
+
+```bash
+ln -s ~/.codex/skills/agent-skills/skills/eval-audit ~/.codex/skills/eval-audit
+ln -s ~/.codex/skills/agent-skills/skills/error-analysis ~/.codex/skills/error-analysis
+ln -s ~/.codex/skills/agent-skills/skills/generate-synthetic-data ~/.codex/skills/generate-synthetic-data
+ln -s ~/.codex/skills/agent-skills/skills/write-judge-prompt ~/.codex/skills/write-judge-prompt
+ln -s ~/.codex/skills/agent-skills/skills/validate-evaluator ~/.codex/skills/validate-evaluator
+ln -s ~/.codex/skills/agent-skills/skills/evaluate-rag ~/.codex/skills/evaluate-rag
+ln -s ~/.codex/skills/agent-skills/skills/build-review-interface ~/.codex/skills/build-review-interface
+```
+
 Optional Landing Page Design setup:
 
 ```bash
@@ -304,6 +316,13 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [twitter-tools](twitter-tools/SKILL.md) | Fetch tweets and download Twitter/X videos (no API key) |
 | [last30days](last30days/SKILL.md) | Research recent social, community, and web discussion around any topic (from [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill)) |
 | [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
+| [eval-audit](eval-audit/SKILL.md) | Audit an LLM eval pipeline and surface prioritized problems (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
+| [error-analysis](error-analysis/SKILL.md) | Identify and categorize failure modes by systematically reviewing LLM traces (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
+| [generate-synthetic-data](generate-synthetic-data/SKILL.md) | Create diverse synthetic eval inputs with dimension-based tuple generation (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
+| [write-judge-prompt](write-judge-prompt/SKILL.md) | Design binary LLM-as-Judge evaluators for subjective quality criteria (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
+| [validate-evaluator](validate-evaluator/SKILL.md) | Calibrate LLM judges against human labels with data splits, TPR/TNR, and bias correction (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
+| [evaluate-rag](evaluate-rag/SKILL.md) | Evaluate retrieval and generation quality separately in RAG pipelines (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
+| [build-review-interface](build-review-interface/SKILL.md) | Build a browser-based annotation interface for reviewing LLM traces and collecting labels (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [explain-diff-html](explain-diff-html/SKILL.md) | Create a rich, interactive HTML explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
 | [explain-diff-notion](explain-diff-notion/SKILL.md) | Create a rich Notion-page explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
