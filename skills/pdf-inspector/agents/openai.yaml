@@ -1,0 +1,4 @@
+interface:
+  display_name: "PDF Inspector"
+  short_description: "Inspect PDFs and extract structured Markdown"
+  default_prompt: "Use $pdf-inspector to classify this PDF and extract compact Markdown when OCR is unnecessary."
