@@ -1,14 +1,18 @@
 {
   "name": "twitter-tools",
-  "version": "1.0.0",
-  "description": "Fetch tweets and download Twitter/X videos",
+  "version": "1.4.0",
+  "description": "Fetch, archive, and export data from Twitter/X",
   "type": "module",
   "bin": {
     "twitter-tweet": "./twitter-tweet.js",
     "twitter-video": "./twitter-video.js",
-    "twitter-archive": "./twitter-archive.js"
+    "twitter-archive": "./twitter-archive.js",
+    "twitter-bookmarks": "./twitter-bookmarks.js"
   },
-  "dependencies": {
-    "youtube-dl-exec": "^3.0.0"
+  "scripts": {
+    "test": "node --test twitter-bookmarks.test.js lib/bookmark-cache.test.js lib/bookmark-backup.test.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
   }
 }
