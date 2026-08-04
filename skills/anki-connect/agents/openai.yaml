@@ -1,0 +1,4 @@
+interface:
+  display_name: "Anki Connect"
+  short_description: "Control local Anki through AnkiConnect"
+  default_prompt: "Use $anki-connect to find my leech cards and summarize their note fields."

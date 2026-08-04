@@ -1,6 +1,6 @@
 ---
 name: writing-great-skills
-description: Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable.
+description: Reference for writing and editing predictable skills, including prompt design for spaced repetition systems.
 disable-model-invocation: true
 ---
 
@@ -26,6 +26,10 @@ A model-invoked **description** does two jobs — state what the skill is, and l
 - **Front-load the skill's leading word** — the description is where it does its invocation work.
 - **One trigger per branch.** Synonyms that rename a single branch are **duplication** — "build features using TDD … asks for test-first development" is one branch written twice. Collapse them; keep only genuinely distinct branches.
 - **Cut identity that's already in the body.** Keep the description to triggers, plus any "when another skill needs…" reach clause.
+
+## Writing spaced-repetition prompts
+
+When a skill creates questions, cloze cards, or review material for Anki or another spaced repetition system, read [`SPACED_REPETITION_PROMPTS.md`](SPACED_REPETITION_PROMPTS.md) in full before writing or evaluating them. Treat prompt design as task design: name the intended change and retrieval target, then translate the source into focused tasks. The branch is complete only when every prompt passes the reference's retrieval and litmus tests and the set covers the knowledge the learner actually wants to carry into practice.
 
 ## Information hierarchy
 
