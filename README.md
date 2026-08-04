@@ -41,6 +41,7 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 | Directory | Description |
 |-----------|-------------|
 | [skills/](skills/README.md) | Agent skills (tool definitions, CLI wrappers, reference docs) |
+| [agents/](agents/README.md) | Reusable `AGENTS.md` files for different development situations |
 | [pi-extensions/](pi-extensions/README.md) | Pi-coding-agent extensions (lifecycle hooks, tool overrides) |
 
 ## License
