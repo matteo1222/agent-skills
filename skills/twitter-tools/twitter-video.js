@@ -11,6 +11,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { spawn } from 'node:child_process';
 import { extractTweetId, fetchTweetFromApi, getBestVideoUrl } from './lib/syndication.js';
 import { getCachedTweet, cacheTweet, downloadFile } from './lib/cache.js';
 
@@ -34,15 +35,21 @@ Examples:
 }
 
 async function downloadWithYtdlp(url, outputPath) {
-  const { execa } = await import('youtube-dl-exec');
-
   console.error('Downloading with yt-dlp...');
-
-  await execa('yt-dlp', [
-    url,
-    '-o', outputPath,
-    '--no-warnings',
-  ]);
+  await new Promise((resolvePromise, rejectPromise) => {
+    const child = spawn('yt-dlp', [url, '-o', outputPath, '--no-warnings'], { stdio: 'inherit' });
+    child.once('error', (error) => {
+      if (error.code === 'ENOENT') {
+        rejectPromise(new Error('yt-dlp is not installed or is not on PATH. Install it with: brew install yt-dlp'));
+      } else {
+        rejectPromise(error);
+      }
+    });
+    child.once('exit', (code, signal) => {
+      if (code === 0) resolvePromise();
+      else rejectPromise(new Error(`yt-dlp failed${signal ? ` with signal ${signal}` : ` with exit code ${code}`}`));
+    });
+  });
 
   return outputPath;
 }

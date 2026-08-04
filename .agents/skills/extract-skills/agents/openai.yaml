@@ -1,0 +1,4 @@
+interface:
+  display_name: "Extract Skills"
+  short_description: "Turn raw material into approved reusable skills"
+  default_prompt: "Use $extract-skills to analyze this raw material, propose the valuable skills to extract, and wait for my approval before creating them."

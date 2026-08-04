@@ -1,0 +1,4 @@
+interface:
+  display_name: "Twitter Tools"
+  short_description: "Cache, back up, and research X bookmarks"
+  default_prompt: "Use $twitter-tools to sync my X bookmarks into SQLite, create a deterministic JSONL backup, or render a focused Markdown brief."

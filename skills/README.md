@@ -22,6 +22,16 @@ git clone https://github.com/matteo1222/agent-skills .pi/skills/agent-skills
 git clone https://github.com/matteo1222/agent-skills ~/.codex/skills/agent-skills
 ```
 
+Optional Ponytail skill-only setup (no plugin marketplace, no lifecycle hooks):
+
+```bash
+ln -s ~/.codex/skills/agent-skills/skills/ponytail ~/.codex/skills/ponytail
+ln -s ~/.codex/skills/agent-skills/skills/ponytail-review ~/.codex/skills/ponytail-review
+ln -s ~/.codex/skills/agent-skills/skills/ponytail-help ~/.codex/skills/ponytail-help
+```
+
+Invoke with `@ponytail`, `@ponytail-review`, or `@ponytail-help` when you want the behavior.
+
 Optional Explain Diff skill setup:
 
 ```bash
@@ -98,6 +108,9 @@ ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/explain-diff-html ~/.claude/skills/explain-diff-html
 ln -s ~/agent-skills/skills/explain-diff-notion ~/.claude/skills/explain-diff-notion
 ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
+ln -s ~/agent-skills/skills/ponytail ~/.claude/skills/ponytail
+ln -s ~/agent-skills/skills/ponytail-review ~/.claude/skills/ponytail-review
+ln -s ~/agent-skills/skills/ponytail-help ~/.claude/skills/ponytail-help
 ln -s ~/agent-skills/skills/taste-skill ~/.claude/skills/taste-skill
 ln -s ~/agent-skills/skills/taste-skill-v1 ~/.claude/skills/taste-skill-v1
 ln -s ~/agent-skills/skills/gpt-tasteskill ~/.claude/skills/gpt-tasteskill
@@ -194,6 +207,9 @@ ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/explain-diff-html .claude/skills/explain-diff-html
 ln -s ~/agent-skills/skills/explain-diff-notion .claude/skills/explain-diff-notion
 ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
+ln -s ~/agent-skills/skills/ponytail .claude/skills/ponytail
+ln -s ~/agent-skills/skills/ponytail-review .claude/skills/ponytail-review
+ln -s ~/agent-skills/skills/ponytail-help .claude/skills/ponytail-help
 ln -s ~/agent-skills/skills/taste-skill .claude/skills/taste-skill
 ln -s ~/agent-skills/skills/taste-skill-v1 .claude/skills/taste-skill-v1
 ln -s ~/agent-skills/skills/gpt-tasteskill .claude/skills/gpt-tasteskill
@@ -316,7 +332,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [vscode](vscode/SKILL.md) | VS Code integration for diffs and file comparison |
 | [youtube-transcript](youtube-transcript/SKILL.md) | Fetch YouTube video transcripts |
 | [nano-banana-pro](nano-banana-pro/SKILL.md) | Generate images using Google's Nano Banana Pro via Replicate |
-| [twitter-tools](twitter-tools/SKILL.md) | Fetch tweets and download Twitter/X videos (no API key) |
+| [twitter-tools](twitter-tools/SKILL.md) | Fetch public X content and export private bookmarks with OAuth |
 | [last30days](last30days/SKILL.md) | Research recent social, community, and web discussion around any topic (from [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill)) |
 | [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
 | [eval-audit](eval-audit/SKILL.md) | Audit an LLM eval pipeline and surface prioritized problems (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
@@ -342,6 +358,9 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [pnpm](pnpm/SKILL.md) | pnpm workspace, package-management, catalog, patch, override, and configuration guidance (from [antfu/skills](https://github.com/antfu/skills)) |
 | [playwright-cli](playwright-cli/SKILL.md) | Browser automation, test generation, tracing, and Playwright CLI workflows (from [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli)) |
 | [impeccable](impeccable/SKILL.md) | Impeccable frontend design, critique, audit, polish, live iteration, and design-system workflow (from [pbakaus/impeccable](https://github.com/pbakaus/impeccable)) |
+| [ponytail](ponytail/SKILL.md) | Lazy senior developer mode: YAGNI, stdlib/native-first, and smallest correct implementation; skill-only port without plugin hooks (from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) |
+| [ponytail-review](ponytail-review/SKILL.md) | Review diffs only for over-engineering and deletable complexity; skill-only port without plugin hooks (from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) |
+| [ponytail-help](ponytail-help/SKILL.md) | Quick reference for Ponytail modes, commands, and usage; skill-only port without plugin hooks (from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)) |
 | [taste-skill](taste-skill/SKILL.md) | Anti-slop frontend design workflow for landing pages, portfolios, and redesigns; install name `design-taste-frontend` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [taste-skill-v1](taste-skill-v1/SKILL.md) | Original v1 Taste Skill preserved for exact backward-compatible behavior; install name `design-taste-frontend-v1` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [gpt-tasteskill](gpt-tasteskill/SKILL.md) | Stricter GPT/Codex-oriented Taste Skill variant with stronger layout and motion enforcement; install name `gpt-taste` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
