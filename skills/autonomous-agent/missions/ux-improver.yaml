@@ -1,0 +1,77 @@
+# UX Improver Mission
+# Continuously researches UX best practices and improves your UI
+
+name: "UX Improver"
+description: "Proactively research and apply the latest UX best practices to improve user experience"
+
+# How often to run
+schedule: daily
+
+# What to research
+research:
+  topics:
+    - "latest UX design trends 2025"
+    - "mobile-first design best practices"
+    - "accessibility WCAG 2.2 guidelines"
+    - "micro-interactions and animations"
+    - "form design UX patterns"
+    - "navigation and information architecture"
+    - "dark mode implementation patterns"
+    - "loading states and skeleton screens"
+
+  sources:
+    - web           # Search the web
+    - github        # Look for UI component libraries
+    - dribbble      # Design inspiration
+
+  focus_areas:
+    - accessibility  # ARIA, keyboard navigation, screen readers
+    - performance    # Core Web Vitals, perceived performance
+    - mobile         # Touch targets, responsive design
+    - forms          # Validation, error states, autofill
+    - feedback       # Loading states, success/error messages
+
+# What actions to take
+actions:
+  - type: audit
+    description: "Audit current UI against best practices"
+    output: "./reports/ux-audit.md"
+
+  - type: recommend
+    description: "Generate prioritized list of improvements"
+    output: "./reports/ux-recommendations.md"
+
+  - type: prototype
+    description: "Create improved component prototypes"
+    output: "./prototypes/ux/"
+
+  - type: pr
+    description: "Create PRs for approved improvements"
+    branch_prefix: "ux-improvement"
+
+# What to analyze
+target:
+  paths:
+    - "src/components/"
+    - "src/pages/"
+    - "src/styles/"
+    - "public/"
+  file_types:
+    - "*.tsx"
+    - "*.jsx"
+    - "*.css"
+    - "*.scss"
+    - "*.html"
+
+# Safety limits
+limits:
+  max_iterations: 5
+  max_cost: 3.00
+  timeout_hours: 1
+  require_approval: true   # Require human approval before changes
+
+# What counts as success
+success_criteria:
+  - "Identified at least 3 actionable UX improvements"
+  - "Created audit report with specific recommendations"
+  - "Improvements are backed by research/best practices"

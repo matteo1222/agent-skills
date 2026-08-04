@@ -1,0 +1,102 @@
+# Prototype Builder Mission
+# Researches trending tech and builds quick prototypes
+
+name: "Prototype Builder"
+description: "Research emerging technologies and build quick prototypes to evaluate them"
+
+schedule: continuous
+
+research:
+  topics:
+    - "trending GitHub repositories this week"
+    - "new JavaScript frameworks 2025"
+    - "emerging AI APIs and tools"
+    - "new database technologies"
+    - "edge computing platforms"
+    - "WebAssembly applications"
+    - "new CSS features and techniques"
+    - "serverless architecture patterns"
+    - "real-time collaboration tools"
+    - "local-first software patterns"
+
+  sources:
+    - web
+    - github_trending
+    - hackernews
+    - devto
+    - producthunt
+
+  criteria:
+    # What makes something worth prototyping
+    - high_github_stars
+    - active_development
+    - solves_real_problem
+    - easy_to_integrate
+    - good_documentation
+
+actions:
+  - type: discover
+    description: "Find interesting technologies to prototype"
+    output: "./reports/tech-discoveries.md"
+
+  - type: evaluate
+    description: "Evaluate technologies against our needs"
+    output: "./reports/tech-evaluation.md"
+    criteria:
+      - relevance_to_our_stack
+      - learning_curve
+      - community_support
+      - performance_benefits
+      - integration_effort
+
+  - type: prototype
+    description: "Build working prototypes"
+    output: "./prototypes/"
+    template: |
+      # Prototype: {name}
+
+      ## What It Does
+      [Brief description]
+
+      ## Why It's Interesting
+      [Why we should consider this]
+
+      ## Quick Start
+      ```bash
+      cd prototypes/{name}
+      npm install
+      npm start
+      ```
+
+      ## Key Findings
+      [What we learned from building this]
+
+      ## Recommendation
+      [ ] Worth adopting
+      [ ] Keep watching
+      [ ] Not for us
+
+  - type: integrate
+    description: "Suggest integrations with our codebase"
+    output: "./reports/integration-proposals.md"
+
+target:
+  prototype_dir: "./prototypes"
+  stack:
+    - typescript
+    - react
+    - node
+    # Add your stack
+
+limits:
+  max_iterations: 5
+  max_cost: 5.00
+  timeout_hours: 2
+  max_prototype_time: 30  # minutes per prototype
+  require_approval: true
+
+success_criteria:
+  - "Discovered at least 5 interesting technologies"
+  - "Built at least 2 working prototypes"
+  - "Provided clear recommendations"
+  - "Documented learnings from each prototype"

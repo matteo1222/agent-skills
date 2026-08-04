@@ -91,6 +91,7 @@ ln -s ~/agent-skills/skills/vscode ~/.claude/skills/vscode
 ln -s ~/agent-skills/skills/youtube-transcript ~/.claude/skills/youtube-transcript
 ln -s ~/agent-skills/skills/youtube-cc ~/.claude/skills/youtube-cc
 ln -s ~/agent-skills/skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
+ln -s ~/agent-skills/skills/autonomous-agent ~/.claude/skills/autonomous-agent
 ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/last30days ~/.claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
@@ -186,6 +187,7 @@ ln -s ~/agent-skills/skills/vscode .claude/skills/vscode
 ln -s ~/agent-skills/skills/youtube-transcript .claude/skills/youtube-transcript
 ln -s ~/agent-skills/skills/youtube-cc .claude/skills/youtube-cc
 ln -s ~/agent-skills/skills/nano-banana-pro .claude/skills/nano-banana-pro
+ln -s ~/agent-skills/skills/autonomous-agent .claude/skills/autonomous-agent
 ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/last30days .claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
@@ -301,6 +303,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | Skill | Description |
 |-------|-------------|
 | [babysit-pr](babysit-pr/SKILL.md) | Babysit a GitHub PR by polling review comments, CI checks, and mergeability until merged/closed ([openai/codex](https://github.com/openai/codex)) |
+| [autonomous-agent](autonomous-agent/SKILL.md) | Run research-and-action missions through the Ralph loop, director configuration, and persistent memory |
 | [agent-browser](agent-browser/SKILL.md) | Headless browser automation CLI optimized for AI agents |
 | [agent-device](agent-device/SKILL.md) | Mobile automation for iOS simulators/devices and Android emulators/devices |
 | [dogfood-device](dogfood-device/SKILL.md) | Systematically QA test mobile apps on iOS/Android with structured reports, screenshots, and repro videos |
@@ -427,6 +430,17 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 > Note: upstream `mattpocock/skills` treats `design-an-interface`, `qa`, `request-refactor-plan`, and `ubiquitous-language` as deprecated. Those deprecated upstream folders have been removed here in favor of the current upstream names and flow.
 > Upstream also renamed `to-prd` to `to-spec` and replaced `to-issues` with `to-tickets`.
 
+## Autonomous Agent (Ralph)
+
+Run the interactive launcher or a predefined mission:
+
+```bash
+~/agent-skills/skills/autonomous-agent/quick-start
+~/agent-skills/skills/autonomous-agent/ralph ~/agent-skills/skills/autonomous-agent/missions/ux-improver.yaml
+```
+
+Bundled missions cover UX improvement, SEO trends, agentic coding, marketing ideas, and prototype building. Copy `missions/template.yaml` to create a custom mission. The loop uses `director.yaml` for goals and constraints and stores experiments, sources, insights, and context under `memory/`.
+
 ## Skill Format
 
 Each skill follows the pi/Claude Code format:
@@ -462,6 +476,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **vscode**: Requires VS Code with `code` CLI in PATH.
 - **youtube-transcript**: Requires Node.js. Run `npm install` in the skill directory.
 - **nano-banana-pro**: Standalone binary. Requires `REPLICATE_API_TOKEN` env var.
+- **autonomous-agent**: Requires the Claude Code CLI. Run missions with `skills/autonomous-agent/ralph <mission>.yaml`.
 - **twitter-tools**: Requires Node.js. Run `npm install` in the skill directory.
 - **last30days**: Requires Python 3 and Node.js. Optional provider/API credentials unlock broader source coverage. From [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill).
 - **learn-quiz**: No dependencies (teaching/checklist/quiz workflow). Inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b).
