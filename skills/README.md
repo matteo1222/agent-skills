@@ -39,10 +39,10 @@ ln -s ~/.codex/skills/agent-skills/skills/explain-diff-html ~/.codex/skills/expl
 ln -s ~/.codex/skills/agent-skills/skills/explain-diff-notion ~/.codex/skills/explain-diff-notion
 ```
 
-Optional Writing Great Skills setup:
+Optional Writing for Agents setup:
 
 ```bash
-ln -s ~/.codex/skills/agent-skills/skills/writing-great-skills ~/.codex/skills/writing-great-skills
+ln -s ~/.codex/skills/agent-skills/skills/writing-for-agents ~/.codex/skills/writing-for-agents
 ```
 
 Optional Eval Skills setup:
@@ -177,12 +177,15 @@ ln -s ~/agent-skills/skills/teach ~/.claude/skills/teach
 ln -s ~/agent-skills/skills/tdd ~/.claude/skills/tdd
 ln -s ~/agent-skills/skills/to-spec ~/.claude/skills/to-spec
 ln -s ~/agent-skills/skills/to-tickets ~/.claude/skills/to-tickets
+ln -s ~/agent-skills/skills/to-questionnaire ~/.claude/skills/to-questionnaire
 ln -s ~/agent-skills/skills/triage ~/.claude/skills/triage
 ln -s ~/agent-skills/skills/triage-issue ~/.claude/skills/triage-issue
 ln -s ~/agent-skills/skills/interview-coach ~/.claude/skills/interview-coach
 ln -s ~/agent-skills/skills/wayfinder ~/.claude/skills/wayfinder
+ln -s ~/agent-skills/skills/wait-what ~/.claude/skills/wait-what
+ln -s ~/agent-skills/skills/wizard ~/.claude/skills/wizard
 ln -s ~/agent-skills/skills/write-a-skill ~/.claude/skills/write-a-skill
-ln -s ~/agent-skills/skills/writing-great-skills ~/.claude/skills/writing-great-skills
+ln -s ~/agent-skills/skills/writing-for-agents ~/.claude/skills/writing-for-agents
 ln -s ~/agent-skills/skills/zoom-out ~/.claude/skills/zoom-out
 ln -s ~/agent-skills/skills/no-use-effect ~/.claude/skills/no-use-effect
 ln -s ~/agent-skills/skills/harness-engineering ~/.claude/skills/harness-engineering
@@ -276,12 +279,15 @@ ln -s ~/agent-skills/skills/teach .claude/skills/teach
 ln -s ~/agent-skills/skills/tdd .claude/skills/tdd
 ln -s ~/agent-skills/skills/to-spec .claude/skills/to-spec
 ln -s ~/agent-skills/skills/to-tickets .claude/skills/to-tickets
+ln -s ~/agent-skills/skills/to-questionnaire .claude/skills/to-questionnaire
 ln -s ~/agent-skills/skills/triage .claude/skills/triage
 ln -s ~/agent-skills/skills/triage-issue .claude/skills/triage-issue
 ln -s ~/agent-skills/skills/interview-coach .claude/skills/interview-coach
 ln -s ~/agent-skills/skills/wayfinder .claude/skills/wayfinder
+ln -s ~/agent-skills/skills/wait-what .claude/skills/wait-what
+ln -s ~/agent-skills/skills/wizard .claude/skills/wizard
 ln -s ~/agent-skills/skills/write-a-skill .claude/skills/write-a-skill
-ln -s ~/agent-skills/skills/writing-great-skills .claude/skills/writing-great-skills
+ln -s ~/agent-skills/skills/writing-for-agents .claude/skills/writing-for-agents
 ln -s ~/agent-skills/skills/zoom-out .claude/skills/zoom-out
 ln -s ~/agent-skills/skills/no-use-effect .claude/skills/no-use-effect
 ln -s ~/agent-skills/skills/harness-engineering .claude/skills/harness-engineering
@@ -402,13 +408,13 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [git-guardrails-claude-code](git-guardrails-claude-code/SKILL.md) | Set up Claude Code hooks to block dangerous git commands ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [grill-me](grill-me/SKILL.md) | Relentless interview about a plan or design until every decision is resolved ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [grill-with-docs](grill-with-docs/SKILL.md) | Stress-test plans against project terminology and update `CONTEXT.md` and ADRs inline ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [grilling](grilling/SKILL.md) | Shared one-question-at-a-time interview primitive behind `grill-me` and `grill-with-docs` ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [grilling](grilling/SKILL.md) | Shared round-by-round frontier interview primitive behind `grill-me` and `grill-with-docs` ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [handoff](handoff/SKILL.md) | Write a compact handoff document for continuing work in a fresh session ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [implement](implement/SKILL.md) | Implement work from a spec or ticket set using TDD and code review ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [improve-codebase-architecture](improve-codebase-architecture/SKILL.md) | Find deepening opportunities informed by `CONTEXT.md` and `docs/adr/` ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [migrate-to-shoehorn](migrate-to-shoehorn/SKILL.md) | Convert test files from `as` assertions to @total-typescript/shoehorn ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [obsidian-vault](obsidian-vault/SKILL.md) | Manage Obsidian vault notes with wikilinks support ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [prototype](prototype/SKILL.md) | Build throwaway logic or UI prototypes to answer design questions quickly ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [prototype](prototype/SKILL.md) | Build a shareable single-file HTML prototype to answer a design question ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [prd-to-plan](prd-to-plan/SKILL.md) | Transform product requirements into phased implementation strategies (local derivative; no direct current upstream equivalent) ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [research](research/SKILL.md) | Investigate questions against primary sources and capture cited findings in repo markdown ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [resolving-merge-conflicts](resolving-merge-conflicts/SKILL.md) | Resolve in-progress merge or rebase conflicts by preserving both sides' intent ([mattpocock/skills](https://github.com/mattpocock/skills)) |
@@ -419,12 +425,15 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [tdd](tdd/SKILL.md) | Test-driven development with red-green-refactor loop and vertical slices ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [to-spec](to-spec/SKILL.md) | Turn the current conversation into a spec and publish it to the project issue tracker ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [to-tickets](to-tickets/SKILL.md) | Break a plan, spec, or conversation into tracer-bullet tickets with blocking edges ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [to-questionnaire](to-questionnaire/SKILL.md) | Turn a decision someone else must answer into a focused Markdown questionnaire ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [triage](triage/SKILL.md) | Triage issues through a state machine driven by triage roles ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [triage-issue](triage-issue/SKILL.md) | Investigate bugs by exploring codebases, identifying root causes, and creating fix plans (local derivative inspired by [mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [interview-coach](interview-coach/SKILL.md) | Adaptive interview and job-search coaching across prep, transcript analysis, practice, storybanking, resume, LinkedIn, outreach, salary, and negotiation ([noamseg/interview-coach-skill](https://github.com/noamseg/interview-coach-skill)) |
 | [wayfinder](wayfinder/SKILL.md) | Plan oversized, foggy work as an issue-tracker map of decision tickets ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [wait-what](wait-what/SKILL.md) | Re-pitch the previous message in plain English with the missing context ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [wizard](wizard/SKILL.md) | Generate an interactive Bash wizard for manual setup, secrets, dashboards, and cutovers ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [write-a-skill](write-a-skill/SKILL.md) | Create new skills with proper structure and bundled resources ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [writing-great-skills](writing-great-skills/SKILL.md) | Reference vocabulary and principles for writing predictable, low-load skills ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [writing-for-agents](writing-for-agents/SKILL.md) | Write predictable agent-facing docs and focused spaced-repetition prompts ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [zoom-out](zoom-out/SKILL.md) | Ask the agent for a broader map of the relevant code and callers using the project's domain glossary ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [no-use-effect](no-use-effect/skill.md) | Enforce no-useEffect rule in React code with 5 replacement patterns and useMountEffect escape hatch ([alvinsng](https://x.com/alvinsng/status/2033969062834045089)) |
 | [frontend-slides](frontend-slides/SKILL.md) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files ([zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)) |
@@ -446,8 +455,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [swiftui-ui-patterns](swiftui-ui-patterns/SKILL.md) | Apply best-practice SwiftUI patterns for navigation, state, layouts, and reusable components ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [swiftui-view-refactor](swiftui-view-refactor/SKILL.md) | Refactor SwiftUI view files toward smaller subviews, stable view trees, and cleaner MV-style data flow ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 
-> Note: upstream `mattpocock/skills` treats `design-an-interface`, `qa`, `request-refactor-plan`, and `ubiquitous-language` as deprecated. Those deprecated upstream folders have been removed here in favor of the current upstream names and flow.
-> Upstream also renamed `to-prd` to `to-spec` and replaced `to-issues` with `to-tickets`.
+> **Matt Pocock sync:** promoted skills match upstream `main` at `0986ebaf5d29e812162702b2633a2942c30200d2` (plugin `1.2.1`, August 5, 2026), except `writing-for-agents` retains this repo's spaced-repetition prompt branch. Upstream renamed `writing-great-skills` to `writing-for-agents`, `to-prd` to `to-spec`, and replaced `to-issues` with `to-tickets`. Legacy local snapshots such as `caveman`, `edit-article`, `obsidian-vault`, `write-a-skill`, and `zoom-out` remain available but are no longer in upstream.
 
 ## Autonomous Agent (Ralph)
 
@@ -571,12 +579,15 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **tdd**: No dependencies (methodology/patterns skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **to-spec**: Requires a configured issue tracker if publishing the spec. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **to-tickets**: Requires a configured issue tracker for ticket publishing; local markdown is supported by setup. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **to-questionnaire**: No dependencies (asynchronous decision-gathering skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **triage**: Requires an issue tracker; for GitHub workflows, use an authenticated `gh` CLI in the current repo. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **triage-issue**: No dependencies (debugging/investigation skill). Local derivative inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 - **interview-coach**: No external dependencies (reference-driven skill). Writes a persistent `coaching_state.md` file in the working directory and benefits from web access when doing company research. From [noamseg/interview-coach-skill](https://github.com/noamseg/interview-coach-skill).
 - **wayfinder**: Requires the repo issue tracker configured by `setup-matt-pocock-skills`; uses labels and child/blocking relationships where the tracker supports them. From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **wait-what**: No dependencies (plain-language re-pitch skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **wizard**: Requires Bash; generated wizards may also use `gh` and project-specific CLIs. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **write-a-skill**: No dependencies (meta skill for creating skills). From [mattpocock/skills](https://github.com/mattpocock/skills).
-- **writing-great-skills**: No dependencies (reference skill for skill-writing vocabulary and principles). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **writing-for-agents**: No dependencies (agent-document and spaced-repetition prompt reference). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **zoom-out**: No dependencies (navigation/context skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **no-use-effect**: No dependencies (documentation/patterns skill). From [alvinsng](https://gist.github.com/alvinsng/5dd68c6ece355dbdbd65340ec2927b1d).
 - **frontend-slides**: For PPT conversion: Python with `python-pptx`. For deployment: Node.js + Vercel account (free). For PDF export: Node.js (Playwright installs automatically). From [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides).

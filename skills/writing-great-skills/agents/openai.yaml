@@ -1,5 +1,0 @@
-interface:
-  display_name: "Writing Great Skills"
-  short_description: "Predictable skills and spaced-repetition prompts"
-policy:
-  allow_implicit_invocation: false
