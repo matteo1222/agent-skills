@@ -45,6 +45,13 @@ Optional Writing for Agents setup:
 ln -s ~/.codex/skills/agent-skills/skills/writing-for-agents ~/.codex/skills/writing-for-agents
 ```
 
+Optional Learning Skills setup:
+
+```bash
+ln -s ~/.codex/skills/agent-skills/skills/learning-opportunities ~/.codex/skills/learning-opportunities
+ln -s ~/.codex/skills/agent-skills/skills/learning-goal ~/.codex/skills/learning-goal
+```
+
 Optional Eval Skills setup:
 
 ```bash
@@ -105,6 +112,8 @@ ln -s ~/agent-skills/skills/autonomous-agent ~/.claude/skills/autonomous-agent
 ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/last30days ~/.claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
+ln -s ~/agent-skills/skills/learning-opportunities ~/.claude/skills/learning-opportunities
+ln -s ~/agent-skills/skills/learning-goal ~/.claude/skills/learning-goal
 ln -s ~/agent-skills/skills/explain-diff-html ~/.claude/skills/explain-diff-html
 ln -s ~/agent-skills/skills/explain-diff-notion ~/.claude/skills/explain-diff-notion
 ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
@@ -207,6 +216,8 @@ ln -s ~/agent-skills/skills/autonomous-agent .claude/skills/autonomous-agent
 ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
 ln -s ~/agent-skills/skills/last30days .claude/skills/last30days
 ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
+ln -s ~/agent-skills/skills/learning-opportunities .claude/skills/learning-opportunities
+ln -s ~/agent-skills/skills/learning-goal .claude/skills/learning-goal
 ln -s ~/agent-skills/skills/explain-diff-html .claude/skills/explain-diff-html
 ln -s ~/agent-skills/skills/explain-diff-notion .claude/skills/explain-diff-notion
 ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
@@ -341,6 +352,8 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [twitter-tools](twitter-tools/SKILL.md) | Fetch public X content and export private bookmarks with OAuth |
 | [last30days](last30days/SKILL.md) | Research recent social, community, and web discussion around any topic (from [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill)) |
 | [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
+| [learning-opportunities](learning-opportunities/SKILL.md) | Offer evidence-based deliberate-practice exercises after architectural work (from [DrCatHicks/learning-opportunities](https://github.com/DrCatHicks/learning-opportunities)) |
+| [learning-goal](learning-goal/SKILL.md) | Facilitate structured learning goals with SMART goals and mental contrasting (from [DrCatHicks/learning-goal](https://github.com/DrCatHicks/learning-goal)) |
 | [eval-audit](eval-audit/SKILL.md) | Audit an LLM eval pipeline and surface prioritized problems (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [error-analysis](error-analysis/SKILL.md) | Identify and categorize failure modes by systematically reviewing LLM traces (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [generate-synthetic-data](generate-synthetic-data/SKILL.md) | Create diverse synthetic eval inputs with dimension-based tuple generation (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
@@ -507,6 +520,8 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **twitter-tools**: Requires Node.js. Run `npm install` in the skill directory.
 - **last30days**: Requires Python 3 and Node.js. Optional provider/API credentials unlock broader source coverage. From [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill).
 - **learn-quiz**: No dependencies (teaching/checklist/quiz workflow). Inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b).
+- **learning-opportunities**: No dependencies (interactive deliberate-practice workflow). From [DrCatHicks/learning-opportunities](https://github.com/DrCatHicks/learning-opportunities), licensed CC-BY-4.0.
+- **learning-goal**: No dependencies (interactive SMART/MCII goal-setting workflow). From [DrCatHicks/learning-goal](https://github.com/DrCatHicks/learning-goal), licensed CC-BY-4.0.
 - **source-driven-development**: No dependencies (documentation/source-citation workflow). From [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
 - **grilling-frontend-prototyping**: No dependencies beyond the current frontend/runtime needed to render prototypes. From [will-ness-ai/skills](https://github.com/will-ness-ai/skills).
 - **emil-design-eng**: No dependencies (frontend design-engineering guidance skill). From [emilkowalski/skill](https://github.com/emilkowalski/skill).

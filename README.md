@@ -35,6 +35,8 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 > **Includes:** [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) — rich HTML and Notion explanations of diffs, branches, and PRs (by Geoffrey Litt)
 >
 > **Inspired by:** [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b) — incremental teaching, restatement, and quiz workflow adapted as a Codex-compatible skill
+>
+> **Includes:** [DrCatHicks/learning-opportunities](https://github.com/DrCatHicks/learning-opportunities) and [DrCatHicks/learning-goal](https://github.com/DrCatHicks/learning-goal) — evidence-based deliberate-practice exercises and structured learning goal setting for AI-assisted development (CC-BY-4.0, by Dr. Cat Hicks)
 
 ## Contents
 
