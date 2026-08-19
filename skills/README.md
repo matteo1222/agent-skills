@@ -70,6 +70,12 @@ Optional Landing Page Design setup:
 ln -s ~/.codex/skills/agent-skills/skills/landing-page-design ~/.codex/skills/landing-page-design
 ```
 
+Optional Hallmark setup:
+
+```bash
+ln -s ~/.codex/skills/agent-skills/skills/hallmark ~/.codex/skills/hallmark
+```
+
 ### Amp
 
 Amp finds skills recursively in toolboxes:
@@ -368,6 +374,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [emil-design-eng](emil-design-eng/SKILL.md) | Emil Kowalski's design-engineering philosophy for polished UI, components, and animation (from [emilkowalski/skill](https://github.com/emilkowalski/skill)) |
 | [make-interfaces-feel-better](make-interfaces-feel-better/SKILL.md) | Practical polish details for typography, surfaces, motion, and interaction feel (from [jakubkrehel/make-interfaces-feel-better](https://github.com/jakubkrehel/make-interfaces-feel-better)) |
 | [landing-page-design](landing-page-design/SKILL.md) | Plan and build conversion-focused landing pages with a strict visual system (from [elayadesign/ai-design-skills](https://github.com/elayadesign/ai-design-skills)) |
+| [hallmark](hallmark/SKILL.md) | Design, audit, redesign, or study interfaces with structural variety and anti-AI-slop gates (from [nutlope/hallmark](https://github.com/nutlope/hallmark)) |
 | [12-principles-of-animation](12-principles-of-animation/SKILL.md) | Audit web animation against Disney's 12 principles adapted for interface motion (from [raphaelsalaja/skill](https://github.com/raphaelsalaja/skill)) |
 | [fixing-accessibility](fixing-accessibility/SKILL.md) | Audit and fix HTML accessibility, ARIA, keyboard navigation, focus, contrast, and form errors (from [ibelick/ui-skills](https://github.com/ibelick/ui-skills)) |
 | [shadcn](shadcn/SKILL.md) | Project-aware shadcn/ui workflow for adding, composing, updating, and fixing components (from [shadcn-ui/ui](https://github.com/shadcn-ui/ui)) |
@@ -527,6 +534,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **emil-design-eng**: No dependencies (frontend design-engineering guidance skill). From [emilkowalski/skill](https://github.com/emilkowalski/skill).
 - **make-interfaces-feel-better**: No dependencies (frontend polish/reference skill). From [jakubkrehel/make-interfaces-feel-better](https://github.com/jakubkrehel/make-interfaces-feel-better).
 - **landing-page-design**: No dependencies (landing-page strategy and visual-system skill). From [elayadesign/ai-design-skills](https://github.com/elayadesign/ai-design-skills).
+- **hallmark**: No runtime dependencies (UI design, audit, redesign, and design-study guidance skill). From [nutlope/hallmark](https://github.com/nutlope/hallmark).
 - **12-principles-of-animation**: No dependencies (animation review/reference skill). From [raphaelsalaja/skill](https://github.com/raphaelsalaja/skill).
 - **fixing-accessibility**: No dependencies beyond normal browser/code inspection tools. From [ibelick/ui-skills](https://github.com/ibelick/ui-skills).
 - **shadcn**: Requires the project package runner and `shadcn` CLI access through `npx`, `pnpm dlx`, or `bunx`. From [shadcn-ui/ui](https://github.com/shadcn-ui/ui).
