@@ -1,0 +1,4 @@
+interface:
+  display_name: "Creating Reanimated Animations"
+  short_description: "Build performant React Native animations"
+  default_prompt: "Use $creating-reanimated-animations to implement a performant, accessible React Native animation for this interaction."
