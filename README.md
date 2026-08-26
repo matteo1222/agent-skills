@@ -22,6 +22,8 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) — source-driven development workflow for grounding framework-specific code in official documentation (MIT, by Addy Osmani)
 >
+> **Includes:** [humanlayer/skills](https://github.com/humanlayer/skills) — show-me skill for compact visual explanations of code structure, control flow, and changes (MIT, by HumanLayer)
+>
 > **Includes:** [openclaw/agent-skills](https://github.com/openclaw/agent-skills) — structured autoreview closeout workflow and helper scripts for Codex, Claude, Droid, and Copilot review engines (MIT, by openclaw)
 >
 > **Includes:** [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills) — LLM evaluation audit, error analysis, synthetic data, judge design and validation, RAG evaluation, and trace review skills (MIT, by Hamel Husain)

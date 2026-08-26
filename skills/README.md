@@ -45,6 +45,12 @@ Optional Writing for Agents setup:
 ln -s ~/.codex/skills/agent-skills/skills/writing-for-agents ~/.codex/skills/writing-for-agents
 ```
 
+Optional Show Me setup:
+
+```bash
+ln -s ~/.codex/skills/agent-skills/skills/show-me ~/.codex/skills/show-me
+```
+
 Optional Learning Skills setup:
 
 ```bash
@@ -375,6 +381,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [build-review-interface](build-review-interface/SKILL.md) | Build a browser-based annotation interface for reviewing LLM traces and collecting labels (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [explain-diff-html](explain-diff-html/SKILL.md) | Create a rich, interactive HTML explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
 | [explain-diff-notion](explain-diff-notion/SKILL.md) | Create a rich Notion-page explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
+| [show-me](show-me/SKILL.md) | Explain the current topic with compact diagrams, code-shape sketches, and focused HTML artifacts (from [humanlayer/skills](https://github.com/humanlayer/skills)) |
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
 | [grilling-frontend-prototyping](grilling-frontend-prototyping/SKILL.md) | Converge on frontend look and feel through prototype-backed grilling rounds (from [will-ness-ai/skills](https://github.com/will-ness-ai/skills)) |
 | [emil-design-eng](emil-design-eng/SKILL.md) | Emil Kowalski's design-engineering philosophy for polished UI, components, and animation (from [emilkowalski/skill](https://github.com/emilkowalski/skill)) |
@@ -581,6 +588,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **triad**: Requires `claude` CLI in PATH. Runs 3 separate `claude -p` processes per analysis (Finder → Adversary → Referee).
 - **triad-review**: Requires `claude` CLI in PATH. Wrapper that runs triad across multiple lenses.
 - **trycycle**: Requires Python 3. Iterative plan-build-review workflow from [danshapiro/trycycle](https://github.com/danshapiro/trycycle) (MIT, by Dan Shapiro; adapted from Jesse Vincent's "superpowers").
+- **show-me**: No dependencies for inline diagrams and code-shape sketches. Focused HTML artifacts require an environment that can write and preview local HTML. From [humanlayer/skills](https://github.com/humanlayer/skills).
 - **visual-explainer**: No build dependencies (generates self-contained HTML). Optional: `surf` CLI for AI-generated images. Clone separately from [nicobailon/visual-explainer](https://github.com/nicobailon/visual-explainer).
 - **ask-matt**: No dependencies (routing/reference skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **caveman**: No dependencies (communication mode skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
