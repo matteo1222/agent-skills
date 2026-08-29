@@ -1,0 +1,213 @@
+{
+  "schema": "ui-skill-lab-result/v1",
+  "date": "2026-08-29",
+  "humanVoteFrozenAt": "2026-08-29T06:41:39.957Z",
+  "holdoutsRun": false,
+  "identityMap": {
+    "variant-quartz": "baseline-general-ui",
+    "variant-linden": "explore-systematize-build",
+    "variant-ember": "impeccable",
+    "variant-cobalt": "hallmark",
+    "variant-sable": "baseline-threejs",
+    "variant-ivory": "threeui-reference-workflow"
+  },
+  "human": {
+    "scoring": {
+      "win": 1,
+      "tie": 0.5,
+      "loss": 0
+    },
+    "pairs": [
+      {
+        "pairId": "p01",
+        "caseId": "A1",
+        "left": "explore-systematize-build",
+        "right": "baseline-general-ui",
+        "result": "right"
+      },
+      {
+        "pairId": "p02",
+        "caseId": "A1",
+        "left": "baseline-general-ui",
+        "right": "impeccable",
+        "result": "tie"
+      },
+      {
+        "pairId": "p03",
+        "caseId": "A1",
+        "left": "hallmark",
+        "right": "baseline-general-ui",
+        "result": "right"
+      },
+      {
+        "pairId": "p04",
+        "caseId": "A2",
+        "left": "baseline-general-ui",
+        "right": "explore-systematize-build",
+        "result": "left"
+      },
+      {
+        "pairId": "p05",
+        "caseId": "A2",
+        "left": "impeccable",
+        "right": "baseline-general-ui",
+        "result": "tie"
+      },
+      {
+        "pairId": "p06",
+        "caseId": "A2",
+        "left": "baseline-general-ui",
+        "right": "hallmark",
+        "result": "tie"
+      },
+      {
+        "pairId": "p07",
+        "caseId": "A3",
+        "left": "explore-systematize-build",
+        "right": "baseline-general-ui",
+        "result": "left"
+      },
+      {
+        "pairId": "p08",
+        "caseId": "A3",
+        "left": "impeccable",
+        "right": "baseline-general-ui",
+        "result": "left"
+      },
+      {
+        "pairId": "p09",
+        "caseId": "A3",
+        "left": "baseline-general-ui",
+        "right": "hallmark",
+        "result": "right"
+      },
+      {
+        "pairId": "p10",
+        "caseId": "B1",
+        "left": "baseline-threejs",
+        "right": "threeui-reference-workflow",
+        "result": "left"
+      },
+      {
+        "pairId": "p11",
+        "caseId": "B2",
+        "left": "threeui-reference-workflow",
+        "right": "baseline-threejs",
+        "result": "left"
+      },
+      {
+        "pairId": "p12",
+        "caseId": "B3",
+        "left": "baseline-threejs",
+        "right": "threeui-reference-workflow",
+        "result": "right"
+      }
+    ],
+    "generalUi": {
+      "explore-systematize-build": {
+        "wins": 1,
+        "ties": 0,
+        "losses": 2,
+        "points": 1
+      },
+      "impeccable": {
+        "wins": 1,
+        "ties": 2,
+        "losses": 0,
+        "points": 2
+      },
+      "hallmark": {
+        "wins": 1,
+        "ties": 1,
+        "losses": 1,
+        "points": 1.5
+      }
+    },
+    "threejs": {
+      "threeui-reference-workflow": {
+        "wins": 2,
+        "ties": 0,
+        "losses": 1,
+        "points": 2
+      }
+    }
+  },
+  "judge": {
+    "generalUi": {
+      "confidence": 0.94,
+      "scores": {
+        "impeccable": [44, 45, 46],
+        "explore-systematize-build": [38, 44, 49],
+        "baseline-general-ui": [37, 46, 47],
+        "hallmark": [43, 41, 42]
+      },
+      "totals": {
+        "impeccable": 135,
+        "explore-systematize-build": 131,
+        "baseline-general-ui": 130,
+        "hallmark": 126
+      }
+    },
+    "threejs": {
+      "confidence": 0.99,
+      "scores": {
+        "threeui-reference-workflow": [45, 43, 49],
+        "baseline-threejs": [41, 32, 24]
+      },
+      "totals": {
+        "threeui-reference-workflow": 137,
+        "baseline-threejs": 97
+      }
+    }
+  },
+  "cost": {
+    "baseline-general-ui": {
+      "averageInputTokens": 1815016,
+      "inputRatio": 1,
+      "averageOutputTokens": 39779,
+      "outputRatio": 1
+    },
+    "explore-systematize-build": {
+      "averageInputTokens": 1302355,
+      "inputRatio": 0.72,
+      "averageOutputTokens": 41448,
+      "outputRatio": 1.04
+    },
+    "impeccable": {
+      "averageInputTokens": 5649855,
+      "inputRatio": 3.11,
+      "averageOutputTokens": 53986,
+      "outputRatio": 1.36
+    },
+    "hallmark": {
+      "averageInputTokens": 11337397,
+      "inputRatio": 6.25,
+      "averageOutputTokens": 76905,
+      "outputRatio": 1.93
+    },
+    "baseline-threejs": {
+      "averageInputTokens": 1548444,
+      "inputRatio": 1,
+      "averageOutputTokens": 42916,
+      "outputRatio": 1
+    },
+    "threeui-reference-workflow": {
+      "averageInputTokens": 2225501,
+      "inputRatio": 1.44,
+      "averageOutputTokens": 44132,
+      "outputRatio": 1.03
+    }
+  },
+  "recommendation": {
+    "advance": [
+      "impeccable",
+      "threeui-reference-workflow"
+    ],
+    "reviseBeforeAnotherRun": [
+      "explore-systematize-build"
+    ],
+    "doNotAdvanceAsDefault": [
+      "hallmark"
+    ]
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "ui-skill-lab-human-vote/v1",
+  "frozenAt": "2026-08-29T06:41:39.957Z",
+  "votes": [
+    {
+      "pairId": "p01",
+      "choice": "right",
+      "note": "both are close but B interface is a bit more cleaner i think, and A has some space or gap issue"
+    },
+    {
+      "pairId": "p02",
+      "choice": "tie",
+      "note": ""
+    },
+    {
+      "pairId": "p03",
+      "choice": "right",
+      "note": ""
+    },
+    {
+      "pairId": "p04",
+      "choice": "left",
+      "note": ""
+    },
+    {
+      "pairId": "p05",
+      "choice": "tie",
+      "note": ""
+    },
+    {
+      "pairId": "p06",
+      "choice": "tie",
+      "note": ""
+    },
+    {
+      "pairId": "p07",
+      "choice": "left",
+      "note": ""
+    },
+    {
+      "pairId": "p08",
+      "choice": "left",
+      "note": ""
+    },
+    {
+      "pairId": "p09",
+      "choice": "right",
+      "note": ""
+    },
+    {
+      "pairId": "p10",
+      "choice": "left",
+      "note": ""
+    },
+    {
+      "pairId": "p11",
+      "choice": "left",
+      "note": ""
+    },
+    {
+      "pairId": "p12",
+      "choice": "right",
+      "note": ""
+    }
+  ]
+}
