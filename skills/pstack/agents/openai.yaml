@@ -1,0 +1,7 @@
+interface:
+  display_name: "pstack"
+  short_description: "Rigorous engineering workflows for Codex"
+  default_prompt: "Use $pstack to handle this task with the matching rigorous playbook."
+
+policy:
+  allow_implicit_invocation: true
