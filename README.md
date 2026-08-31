@@ -32,6 +32,8 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [nutlope/hallmark](https://github.com/nutlope/hallmark) — anti-AI-slop UI design, audit, redesign, and design-study guidance (MIT, by Hallmark contributors)
 >
+> **Includes:** [emilkowalski/skills](https://github.com/emilkowalski/skills) — design engineering, web and Expo animation, motion review, Apple-interface, Sonner, and UI-library guidance (MIT, by Emil Kowalski)
+>
 > **Includes:** [estevg/skills](https://github.com/estevg/skills) — React Native Reanimated animation patterns for Expo and bare React Native projects (MIT, by Esteban VG)
 >
 > **Includes:** [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — skill-only port of Ponytail lazy senior developer mode, review, and help skills without plugin lifecycle hooks (MIT, by Dietrich Gebert)
