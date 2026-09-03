@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Design Director"
+  short_description: "Direct distinctive AI-built interface design"
+  default_prompt: "Use $ai-design-director to explore, define, and polish a distinctive interface for this product."
