@@ -36,7 +36,15 @@ Optional Explain Diff skill setup:
 
 ```bash
 ln -s ~/.codex/skills/agent-skills/skills/explain-diff-html ~/.codex/skills/explain-diff-html
+ln -s ~/.codex/skills/agent-skills/skills/explain-diff-html-recursive ~/.codex/skills/explain-diff-html-recursive
 ln -s ~/.codex/skills/agent-skills/skills/explain-diff-notion ~/.codex/skills/explain-diff-notion
+```
+
+Optional Show Me setup:
+
+```bash
+ln -s ~/.codex/skills/agent-skills/skills/show-me ~/.codex/skills/show-me
+ln -s ~/.codex/skills/agent-skills/skills/show-me-recursive ~/.codex/skills/show-me-recursive
 ```
 
 Optional Writing for Agents setup:
@@ -127,7 +135,10 @@ ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/learning-opportunities ~/.claude/skills/learning-opportunities
 ln -s ~/agent-skills/skills/learning-goal ~/.claude/skills/learning-goal
 ln -s ~/agent-skills/skills/explain-diff-html ~/.claude/skills/explain-diff-html
+ln -s ~/agent-skills/skills/explain-diff-html-recursive ~/.claude/skills/explain-diff-html-recursive
 ln -s ~/agent-skills/skills/explain-diff-notion ~/.claude/skills/explain-diff-notion
+ln -s ~/agent-skills/skills/show-me ~/.claude/skills/show-me
+ln -s ~/agent-skills/skills/show-me-recursive ~/.claude/skills/show-me-recursive
 ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/ponytail ~/.claude/skills/ponytail
 ln -s ~/agent-skills/skills/ponytail-review ~/.claude/skills/ponytail-review
@@ -231,7 +242,10 @@ ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
 ln -s ~/agent-skills/skills/learning-opportunities .claude/skills/learning-opportunities
 ln -s ~/agent-skills/skills/learning-goal .claude/skills/learning-goal
 ln -s ~/agent-skills/skills/explain-diff-html .claude/skills/explain-diff-html
+ln -s ~/agent-skills/skills/explain-diff-html-recursive .claude/skills/explain-diff-html-recursive
 ln -s ~/agent-skills/skills/explain-diff-notion .claude/skills/explain-diff-notion
+ln -s ~/agent-skills/skills/show-me .claude/skills/show-me
+ln -s ~/agent-skills/skills/show-me-recursive .claude/skills/show-me-recursive
 ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
 ln -s ~/agent-skills/skills/ponytail .claude/skills/ponytail
 ln -s ~/agent-skills/skills/ponytail-review .claude/skills/ponytail-review
@@ -374,7 +388,10 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [evaluate-rag](evaluate-rag/SKILL.md) | Evaluate retrieval and generation quality separately in RAG pipelines (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [build-review-interface](build-review-interface/SKILL.md) | Build a browser-based annotation interface for reviewing LLM traces and collecting labels (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [explain-diff-html](explain-diff-html/SKILL.md) | Create a rich, interactive HTML explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
+| [explain-diff-html-recursive](explain-diff-html-recursive/SKILL.md) | Explain important or difficult code recursively in expandable HTML; uses [explain-diff-html](explain-diff-html/SKILL.md) for shared presentation rules |
 | [explain-diff-notion](explain-diff-notion/SKILL.md) | Create a rich Notion-page explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
+| [show-me](show-me/SKILL.md) | Explain the current topic visually with concise diagrams, code sketches, and focused HTML artifacts (from [humanlayer/skills](https://github.com/humanlayer/skills/tree/main/plugins/show-me/skills/show-me)) |
+| [show-me-recursive](show-me-recursive/SKILL.md) | Explain important or difficult parts of a topic with recursive visual drill-downs; uses [show-me](show-me/SKILL.md) for visual selection |
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
 | [grilling-frontend-prototyping](grilling-frontend-prototyping/SKILL.md) | Converge on frontend look and feel through prototype-backed grilling rounds (from [will-ness-ai/skills](https://github.com/will-ness-ai/skills)) |
 | [emil-design-eng](emil-design-eng/SKILL.md) | Emil Kowalski's design-engineering philosophy for polished UI, components, and animation (from [emilkowalski/skill](https://github.com/emilkowalski/skill)) |
