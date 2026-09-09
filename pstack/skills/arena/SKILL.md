@@ -10,7 +10,7 @@ Fan out N parallel attempts at the same task. Read every candidate end to end. P
 
 ## Start
 
-Create a Codex task plan with one entry per phase before launching anything. The arena runs autonomously and the plan keeps phases from silently disappearing.
+Open a Codex task plan with one entry per phase before launching anything.
 
 1. Frame
 2. Fan out
@@ -21,18 +21,18 @@ Create a Codex task plan with one entry per phase before launching anything. The
 
 ## Phase A: Frame
 
-The N candidates will receive the same prompt, so the prompt is the contract. Get it right before spawning anything.
+The N candidates will receive the same prompt, so the prompt is the contract.
 
 1. State the artifact each candidate is producing.
-2. Derive the rubric. State what success looks like for *this* task, then turn it into 3-6 concrete gradeable criteria. Concrete: `Adds a --dry-run flag that skips writes`. Vague: `code is correct`. The rubric is the picker's tool in Phase D; candidates only see the task.
+2. Derive the rubric. State what success looks like for *this* task, then turn it into 3-6 concrete gradeable criteria. The rubric is the picker's tool in Phase D. Candidates only see the task.
 3. Pick the runners. Use `arena runners` from `~/.codex/pstack-models.md` when present. Otherwise default to one each on `gpt-5.6-sol @ max`, `gpt-5.6-terra @ max`, `gpt-5.6-luna @ max`. Spawn more when the arena covers multiple design directions. Same model N times when the work is generation-bound rather than judgment-sensitive.
-4. Assign output paths. Each candidate writes to its own location: a git worktree where possible, otherwise create one unique scratch root with `mktemp -d` and a separate `candidate-<n>/` below it. N candidates writing to the same path is shared mutable state and fails the the **separate-before-serializing-shared-state** principle skill test.
+4. Assign output paths. Each candidate writes to its own location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
 
 ## Phase B: Fan out
 
 Spawn candidates promptly up to available slots with `spawn_agent`; use a rolling window and `wait_agent` for the rest. Give each a standalone brief with `fork_turns: "none"`, separate model and reasoning-effort fields, the path to shared grounding, its own output path, and instructions to produce both the artifact and a short rationale.
 
-The rationale is mandatory. Without it, the parent cannot tell whether a candidate's structure is principled or accidental, which makes Phase E grafting unreliable. Each rationale names the alternatives the candidate considered and what it rejected.
+Each rationale names the alternatives the candidate considered and what it rejected.
 
 If a candidate fails to produce output, proceed with N-1 and note the dropout in the synthesis record.
 
@@ -42,11 +42,11 @@ After all Phase B candidates complete, choose one pair from the `arena cross-jud
 
 ## Phase D: Pick a base
 
-Read every candidate end to end before picking. Skimming N candidates surfaces only the candidate whose surface looks most familiar.
+Read every candidate end to end before picking.
 
 Score each candidate against the rubric criterion by criterion, not on holistic feel. Compare against the cross-judge. Agreement on the base confirms the pick. Disagreement means one of you is biased or the rubric was ambiguous. Read both rationales before deciding.
 
-Pick the base on which candidate a future maintainer can extend most easily without breaking invariants. Prefer the cleaner boundary or smaller surface area when two feel tied, per the Laziness Protocol.
+Pick the base on which candidate a future maintainer can extend most easily without breaking invariants. Prefer the cleaner boundary or smaller API when two feel tied, per the Laziness Protocol.
 
 Record the pick and the reason in a short synthesis note alongside the base artifact, including the cross-judge's verdict.
 
@@ -56,13 +56,13 @@ Walk each losing candidate once more and identify what is worth porting into the
 
 Fold each graft in by hand, per the **redesign-from-first-principles** principle skill. Don't paste mechanically. The result has to remain coherent under one mental model.
 
-Record what was grafted, from which candidate, and what was rejected and why. The rejection notes are the highest-signal part of the record. Future readers learn from what you considered and dropped, not just what you kept.
+Record what was grafted, from which candidate, and what was rejected and why.
 
 When N candidates converge on the same shape, that is a strong agreement signal. Note the convergence in the record and ship the consensus shape. No graft is needed. When N candidates wildly diverge, Phase A was under-specified. Reframe and re-run rather than averaging the divergence.
 
 ## Phase F: Verify
 
-The synthesized artifact has to hold up under the same scrutiny as any other output, per the **prove-it-works** principle skill. The arena does not earn you a pass.
+The synthesized artifact has to hold up under the same scrutiny as any other output, per the **prove-it-works** principle skill.
 
 If verification surfaces a problem the arena did not catch, either Phase A was wrong (re-frame and re-run) or one candidate caught it and you missed the graft (go back to Phase E). Don't paper over.
 

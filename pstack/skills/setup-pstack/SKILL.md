@@ -21,7 +21,7 @@ The default role-to-model mapping is the file shape shown in step 5 below. If `~
 
 Show every role with its current model and effort, marking any unavailable pair as needing a choice. Ask whether to accept as-is or change specific roles, offering detected pairs plus `inherit-parent` and `auto`. Prefer the current Codex user-input mechanism over unstructured back-and-forth.
 
-For panel roles (how critics, arena runners, architect runners, interrogate reviewers), the value is a list and one subagent runs per entry, subject to available slots. `arena cross-judge pool` is also a list, but Arena selects a model variant different from the primary worker when possible. `gpt-5.6` and `gpt-5.6-sol` are the same variant. `swarm workers` is the default pair for every worker unless a race names a pair for each arm. Explicit pairs require standalone briefs with a non-full context fork; aliases omit both overrides and let Codex resolve its configured subagent defaults.
+For panel roles (arena runners, architect runners, interrogate reviewers), the value is a list and one subagent runs per entry, subject to available slots. `arena cross-judge pool` is also a list, but Arena selects a model variant different from the primary worker when possible. `gpt-5.6` and `gpt-5.6-sol` are the same variant. `swarm workers` is the default pair for every worker unless a race names a pair for each arm. Explicit pairs require standalone briefs with a non-full context fork; aliases omit both overrides and let Codex resolve its configured subagent defaults.
 
 ### 4. Validate
 
@@ -43,7 +43,6 @@ prose: gpt-5.6-terra @ max
 hardest tasks: gpt-5.6-sol @ xhigh
 how explorer: gpt-5.6-luna @ max
 how explainer: gpt-5.6-terra @ max
-how critics: gpt-5.6-sol @ max, gpt-5.6-terra @ max, gpt-5.6-luna @ max
 why investigators: gpt-5.6-luna @ max
 why synthesizer: gpt-5.6-terra @ max
 reflect tooling: gpt-5.6-sol @ max

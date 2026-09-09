@@ -43,7 +43,7 @@ Pick something real but small, and describe it the way you'd describe it to a co
 $pstack add a --json flag to this command. text output stays byte-identical. verify both.
 ```
 
-Watch the Codex plan. The first item is always "read the Principles section". The rest are the matched playbook's steps copied in, the Feature playbook for this prompt. If `$pstack` skips a step, the step stays in the plan with `skip: <reason>`, so you can see what it chose not to do.
+Watch the Codex task plan. Its first items are the matched playbook's steps copied in, the Feature playbook for this prompt. If `$pstack` skips a step, the step stays in the list with `skip: <reason>`, so you can see what it chose not to do.
 
 Codex selects skills per turn, so `$pstack` is not sticky. Invoke it again on every follow-up where you want the mode to apply, for example `$pstack continue`.
 
