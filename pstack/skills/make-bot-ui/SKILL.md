@@ -5,6 +5,7 @@ description: >-
   Grok Bot through an actually installed webhook or automation connector, when
   the user must configure a webhook sender key out of band, or when exposing
   that UI on Tailscale.
+disable-model-invocation: true
 ---
 # How to make a bot UI
 

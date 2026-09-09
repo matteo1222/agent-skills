@@ -17,12 +17,12 @@ This skill orchestrates three others: an inline mining pass (see step 1), Codex'
 Look recursively for `.agents/skills/**/*-mode/SKILL.md` and `$HOME/.agents/skills/**/*-mode/SKILL.md` matching the user's handle. Mode skills can live in a personal category directory (`.agents/skills/<handle>/`), not only at the top level. If one exists, confirm intent with the available structured user-input mechanism, or ask one concise question if none is exposed (unless they already said "update my skill" or similar):
 
 - Update the existing skill (default for repeat runs)
-- Start fresh (rare; ask why before doing it)
+- Start fresh (rare, ask why before doing it)
 
 Update mode changes the rest of the flow:
 - Step 1 mines only history since the skill was last edited (`git log -1 --format=%cI <path>`).
 - Step 2 asks what's changed or missing, not what to capture from zero.
-- Step 4 edits the existing file in place. Preserve sections the user hasn't contradicted; revise ones with new evidence; add new sections only for genuinely new rules.
+- Step 4 edits the existing file in place. Preserve sections the user hasn't contradicted. Revise ones with new evidence. Add new sections only for genuinely new rules.
 
 ### 1. Mine their history
 
@@ -32,12 +32,12 @@ Survey recent agent conversations within that scope for recurring patterns. Run 
 
 - Response preferences (length, tone, format, "dumb it down" corrections)
 - Delegation habits (subagents, models, specialized workflows, parallelism)
-- Verification posture (what "done" means; unit tests vs live repro; reviewers)
+- Verification posture (what "done" means, unit tests vs live repro, reviewers)
 - Code and prose discipline (style, principles cited, lint/format tools)
 - Process conventions (worktrees, commits, PRs, review/merge tooling)
 - Meta preferences (fixing skills mid-task, proposing new ones)
 
-Cross-check across slices before elevating a signal. Patterns seen in 2+ slices are high-confidence; lone signals are weak and usually get dropped.
+Cross-check across slices before elevating a signal. Patterns seen in 2+ slices are high-confidence. Lone signals are weak and usually get dropped.
 
 ### 2. Ask the user directly
 
@@ -45,14 +45,14 @@ Mining misses intent that hasn't come up yet. Prefer the available structured us
 
 Shape: one to three short questions per structured round, each with two or three mutually exclusive options when that is what the current input tool supports. Start broad ("Which area matters most?"), then ask another round for additional categories or accept a short free-form list in chat. After the structured rounds, one free-form chat question catches anything the options missed.
 
-Don't dump 20 questions. Two structured rounds plus one open question is usually enough.
+Don't dump 20 questions.
 
 ### 3. Cluster findings
 
 Group the combined signals into sections. Common ones (use only what applies):
 
 - **Response style**: length, tone, format.
-- **Autonomy**: how much to do without asking; MCP tool use.
+- **Autonomy**: how much to do without asking, MCP tool use.
 - **Understand first**: which skills to reach for when scoping or investigating a change.
 - **Subagents**: default, parallelism, model-to-task, specialized workflows.
 - **Prose / code discipline**: principles, lint tools, style guides.
@@ -60,7 +60,7 @@ Group the combined signals into sections. Common ones (use only what applies):
 - **Process**: git worktrees, commits, PRs, review/merge tooling.
 - **Skills**: skill-authoring habits, fix-the-skill-first, proposing new skills.
 
-The **poteto-mode** skill shows the shape. Read it for granularity. Don't copy its content; the user's rules are not the same as poteto-mode's.
+The **poteto-mode** skill shows the shape. Read it for granularity. Don't copy its content. The user's rules are not the same as poteto-mode's.
 
 ### 4. Draft the skill
 
@@ -76,7 +76,7 @@ Use Codex's `$skill-creator` skill to author the skill. Placement:
 
 Apply the **unslop** skill and `$skill-creator`'s writing guidelines to every line. Both apply to any agent-read prose, not just skills.
 
-Show the draft to the user and take feedback. Expect multiple iterations. Cut ruthlessly; a mode skill is not a manual.
+Show the draft to the user and take feedback. Expect multiple iterations. Cut ruthlessly. A mode skill is not a manual.
 
 ### 6. Land it
 
@@ -88,8 +88,8 @@ For a project-local skill, isolate the edit in a worktree off main when that hel
 - **Don't be clever.** Restating other skills' contents, inventing metaphors, or writing "poetic" prose for an agent reader is cost without benefit. Keep it operational.
 - **Reference, don't inline.** Other skills the user relies on should appear as path references, not pasted excerpts. Same for any principle docs they maintain elsewhere.
 - **Keep sections minimal.** Only add a section if the user has a specific, non-default rule there. "Communicate clearly" is not a section. "Short paragraphs. Tables when comparing options. Bullets only when items are genuinely parallel." is.
-- **Name conventions generic.** Use "the user" or "the human" in imperatives, not the author's first name. Others may read or adopt the skill.
-- **Don't force symmetry.** If a user has no process rules worth writing down, skip the Process section entirely. Sparse is fine; bloated is not.
+- **Name conventions generic.** Use "the user" or "the human" in imperatives, not the author's first name.
+- **Don't force symmetry.** If a user has no process rules worth writing down, skip the Process section entirely.
 
 ## Evaluation
 
@@ -101,9 +101,3 @@ Run a description-optimization loop only if the skill's trigger accuracy turns o
 
 - User wants a task-specific skill (not working conventions): `$skill-creator` alone, no mining required.
 - User wants to capture one narrow workflow (e.g. "how I write commit messages"): that's a regular skill, not a mode skill.
-
-## Reference files
-
-- The **poteto-mode** skill: example of the output shape.
-- The **unslop** skill: prose discipline for every line.
-- Codex's `$skill-creator` skill: skill authoring process and writing guidelines.

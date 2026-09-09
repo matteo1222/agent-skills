@@ -1,37 +1,76 @@
 # Codex port notes
 
-This directory is a fidelity-first Codex port of Cursor's `pstack` plugin.
+This directory is a Codex port of Cursor's `pstack` plugin.
 
 ## Upstream
 
 - Repository: https://github.com/cursor/plugins/tree/main/pstack
-- Commit: `799151d91b6e12ee7dbd09f708eec108d7de9b3b`
-- Upstream version: `0.14.4`
-- Retrieved: 2026-08-27
+- Commit: `71ed0d1076fec562c1b74ee353121a8d00f75382`
+- Upstream version: `0.15.0`
+- Retrieved: 2026-09-09
 - License: MIT. See [LICENSE](LICENSE).
 
-All 157 upstream files were copied into this directory. Of those, 83 remain byte-identical and 74 contain narrow Codex compatibility edits. No upstream path was removed or renamed. `LICENSE`, every guide image, and the ignored `.cursor-plugin/plugin.json` manifest remain byte-identical; the manifest is retained as inert provenance.
+All 158 upstream files are present at their current upstream paths. Of these,
+84 are byte-identical and 74 contain Codex compatibility edits. `LICENSE`, the
+plugin manifest, the logo, and all six guide images are byte-identical to the
+pinned source. `CODEX_PORT.md` is an additional port-owned file.
 
-## Added for Codex
+## Update from 0.14.4
 
-- `$HOME/.agents/skills/pstack/SKILL.md` is the user-global Codex entrypoint and internal subskill router.
-- `$HOME/.agents/skills/pstack/agents/openai.yaml` supplies Codex UI metadata and invocation policy.
-- `$HOME/.agents/skills/pstack/references/codex-adapter.md` translates Cursor host mechanics to Codex.
-- `$HOME/.agents/skills/pstack/references/model-routing.md` defines current Codex model and reasoning-effort routing.
-- This ledger records the port boundary.
-- `skills/poteto-mode/scripts/node_modules/` and its bootstrap integrity key are generated install artifacts, not upstream source replacements. They were produced from the retained lockfile so the globally installed helpers do not need a first-use network write.
+The prior source was `799151d91b6e12ee7dbd09f708eec108d7de9b3b`, retrieved on
+2026-08-27. This update incorporates the eight subsequent pstack commits through
+0.15.0 while preserving the Codex adapter and existing model preferences.
 
-## Compatibility boundary
+- Added the Attack the Premise and Test Behavior, Not Implementation principles.
+  The main payload now contains 47 skills, including 23 principles, with 23
+  Poteto Mode playbooks. The dormant Benny pack contains three further skills.
+- Updated the workflow and prose guidance, including the simpler `how` flow and
+  explicit invocation of `reflect`. Removed the two retired `how` critique
+  references and the obsolete `how critics` role from setup defaults.
+- Moved `skills/grokbot/make-bot-ui/SKILL.md` to
+  `skills/make-bot-ui/SKILL.md` and updated the shim and guide links. The Codex
+  connector capability gate remains in place.
+- Updated the PR, Babysit, Shipping, and Autopilot playbooks to use GitHub by
+  default or Origin when available. Preserved the GitHub-only watcher. The
+  separate Orchestrate frontier helper still uses Graphite, as upstream does.
+- Added the upstream logo and restored the six upstream guide images that were
+  missing from the previous repository payload.
+- Preserved the current Codex model defaults and the user's
+  `~/.codex/pstack-models.md`. A legacy `how critics` override is inert because
+  the upstream critique phase no longer exists.
 
-The payload is installed at `$HOME/.agents/pstack/`, outside Codex's recursive skill-discovery root. This keeps its bundled `SKILL.md` files internal and prevents collisions with separately installed skills such as `tdd` and `teach`.
+## Codex installation
 
-The port changes only host-specific behavior: invocation syntax, skill paths, model IDs and reasoning fields, subagent orchestration, shared-worktree assumptions, transcript access, persistent loops, automation registration, and Cursor-only tool/plugin dependencies. Pstack's engineering principles, playbook ordering, rubrics, templates, prose standards, and portable scripts remain unchanged.
+The single discoverable entrypoint is `$HOME/.agents/skills/pstack/`. Its
+`SKILL.md` routes to the payload at `$HOME/.agents/pstack/`, outside recursive
+skill discovery. Both paths can be symlinks to the `skills/pstack/` and
+`pstack/` directories in agent-skills. Updating that checkout then updates the
+global Codex installation without a second copy.
 
-The `make-bot-ui` workflow and Benny automation pack require capabilities that may not be installed in Codex. Their source is preserved. The adapter requires those workflows to fail closed when their webhook, Slack, routine, or automation dependencies are unavailable.
+The shim owns:
+
+- `SKILL.md`, the entrypoint and internal workflow router.
+- `agents/openai.yaml`, the Codex UI metadata and invocation policy.
+- `references/codex-adapter.md`, the Cursor-to-Codex host translations.
+- `references/model-routing.md`, separate model and reasoning-effort routing.
+
+The port translates invocation syntax, skill paths, model IDs, subagent
+orchestration, shared-worktree assumptions, task history, persistent loops,
+automation registration, and Cursor-only dependencies. Host-specific paragraphs
+retain the Codex implementation of those boundaries. Upstream nested Cursor
+frontmatter remains inert metadata in the payload.
+
+The make-bot-ui workflow and Benny pack require explicitly connected webhook,
+Slack, automation, and other capabilities. Their instructions must use the live
+Codex tool schemas and stop when a required capability is unavailable.
+
+The retained portable helper source and lockfile did not change in this update.
+Existing `skills/poteto-mode/scripts/node_modules/` and its bootstrap key remain
+generated installation artifacts and are not replaced during the update.
 
 ## Modified upstream files
 
-The following 74 upstream files differ from the pinned commit. Every other upstream file is byte-identical.
+Every upstream path not listed here is byte-identical to the pinned source.
 
 ```text
 README.md
@@ -67,10 +106,10 @@ skills/blast-radius/SKILL.md
 skills/create-verification-skill/SKILL.md
 skills/create-verification-skill/references/feature-map-example/README.md
 skills/figure-it-out/SKILL.md
-skills/grokbot/make-bot-ui/SKILL.md
 skills/how/SKILL.md
 skills/interrogate/SKILL.md
 skills/maintain-verification-skill/SKILL.md
+skills/make-bot-ui/SKILL.md
 skills/no-comments/SKILL.md
 skills/poteto-mode/SKILL.md
 skills/poteto-mode/playbooks/authoring-a-skill.md
@@ -110,15 +149,23 @@ skills/why/SKILL.md
 skills/why/references/sources/slack.md
 ```
 
-The edits fall into four host-boundary groups: `$pstack` routing and documentation; Codex plan, subagent, model, history, worktree, and Goal mechanics; fail-closed automation and webhook integration; and the four helper files whose Cursor paths or combined model syntax were executable behavior. Inert nested Cursor frontmatter stays in the payload because that directory is outside Codex skill discovery.
-
 ## Verification
 
-The completed port is checked by:
+Verified on 2026-09-09 before installation:
 
-1. Comparing every path against the pinned upstream commit.
-2. Reviewing every changed hunk for a Cursor or Codex compatibility reason.
-3. Running the Codex skill validator on the root skill.
-4. Running the bundled script tests and type check.
+- Compared the complete file inventory with the pinned upstream archive and
+  checked the upstream removals, relocated router target, manifest, license,
+  images, new principle files, and absence of merge markers.
+- Parsed all 51 `SKILL.md` frontmatters, including the shim and dormant pack,
+  and passed Codex's `quick_validate.py` on the discoverable shim.
+- Checked local Markdown links with no new missing targets. The existing
+  `[Title](url)` citation placeholder in the Why template remains a template.
+- Ran `bun test --timeout 15000 orch watch-pr`: 52 tests passed, 206 assertions.
+- Ran `bun run typecheck`: strict TypeScript checking passed.
+- Passed Node and Bash syntax checks and both helper CLI help paths.
+- Extracted the updated multi-phase plan template and ran `check-plan.mjs`:
+  one PR section, 27 boxes, zero problems.
 
-The final staged payload passed all 52 Bun tests, strict TypeScript checking, Node and Bash syntax checks, both helper CLI startup paths, the extracted multi-phase-plan validator fixture, the worktree task-activity mapping, and decision-log sanitization. The combined Bun run needed a 15-second per-test timeout on this host after repeated parallel validation caused transient 5-second child-process timeouts; the orch and watch-pr suites also pass separately at their default timeout.
+The staged source was installed only after checking that the destination still
+matched the captured pre-update files. Global entrypoint and payload symlinks
+were verified against the updated repository after installation.

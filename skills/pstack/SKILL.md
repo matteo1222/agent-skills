@@ -16,7 +16,7 @@ This is the Codex adapter for Lauren Tan's pstack Cursor plugin. Preserve pstack
    - An explicit selector is only the first argument immediately after `$pstack`. Match that token to a bundled skill name; do not scan later prose for a selector.
    - With no recognized explicit selector, use [Poteto Mode](../../pstack/skills/poteto-mode/SKILL.md).
    - For `setup` or model configuration, use [Setup pstack](../../pstack/skills/setup-pstack/SKILL.md).
-   - For a named workflow, read that workflow's `../../pstack/skills/<name>/SKILL.md` in full. `make-bot-ui` is at `../../pstack/skills/grokbot/make-bot-ui/SKILL.md`.
+   - For a named workflow, read that workflow's `../../pstack/skills/<name>/SKILL.md` in full.
 3. When Poteto Mode applies, read its `SKILL.md`, the matched playbook, and every principle leaf it actually applies. Do not load unrelated playbooks or references.
 4. Follow the chosen bundled instructions with the Codex translations from the adapter. System, developer, user, permission, and repository instructions always take precedence.
 

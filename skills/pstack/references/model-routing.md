@@ -40,7 +40,7 @@ gpt-5.6-terra @ max
 gpt-5.6-luna @ max
 ```
 
-This panel applies to how critics, arena runners, the arena judge pool, architect runners, and interrogate reviewers. Prefer a judge variant different from the primary worker. Variant diversity can provide useful corroboration, but it is not statistical independence and agreement is not proof. If only one variant is available, vary reasoning effort when useful and disclose the reduced diversity.
+This panel applies to arena runners, the arena judge pool, architect runners, and interrogate reviewers. Prefer a judge variant different from the primary worker. Variant diversity can provide useful corroboration, but it is not statistical independence and agreement is not proof. If only one variant is available, vary reasoning effort when useful and disclose the reduced diversity.
 
 ## User override
 

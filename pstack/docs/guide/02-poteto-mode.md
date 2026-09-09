@@ -1,6 +1,6 @@
 # Route work through `$pstack`
 
-`$pstack` is the front door. You give it a goal, it matches one of twenty-two playbooks, copies that playbook's steps into the Codex plan, and loads the other payload instructions as the steps need them. In this page you learn what a good prompt looks like, and how little of one you actually need.
+`$pstack` is the front door. You give it a goal, it matches one of twenty-three playbooks, copies that playbook's steps into the Codex task plan, and calls the other skills as the steps need them. In this page you learn what a good prompt looks like, and how little of one you actually need.
 
 ![A dispatcher pulls a switch lever to route robots on rail handcars toward lit gates, under a $pstack departure board listing BUG FIX, FEATURE, and INVESTIGATION.](./images/router.jpg)
 

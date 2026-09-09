@@ -1,6 +1,6 @@
 ### Autonomous run
 
-**You own the exit condition. Define done, then drive to it without stopping.** For "going to bed" / "run until done" / "/goal until X".
+**You own the exit condition. Define done, then drive to it without stopping.**
 
 1. State the exit condition as a checkable predicate before the first iteration (tests green, repro fixed, all N PRs merged, pixel-diff zero). A vague goal stalls; a predicate lets you stop.
 2. Pick the wake mechanism. When the user explicitly requested Codex Goal mode, use `/goal` (a built-in, not a pstack skill). Otherwise stay in the current task and use its yielded terminal, `wait_agent`, or available monitor without creating a goal implicitly. An event to watch (CI, a merge, a ref advancing) gets a watcher subagent; drain it with `wait_agent`, with a long time-based heartbeat through the current monitoring mechanism as fallback. No event gets a fixed-interval heartbeat sized to when the result is worth re-checking.
