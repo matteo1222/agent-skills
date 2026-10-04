@@ -25,7 +25,7 @@ The N candidates will receive the same prompt, so the prompt is the contract.
 
 1. State the artifact each candidate is producing.
 2. Derive the rubric. State what success looks like for *this* task, then turn it into 3-6 concrete gradeable criteria. The rubric is the picker's tool in Phase D. Candidates only see the task.
-3. Pick the runners. Use `arena runners` from `~/.codex/pstack-models.md` when present. Otherwise default to one each on `gpt-5.6-sol @ max`, `gpt-5.6-terra @ max`, `gpt-5.6-luna @ max`. Spawn more when the arena covers multiple design directions. Same model N times when the work is generation-bound rather than judgment-sensitive.
+3. Pick the runners. Use `arena runners` from `~/.codex/pstack-models.md` when present. Otherwise default to one each on `gpt-5.6-sol @ max`, `gpt-5.6-terra @ max`, and `gpt-5.6-luna @ max`. A configured entry of `auto` or `inherit-parent` omits both spawn overrides. Each explicit `model @ effort` pair maps to separate `model` and `reasoning_effort` fields. If Codex rejects a configured pair, use the closest model-effort pair it currently advertises for this role and report the fallback. Do not infer support from a model family name. If no compatible advertised pair is available, leave that seat unfilled and report it. Never invent a model. Spawn more when the arena covers multiple design directions, subject to available slots and a rolling queue. Same model N times when the work is generation-bound rather than judgment-sensitive.
 4. Assign output paths. Each candidate writes to its own location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
 
 ## Phase B: Fan out
@@ -38,7 +38,7 @@ If a candidate fails to produce output, proceed with N-1 and note the dropout in
 
 ## Phase C: Cross-judge
 
-After all Phase B candidates complete, choose one pair from the `arena cross-judge pool` in `~/.codex/pstack-models.md` when present. Otherwise use `gpt-5.6-sol @ max`, `gpt-5.6-terra @ max`, `gpt-5.6-luna @ max`. Prefer a model variant different from the primary worker; `gpt-5.6` and `gpt-5.6-sol` are the same variant. Spawn one judge with a standalone brief, separate model and effort fields, and `Do not edit files or mutate external state`. It sees the rubric and candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with the parent's reading in Phase D, not with candidates still writing.
+After all Phase B candidates complete, choose one entry from `arena cross-judge pool` in `~/.codex/pstack-models.md` when present. Otherwise choose from `gpt-5.6-sol @ max`, `gpt-5.6-terra @ max`, and `gpt-5.6-luna @ max`. Prefer a model variant different from the primary worker; `gpt-5.6` and `gpt-5.6-sol` are the same variant. For `auto` or `inherit-parent`, omit both spawn overrides. Spawn one judge with a standalone brief, separate `model` and `reasoning_effort` fields, and the instruction `Do not edit files or mutate external state`. It sees the rubric and candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with the parent's reading in Phase D, after all candidates finish writing.
 
 ## Phase D: Pick a base
 

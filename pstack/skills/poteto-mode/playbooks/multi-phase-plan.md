@@ -10,7 +10,7 @@
 6. Resolve the loaded pstack payload to an absolute path, keep the working directory at the user's repository, run `node "<absolute-pstack-payload>/skills/poteto-mode/scripts/check-plan.mjs" <plan.md>`, and fix every line it prints (the **encode-lessons-in-structure** principle skill). It enforces the skeleton's shape, the verification rule in every verification block, and the punctuation rules.
 7. Hand back. Post the plan path and the script's output, then stop. Execution starts on the operator's explicit go, under the execution playbook the plan names.
 
-**Verification.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked (the **prove-it-works** principle skill). That sentence is the verification rule. Every verification block opens with it. The live block is mandatory. Ten lanes on `gpt-5.6-luna @ max` at the PR head drive the real surface through its available Codex control capability, per the **swarm** skill. Each lane is one box with a concrete scenario, the screenshot it saves, and its pass predicate. One lane is the **Regression lane against trunk.** It runs the same load-bearing scenario on trunk and head. If trunk does not have the feature, the lane records that fact and gates the behavior the diff adds plus the end state the user waits for instead of inventing a trunk result. The perf gate is dual-sided. Trunk and head must both produce the named metric. If trunk lacks the feature, also isolate the work the diff adds and set an absolute budget for that work plus the end-to-end state the user waits for. Do not claim a ratio between unlike scenarios. The perf block names the metric, the interleaved probe, the trunk baseline measured first, and the rule with the number that fails. A PR that changes an interaction is review-gated. The operator reviews it in chat with screenshots and a video before merge. A PR that changes no interaction writes `**Review gate.** None. <PR id> is not review-gated.` and no boxes under it.
+**Verification.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked (the **prove-it-works** principle skill). That sentence is the verification rule. Every verification block opens with it. The live block is mandatory. Ten lanes on `<swarm workers model @ effort>` at the PR head drive the real surface through the available Codex control capability, per the **swarm** skill. Replace the placeholder with the concrete configured model and effort pair for this run; the existing Codex default is `gpt-5.6-luna @ max`. Each lane is one box with a concrete scenario, the screenshot it saves, and its pass predicate. One lane is the **Regression lane against trunk.** It runs the same load-bearing scenario on trunk and head. If trunk does not have the feature, the lane records that fact and gates the behavior the diff adds plus the end state the user waits for instead of inventing a trunk result. The perf gate is dual-sided. Trunk and head must both produce the named metric. If trunk lacks the feature, also isolate the work the diff adds and set an absolute budget for that work plus the end-to-end state the user waits for. Do not claim a ratio between unlike scenarios. The perf block names the metric, the interleaved probe, the trunk baseline measured first, and the rule with the number that fails. A PR that changes an interaction is review-gated. The operator reviews it in chat with screenshots and a video before merge. A PR that changes no interaction writes `**Review gate.** None. <PR id> is not review-gated.` and no boxes under it.
 
 **Control path.** Pick it by surface from capabilities available in the current Codex task. Browser, Electron, and web UIs use an installed browser-control skill or the available browser tooling. CLIs and TUIs use the terminal. Native mobile uses an installed simulator-driving skill when present, otherwise an explicit manual verification recipe. A PR that touches two surfaces gets lanes on both. A surface with no control capability is a risk in Appendix C, and its live block still names how each lane drives it.
 
@@ -31,16 +31,15 @@ Tests alone are not sufficient verification. A PR is verified only when its unit
 
 ### Arm the program
 
-- [ ] State the protocol and this plan to the operator, then stop. Start execution only on her explicit go.
-- [ ] On her go, use this exact text as the program objective. "<The plan path, the PR ids in order, the verification rule, who merges, and the done condition.>" Create or update a Codex goal only when the operator explicitly requested Goal mode; otherwise keep the objective in the current task plan.
-- [ ] Resolve the loaded pstack payload to an absolute path at program start. Re-read these files at every tick.
+- [ ] State the protocol and this plan to the operator, then stop. Start execution only on the operator's explicit go.
+- [ ] Resolve the loaded pstack payload to an absolute path at program start. Re-read these files at every hourly tick.
   - [ ] `<absolute-pstack-payload>/skills/poteto-mode/playbooks/<execution playbook>.md`
   - [ ] `<absolute-pstack-payload>/skills/swarm/SKILL.md`
   - [ ] `<the selected installed control skill, tool instructions, or manual recipe>`
   - [ ] `<absolute-pstack-payload>/skills/poteto-mode/playbooks/opening-a-pr.md`
   - [ ] `<absolute-pstack-payload>/skills/<each other leaf skill the program uses>`
-- [ ] Arm the 30-minute audit tick with the current task's goal, wait, or monitor mechanism. Create a recurring automation only when the operator explicitly requests one. Never leave the cadence to memory.
-- [ ] Use this tick prompt, verbatim. "Re-read the execution playbook from the loaded pstack payload and the active Codex goal. Audit the operation against both and fix drift in this tick. Probe every active lane and judge progress by side effects only. Stand down a stuck lane and dispatch its replacement now. Then send the operator a status message, whether or not anything changed, with the queue table of PR, owner, state, and head SHA, the verdicts since the last tick, what merged, open operator gates, and blockers."
+- [ ] Run an hourly audit tick. Use a Codex heartbeat or automation only when the operator explicitly requests persistence or recurrence. Otherwise use bounded waits in the active task and continue within the current turn; disclose that the cadence cannot survive task closure. Never register recurring automation implicitly or claim an unregistered cadence.
+- [ ] Use this tick prompt, verbatim. "Re-read the execution playbook from the loaded pstack payload. Audit the operation against it and fix drift in this tick. Probe every active lane and judge progress by side effects only. Stand down a stuck lane and dispatch its replacement now. Then send the operator a status message in this Codex task only when the audit found a tracked change that no earlier status message reported, such as a PR opened, a code-ready head, a round launched or closed, a verdict, a merge, a stuck agent and the action taken, a blocker added or cleared, or a decision only the operator can make. Name every such change and nothing else. Do not repeat a table, the merged list, or an unchanged blocker. If the audit found none, end the turn with no reply text. Either way, log this tick's row in your decision trail. The row names the items reported, or none."
 - [ ] On the operator's hold or stand-down, send every owner a zero-writes order at once.
 
 ### Spawn owners
@@ -55,16 +54,16 @@ Tests alone are not sufficient verification. A PR is verified only when its unit
 ### PR mechanics, for every PR
 
 - [ ] Resolve the forge once. Default to `gh`; if `command -v origin` succeeds and Origin can resolve the repository, use `origin pr` for every PR operation. Record any fallback to `gh`. Never require `gt`.
-- [ ] Open the PR ready, never draft, with `origin pr create --status open --base <base-branch>` or `gh pr create --base <base-branch>` according to the resolved forge. A stack child targets its parent branch.
-- [ ] Run the repo's lint and typecheck once before the PR-facing push. Push with hooks on.
+- [ ] Open the PR ready, never draft, per **Opening a PR**. Use the run's built-in PR tool when it has one, else `origin pr create --status open --base <base-branch>` or `gh pr create --base <base-branch>` according to the resolved forge. A stack child targets its parent branch.
+- [ ] Run the repo's lint and typecheck before the first PR-facing push. In Autopilot-full or Autopilot-stack, push after every verifiable unit. Before each push that starts a review round, run the repository-required checks on the committed head. Push with hooks on; a hook pass is not proof.
 - [ ] Run an installed diff-cleanup equivalent when available, otherwise perform a direct diff-cleanup pass, before each commit. Run `$pstack no-comments` before review.
 - [ ] Triage every Bugbot and security-reviewer comment per `../references/bugbot-triage.md`.
-- [ ] Rebase onto current trunk before babysit and again before the merge-ready report.
+- [ ] Rebase onto current trunk before the code-ready report and babysit. Keep that merge base in fix rounds. Rebase again only at merge prep, on a `git merge-tree` conflict with trunk, or on a CI failure that comes from a change on trunk.
 
 ### Verdict and merge, for every PR
 
-- [ ] At the merge-ready head SHA, run the swarm per `<absolute-pstack-payload>/skills/swarm/SKILL.md`. One gates lane. The ten live lanes from the PR's **Verify, live** block. The perf lane from its **Verify, perf** block. One audit lane that reads the diff and the receipts and distrusts the PR body.
-- [ ] Clean only when every lane is `PASS`. Findings go back to the owner. A new head gets a fresh swarm and a fresh verdict.
+- [ ] At the code-ready head SHA and at each later push that changes the patch, run the swarm per `<absolute-pstack-payload>/skills/swarm/SKILL.md`. One gates lane. The ten live lanes from the PR's **Verify, live** block. The perf lane from its **Verify, perf** block. Two or more audit lanes, each with its own focus, that read the diff and the receipts and distrust the PR body. The root audits the receipts in the merge-ready report before the verdict.
+- [ ] Clean only when every lane is `PASS`. Findings go back to the owner, including a defect that a lane filed as a note. A new head gets a fresh swarm and a fresh verdict, except for results that stay valid under the patch-id rule in `playbooks/shipping.md`.
 - [ ] <The merge or append rule from the execution playbook, with the patch-id rule from `playbooks/shipping.md`.>
 
 ### Boot recipe, for every live lane
@@ -98,7 +97,7 @@ Each live lane runs at the PR head in its own explicit worktree when it creates 
 
 - [ ] <Test file and the case it gains.> Run `<command>`.
 
-**Verify, live.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked. Ten lanes with `model: gpt-5.6-luna` and `reasoning_effort: max` at the PR head, per the boot recipe.
+**Verify, live.** Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked. Ten lanes on `<swarm workers model @ effort>` at the PR head, per the boot recipe. Replace the placeholder with the concrete configured model and effort pair for this run; the existing Codex default is `gpt-5.6-luna @ max`.
 
 - [ ] Lane 1. Regression lane against trunk. Run <the same load-bearing scenario> at trunk and head. If trunk lacks the feature, record that and gate <the behavior the diff adds plus the end state the user waits for>. Save `<slug>.png`. Pass when <predicate>.
 - [ ] Lane 2. <Scenario.> Save `<slug>.png`. Pass when <predicate>.

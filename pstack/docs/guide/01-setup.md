@@ -21,9 +21,9 @@ Run:
 $pstack setup
 ```
 
-[`$pstack setup`](../../skills/setup-pstack/SKILL.md) shows you each role (code delegates, judgment, and review panels) and asks what you want. Answer the questions. It writes `$HOME/.codex/pstack-models.md`, a small configuration file every pstack invocation reads.
+[`$pstack setup`](../../skills/setup-pstack/SKILL.md) detects models and reasoning efforts supported by the current Codex subagent tool, asks for a reasoning budget, then shows each role (code delegates, judgment, prose, and review panels). It writes `~/.codex/pstack-models.md`, a small configuration file every pstack invocation reads.
 
-You only override what you care about. A role with no line in the rule keeps the skill's default. To restore a default later, delete that role's line, or just run `$pstack setup` again.
+Each setting stores a model and a reasoning effort separately, such as `gpt-5.6-sol @ max`. On a rerun, setup keeps your custom model choices, extra role lines, comments, and panel membership, then applies the budget you choose to reasoning efforts. It removes only the confirmed retired `how critics` stock role. A role with no line keeps its current skill default. Delete a role's line to restore that default.
 
 Model and reasoning effort are separate spawn settings. The defaults are `gpt-5.6-luna @ max` for simple or mechanical work, `gpt-5.6-terra @ max` for prose and synthesis, `gpt-5.6-sol @ max` for hard code and review, and `gpt-5.6-sol @ xhigh` for the hardest judgment. Set a role to `inherit-parent` or `auto` to omit both overrides and let Codex resolve its configured subagent defaults; neither value is a model slug, and the historical name does not force literal parent inheritance. For a panel role the value is a list, and one subagent runs per entry, so the list length sets the panel size. Setup also configures `swarm workers`, the default profile for every `$pstack swarm` worker unless a race names a profile for each arm.
 

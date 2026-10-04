@@ -10,6 +10,8 @@ Investigate the motivation and intent behind code.
 
 Companion to the `how` skill. `how` answers what the code does and how it works. `why` answers what forces led to its shape.
 
+Each spawn below names a role line in `~/.codex/pstack-models.md` and a default. Parse each `model @ effort` pair into separate `model` and `reasoning_effort` fields. For `auto` or `inherit-parent`, omit both fields. If Codex rejects a configured pair, use the closest advertised pair for that role and report the fallback. Use only capabilities the current tool advertises; if no compatible pair is available, leave that seat unfilled and report it.
+
 ## Operating Posture
 
 Operate as a **careful, cautious, and precise investigator**. Be honest about what you know vs what you're inferring. Read `references/epistemics.md` for the full confidence framework and phrasing guide. The synthesizer must follow it.
@@ -18,7 +20,7 @@ Operate as a **careful, cautious, and precise investigator**. Be honest about wh
 
 Parse what the user is asking. The **target** is usually a chunk of code, a pattern, a feature, or a named design decision. The **question** is usually a design rationale, a tradeoff, a motivating edge case, an external constraint, dead code, or a broad history sweep.
 
-If the target is vague ("why do we do it this way?" with no clear referent), make your best guess from conversation context (open files, recent edits, cursor location, what was just discussed). State your interpretation briefly so the user can redirect if you're off, then proceed.
+If the target is vague ("why do we do it this way?" with no clear referent), make your best guess from conversation context (open files, recent edits, the editor caret, what was just discussed). State your interpretation briefly so the user can redirect if you're off, then proceed.
 
 ## Step 2. Establish the Code Anchor
 
@@ -59,7 +61,7 @@ Capture this as seed context (file paths, symbols, commits, PR numbers, linked t
 
 ### Discovery
 
-Before spawning investigators, inspect the current Codex tool catalog for available MCPs, apps, and connectors. Do not infer availability from a Cursor `mcps/` directory.
+Before spawning investigators, inspect the current Codex tool catalog for available MCPs, apps, and connectors. Do not infer availability from repository files or another host's configuration.
 
 Map each available MCP to one evidence category:
 
@@ -77,7 +79,7 @@ Aim for a complete **coverage map**, not a minimal one. Document the null, don't
 
 Launch matching investigators promptly up to the available Codex slots. Use a rolling window and `wait_agent` when the roster exceeds capacity. One investigator per category lets each specialize in one tool's query vocabulary and result shape. Don't ask one agent to cover multiple MCPs.
 
-Subagent config (each): use a standalone brief with `fork_turns: "none"`, then pass the configured why-investigators model and reasoning effort separately (default `gpt-5.6-luna @ max`). Codex children inherit available tools. Tell every investigator `Do not edit files or mutate external state`; this is a posture unless a configured read-only agent supplies enforcement.
+For each investigator, use `spawn_agent` with a standalone brief, `fork_turns: "none"`, and the `why investigators` pair from `~/.codex/pstack-models.md`, default `gpt-5.6-luna @ max`. Set `model` and `reasoning_effort` separately. Codex subagents inherit available tools, including MCP access. Include `Do not edit files or mutate external state` in each brief. If Codex rejects a configured pair, use the closest advertised pair for that role and report the fallback. Use only capabilities the current tool advertises; if no compatible pair is available, leave that investigator unfilled and report the gap.
 
 Each investigator gets:
 1. The base prompt from `references/investigator-prompt.md`
@@ -117,7 +119,7 @@ If your scope assessment suggests a single-commit trivial target where the PR de
 
 ## Step 4. Synthesize
 
-Spawn one synthesizer subagent with a standalone brief, `fork_turns: "none"`, and the configured why-synthesizer model and reasoning effort separately (default `gpt-5.6-terra @ max`). Tell it `Do not edit files or mutate external state`. It inherits the tools needed to spot-verify citations.
+Spawn one synthesizer subagent with a standalone brief, `fork_turns: "none"`, and the `why synthesizer` pair from `~/.codex/pstack-models.md`, default `gpt-5.6-terra @ max`. Set `model` and `reasoning_effort` separately. Tell it `Do not edit files or mutate external state`. It inherits the tools needed to spot-verify citations. Use the same advertised-capability fallback rule as the investigators.
 
 The synthesizer gets:
 1. The investigator findings, including any null results and any categories skipped with justification

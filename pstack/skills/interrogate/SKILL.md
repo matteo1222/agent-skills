@@ -33,7 +33,7 @@ Write one clear paragraph. If you're unsure about the intent, ask the user befor
 
 ## Step 3, Spawn Reviewers
 
-Spawn reviewers promptly up to available Codex slots, using a rolling window when needed. Use the `interrogate reviewers` list from `~/.codex/pstack-models.md` when present, one reviewer per entry, extending or shrinking the labels below to the configured count; otherwise use the table defaults.
+Spawn reviewers up to the available Codex slots, using a rolling queue when needed. Use the `interrogate reviewers` list from `~/.codex/pstack-models.md`, one reviewer per entry, extending or shrinking the labels below to match the configured count. Otherwise use the table defaults.
 
 | Subagent | Default model |
 |----------|---------------|
@@ -41,9 +41,7 @@ Spawn reviewers promptly up to available Codex slots, using a rolling window whe
 | Reviewer B | `gpt-5.6-terra @ max` |
 | Reviewer C | `gpt-5.6-luna @ max` |
 
-For each reviewer, give `spawn_agent` a standalone brief with `fork_turns: "none"`, the configured model and reasoning effort as separate fields, and `Do not edit files or mutate external state`.
-
-If `spawn_agent` rejects a model/effort pair, use an advertised valid pair with the closest role fit and report the fallback. Do not open a PR merely to repair a user-global config. If the configured value is `inherit-parent` or `auto`, omit both fields; never treat those aliases as broken values.
+For each reviewer, use `spawn_agent` with a standalone brief, `fork_turns: "none"`, and the configured `model` and `reasoning_effort` as separate fields. Include `Do not edit files or mutate external state` in the brief. For `inherit-parent` or `auto`, omit both overrides. If Codex rejects a configured pair, use the closest model-effort pair it currently advertises for this role and report the fallback. Do not infer support from a model family name. If no compatible advertised pair is available, leave that reviewer unfilled and report the gap. Do not invent a model or open a PR to repair a user-global config.
 
 Read `references/reviewer-prompt.md` and fill in the template with:
 1. The stated intent

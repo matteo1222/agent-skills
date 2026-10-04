@@ -20,12 +20,12 @@ the Codex port is installed globally as one discoverable shim at `$HOME/.agents/
 
 two steps:
 
-1. run [`$pstack setup`](./skills/setup-pstack/SKILL.md) and choose which models you want.
+1. run [`$pstack setup`](./skills/setup-pstack/SKILL.md), choose a reasoning budget, and select any model or role overrides you want.
 2. use [`$pstack`](./skills/poteto-mode/SKILL.md) whenever you're doing anything that requires rigor.
 
 new here? the [pstack guide](./docs/guide/README.md) walks you through a first real task, from setup and prompting through verification and overnight runs.
 
-that's it. the other skills are situational; the shim loads them from the payload as needed. out of the box, simple or mechanical work goes to `gpt-5.6-luna @ max`, prose and synthesis to `gpt-5.6-terra @ max`, hard code and review to `gpt-5.6-sol @ max`, and the hardest judgment to `gpt-5.6-sol @ xhigh`. [`$pstack setup`](./skills/setup-pstack/SKILL.md) changes any of it.
+that's it. the other skills are situational; the shim loads them from the payload as needed. out of the box, simple or mechanical work goes to `gpt-5.6-luna @ max`, prose to `gpt-5.6-terra @ max`, hard code and review to `gpt-5.6-sol @ max`, and the hardest judgment to `gpt-5.6-sol @ xhigh`. [`$pstack setup`](./skills/setup-pstack/SKILL.md) changes the models or reasoning budget.
 
 ## usage
 
@@ -66,7 +66,7 @@ morning.
 | [shipping](./skills/poteto-mode/playbooks/shipping.md) | independently verify a green stack, then land the contiguous verified run bottom-up through github by default or origin when available. |
 | [autonomous run](./skills/poteto-mode/playbooks/autonomous-run.md) | drive a long task to completion without stopping. |
 | [orchestrate](./skills/poteto-mode/playbooks/orchestrate.md) | a standing project handed to one coordinator task: multi-day, many stacked prs, fleets of subagents. |
-| [autopilot-full](./skills/poteto-mode/playbooks/autopilot-full.md) | run independent prs to merged with one owner per pr and root verification of each merge-ready head. |
+| [autopilot-full](./skills/poteto-mode/playbooks/autopilot-full.md) | run independent prs to merged with one owner per pr and a root verdict on every merge-ready head before its owner merges. |
 | [autopilot-stack](./skills/poteto-mode/playbooks/autopilot-stack.md) | build and verify one linear base-branch stack for the operator to review and land. |
 | [session pickup](./skills/poteto-mode/playbooks/session-pickup.md) | resume or take over a prior agent's in-flight work. |
 | [pause safely](./skills/poteto-mode/playbooks/pause-safely.md) | suspend in-flight work cleanly so it can be resumed later. |
@@ -116,12 +116,14 @@ $pstack interrogate review this pr.
 | [`$pstack arena`](./skills/arena/SKILL.md) | you want N parallel attempts at the same thing, then to grab the best parts of each. |
 | [`$pstack swarm`](./skills/swarm/SKILL.md) | you want N parallel workers across different slices or races, then one aggregated report. |
 | [`$pstack interrogate`](./skills/interrogate/SKILL.md) | you have a diff and want several different models to try to break it, including a strict code-quality lens. |
+| [`$pstack correct`](./skills/correct/SKILL.md) | agents repeat mistakes in this repo; find each class and make it impossible, starting with architecture, then types, lint and CI, tests, and docs. |
 | [`$pstack automate-me`](./skills/automate-me/SKILL.md) | you want your own `-mode` skill, drafted from how you've actually worked. |
 | [`$pstack make-bot-ui`](./skills/make-bot-ui/SKILL.md) | legacy Grok Bot UI workflow retained from upstream. Use only when compatible webhook and state-update tooling is available. |
-| [`$pstack setup`](./skills/setup-pstack/SKILL.md) | you want to pick which models pstack uses per role. detects your models and writes a config rule. |
+| [`$pstack setup`](./skills/setup-pstack/SKILL.md) | you want to pick a reasoning budget and model for each role. detects supported Codex options and writes the pstack model override file. |
 | [`$pstack reflect`](./skills/reflect/SKILL.md) | a long task landed and you want the recipe captured as a skill edit. |
 | [`$pstack teach`](./skills/teach/SKILL.md) | you want to actually understand a change or subsystem, not just have it summarized. runs how + why and weaves one plain explanation, built up diagram by diagram. |
 | [`$pstack tdd`](./skills/tdd/SKILL.md) | you're fixing a bug and there's a cheap local test path. write the failing test first, then the fix. |
+| [`$pstack benchmark-checklist`](./skills/benchmark-checklist/SKILL.md) | you measured a speedup, regression, or benchmark and want to check the limiter, tuning, errors, repeats, and end-to-end relevance before acting on it. |
 | [`$pstack no-comments`](./skills/no-comments/SKILL.md) | strip comments before review; spawns Comment Sicko, fixes accepted findings, offers encodings for claimed constraints. |
 | [`$pstack typescript-best-practices`](./skills/typescript-best-practices/SKILL.md) | you're reading or editing typescript. grounds the type-system-discipline principle in syntax. |
 | [`$pstack figure-it-out`](./skills/figure-it-out/SKILL.md) | no bundled playbook fits. designs a rigorous, auditable playbook for the task. |
@@ -171,7 +173,9 @@ arena:             $pstack arena take my prompt to the arena verbatim. i want to
 swarm:             $pstack swarm check every package under packages/ against its check.sh. one worker per
                    package. one report.
 interrogate:       $pstack interrogate review this pr.
+correct:           $pstack correct agents keep repeating the same mistake. fix the architecture or check that lets it happen.
 tdd:               $pstack tdd implement
+benchmark:         $pstack benchmark-checklist vet this measured speedup before we report it.
 unslop:            $pstack unslop and tighten the new changes.
 reflect:           $pstack reflect that took too long. capture what we learned so the next run doesn't
                    repeat it.
@@ -191,10 +195,10 @@ pstack also ships [Comment Sicko](./agents/comment-sicko.md), a read-only commen
 
 ## principles
 
-twenty-three short skills, one principle each. `poteto-mode` indexes them inline and reads that index at task start. the standalone files are there so other skills can reference a principle by name, and so the index can point at the full rule for each.
+twenty-four short skills, one principle each. `poteto-mode` indexes them inline and reads that index at task start. the standalone files are there so other skills can reference a principle by name, and so the index can point at the full rule for each.
 
 <details>
-<summary>all twenty-three principles</summary>
+<summary>all twenty-four principles</summary>
 
 | principle | group | rule |
 |---|---|---|
@@ -218,6 +222,7 @@ twenty-three short skills, one principle each. `poteto-mode` indexes them inline
 | [fix-root-causes](./skills/principle-fix-root-causes/SKILL.md) | verification | Trace each symptom to its root cause and fix it there; reproduce first, ask why until you reach it, resist nil-check guards that silence crashes. |
 | [sequence-verifiable-units](./skills/principle-sequence-verifiable-units/SKILL.md) | verification | Apply to multi-step work (sweeps, migrations, runs of similar edits) and to how you stack commits and PRs. Break work into small units that each end in a verifiable state, check each before the next, and order delivery so the sequence proves itself to a reviewer. |
 | [test-behavior-not-implementation](./skills/principle-test-behavior-not-implementation/SKILL.md) | verification | Apply when you write, change, or keep a test. Call the code the way its users do and assert the result they observe against a literal expected value. If the test would still pass when every imported function returns undefined, rewrite the assertion or delete the test. |
+| [explain-the-number](./skills/principle-explain-the-number/SKILL.md) | verification | Apply before you trust, report, or act on a number you measured: a speedup, a regression, a throughput, a latency, or an eval result. Find what limits it, and rule out that it measured something other than the work you think. |
 | [guard-the-context-window](./skills/principle-guard-the-context-window/SKILL.md) | delegation | Route bulk to subagents; keep summaries in the main thread, not raw payloads. |
 | [never-block-on-the-human](./skills/principle-never-block-on-the-human/SKILL.md) | delegation | Proceed, present the result, let the human course-correct after the fact; reserve confirmation for irreversible actions. |
 | [encode-lessons-in-structure](./skills/principle-encode-lessons-in-structure/SKILL.md) | meta | Encode the rule as a lint, metadata flag, runtime check, or script instead of more text. |
@@ -244,6 +249,8 @@ codex already has a plan capability which works great with pstack. but personall
 type [`$pstack automate-me`](./skills/automate-me/SKILL.md). it mines the active Codex task or thread history, or a digest you provide, drafts a `<your-name>-mode` skill from how you've actually worked, and routes through pstack underneath. you keep pstack as the base and end up with your own routing skill alongside `poteto-mode`.
 
 models are configurable too. type [`$pstack setup`](./skills/setup-pstack/SKILL.md). it writes `$HOME/.codex/pstack-models.md`, mapping each role to a Codex model and reasoning effort. every pstack invocation reads it and falls back to the current defaults when the file or a role is absent, so you override only what you want.
+
+The Codex port keeps its existing model defaults. [`$pstack setup`](./skills/setup-pstack/SKILL.md) keeps your custom model choices, role lines, and policy comments, then applies the reasoning budget you select. Change a role explicitly when you want a different model.
 
 ## automations
 
