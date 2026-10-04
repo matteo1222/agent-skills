@@ -1,6 +1,7 @@
 ---
 name: poteto-agent
-description: Prompt reference for a Codex subagent spawned by $pstack or a request for poteto's style. The caller must require this agent to read Poteto Mode in full before work, including its inline Principles index.
+description: Routing target for `$pstack` and any request for poteto's style. Spawn a fresh `poteto-agent` for each new task, and resume one only in the strict cases that Poteto Mode's Subagents section names. It reads the `poteto-mode` skill in full before any work, including its inline Principles index. Using an ordinary subagent skips that read and drifts.
+is_background: true
 ---
 
 # Poteto subagent

@@ -20,19 +20,21 @@ Use the active Codex task context or task/thread history tools when they are ava
 
 ### 2. Spawn three reviewers in parallel
 
-Spawn three Codex reviewers promptly, subject to available slots. Give each a standalone brief with `fork_turns: "none"`, explicit model and reasoning-effort fields from the table, and `Do not edit files or mutate external state`. Reviewers inherit available MCP access for context lookups; the parent applies edits.
+Spawn three Codex reviewers, subject to available slots. Give each a standalone brief with `fork_turns: "none"`, explicit `model` and `reasoning_effort` fields, and `Do not edit files or mutate external state`. Reviewers keep available MCP access for context lookups; the parent applies edits.
 
-| Lens | `model` | Prompt template |
+| Lens | Config role and default pair | Prompt template |
 |---|---|---|
-| Judgment | your configured reflect-judgment model (default `gpt-5.6-sol @ xhigh`) | `references/judgment-reviewer.md` |
-| Tooling | your configured reflect-tooling model (default `gpt-5.6-sol @ max`) | `references/tooling-reviewer.md` |
-| Divergent | your configured reflect-divergent model (default `gpt-5.6-terra @ max`) | `references/divergent-reviewer.md` |
+| Judgment | `reflect judgment`, default `gpt-5.6-sol @ xhigh` | `references/judgment-reviewer.md` |
+| Tooling | `reflect tooling`, default `gpt-5.6-sol @ max` | `references/tooling-reviewer.md` |
+| Divergent | `reflect divergent`, default `gpt-5.6-terra @ max` | `references/divergent-reviewer.md` |
+
+Read `reflect judgment`, `reflect tooling`, `reflect divergent`, and `reflect synthesizer` from `~/.codex/pstack-models.md` when present; otherwise use the table defaults. In an existing file, the grouped `reflect divergent, synthesizer` line supplies both divergent and synthesizer unless a specific split role overrides it. Read that legacy line without rewriting the user configuration. Parse each `model @ effort` pair into the two spawn fields. For `auto` or `inherit-parent`, omit both fields. If Codex rejects a configured pair, use the closest model-effort pair it currently advertises for this role and report the fallback. Do not infer support from a model family name. If no compatible advertised pair is available, leave the seat unfilled and report it.
 
 Pass each template verbatim, substituting the authorized task-history path or digest where marked. Reviewers return findings in their `spawn_agent` result.
 
 ### 3. Synthesize
 
-Spawn one Codex synthesizer with a standalone brief and your configured reflect-synthesizer model and effort (default `gpt-5.6-terra @ max`). Tell it `Do not edit files or mutate external state`. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
+Spawn one Codex synthesizer with a standalone brief and the `reflect synthesizer` pair from `~/.codex/pstack-models.md`, defaulting to `gpt-5.6-terra @ max`. Set `model` and `reasoning_effort` separately. Tell it `Do not edit files or mutate external state`. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
 
 ### 4. Structural enforcement check
 

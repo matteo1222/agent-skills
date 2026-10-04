@@ -52,7 +52,11 @@ hardest tasks: gpt-5.6-sol @ xhigh
 arena runners: gpt-5.6-sol @ max, gpt-5.6-terra @ max, gpt-5.6-luna @ max
 ```
 
-An absent role keeps the default above. `$pstack setup` creates or updates the override file.
+A grouped role line supplies each role it names. The existing `reflect divergent, synthesizer` line supplies `reflect divergent` and `reflect synthesizer` unless a specific split line overrides it. An absent role keeps the default above. `$pstack setup` creates or updates the override file.
+
+## Reasoning budget
+
+`$pstack setup` can record a `# budget` comment in the override file. The labels are `unlimited` (keep each default effort), `large` (`xhigh`), `medium` (`high`), and `small` (`medium`). Setup applies the budget to each explicit `model @ effort` pair and preserves custom model choices and aliases. Routed workflows use the recorded pairs directly. A missing budget comment keeps existing role values unchanged.
 
 ## Current capability basis
 

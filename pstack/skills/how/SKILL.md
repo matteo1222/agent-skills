@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
-Read the shim's `references/model-routing.md` before spawning. Pass `model` and `reasoning_effort` separately, confirm the current tool supports the pair, and use `fork_turns: "none"` or a bounded recent-turn fork when setting overrides.
+Read the shim's `references/model-routing.md` before spawning. Read the matching role pair from `~/.codex/pstack-models.md` when present, pass `model` and `reasoning_effort` separately, and confirm the current tool supports the pair. For `inherit-parent` or `auto`, omit both fields. If a pair is unavailable, use the closest advertised pair for that role and report the fallback. Use `fork_turns: "none"` or a bounded recent-turn fork when setting explicit overrides.
 
 ## Step 1. Assess Complexity
 

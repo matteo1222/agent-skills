@@ -1,6 +1,6 @@
 ---
 name: pstack
-description: Run pstack's rigorous engineering playbooks in Codex. Use when the user says pstack, poteto mode, asks to configure pstack, names a bundled pstack workflow such as how, why, architect, arena, swarm, interrogate, reflect, or requests pstack's engineering style. Do not apply to casual or trivial work unless explicitly invoked.
+description: Run pstack's rigorous engineering playbooks in Codex. Use when the user says pstack, poteto mode, asks to configure pstack, names a bundled pstack workflow such as how, why, architect, arena, swarm, interrogate, reflect, correct, benchmark-checklist, or requests pstack's engineering style. Do not apply to casual or trivial work unless explicitly invoked.
 metadata:
   short-description: Rigorous pstack engineering workflows for Codex
 ---
@@ -31,3 +31,5 @@ When a bundled workflow delegates, read [references/model-routing.md](references
 ## Fidelity
 
 Do not redesign pstack while using it. Treat [CODEX_PORT.md](../../pstack/CODEX_PORT.md) as the compatibility ledger and [README.md](../../pstack/README.md) as the user guide.
+
+To check an upstream refresh, run `python3 scripts/verify_port.py --upstream <extracted-pstack-directory>` from this shim directory. The checker compares the full payload inventory, compatibility ledger, version, and local Markdown links.
