@@ -225,7 +225,6 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [soft-skill](soft-skill/SKILL.md) | High-end visual design guidance for polished, calm, expensive-feeling UIs; install name `high-end-visual-design` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [minimalist-skill](minimalist-skill/SKILL.md) | Editorial minimalist UI guidance with restrained palettes and crisp structure; install name `minimalist-ui` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [brutalist-skill](brutalist-skill/SKILL.md) | Industrial brutalist UI guidance for raw mechanical interfaces and tactical telemetry aesthetics; install name `industrial-brutalist-ui` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
-| [stitch-skill](stitch-skill/SKILL.md) | Google Stitch-compatible semantic design system rules with optional `DESIGN.md` export format; install name `stitch-design-taste` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [imagegen-frontend-web](imagegen-frontend-web/SKILL.md) | Image-generation direction for premium website comps and section references (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [imagegen-frontend-mobile](imagegen-frontend-mobile/SKILL.md) | Image-generation direction for premium mobile app screens and flows (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [brandkit](brandkit/SKILL.md) | Image-generation direction for brand-kit boards, logo systems, and visual identity decks (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
@@ -264,7 +263,6 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [research](research/SKILL.md) | Investigate questions against primary sources and capture cited findings in repo markdown ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [resolving-merge-conflicts](resolving-merge-conflicts/SKILL.md) | Resolve in-progress merge or rebase conflicts by preserving both sides' intent ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [setup-matt-pocock-skills](setup-matt-pocock-skills/SKILL.md) | Scaffold per-repo issue tracker and triage-label configuration for the Matt Pocock skill set ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [setup-pre-commit](setup-pre-commit/SKILL.md) | Configure Husky hooks with linting, formatting, type checking, and testing ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [teach](teach/SKILL.md) | Create a stateful teaching workspace with missions, learning records, references, and interactive lessons ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [tdd](tdd/SKILL.md) | Test-driven development with red-green-refactor loop and vertical slices ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [to-spec](to-spec/SKILL.md) | Turn the current conversation into a spec and publish it to the project issue tracker ([mattpocock/skills](https://github.com/mattpocock/skills)) |
@@ -283,12 +281,10 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [frontend-slides](frontend-slides/SKILL.md) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files ([zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)) |
 | [harness-engineering](harness-engineering/SKILL.md) | Follow Ryan Lopopolo's harness-engineering corpus for agent environment design, repository context, tool legibility, proof, authority, and feedback loops (from [lopopolo/harness-engineering](https://github.com/lopopolo/harness-engineering)) |
 | [app-store-changelog](app-store-changelog/SKILL.md) | Create user-facing App Store release notes from git history since the last tag or a specified ref ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
-| [bug-hunt-swarm](bug-hunt-swarm/SKILL.md) | Run a parallel, read-only multi-agent root-cause investigation for bugs, regressions, crashes, and flaky behavior ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [github](github/SKILL.md) | Interact with GitHub issues, pull requests, workflow runs, and API data through the `gh` CLI ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [ios-debugger-agent](ios-debugger-agent/SKILL.md) | Use XcodeBuildMCP to build, launch, inspect, and debug iOS apps on a booted simulator ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [macos-menubar-tuist-app](macos-menubar-tuist-app/SKILL.md) | Build, refactor, or review SwiftUI menubar apps with a Tuist-first workflow ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [macos-spm-app-packaging](macos-spm-app-packaging/SKILL.md) | Scaffold, build, package, sign, and release SwiftPM-based macOS apps without an Xcode project ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
-| [orchestrate-batch-refactor](orchestrate-batch-refactor/SKILL.md) | Plan and execute large refactors or rewrites with dependency-aware, parallel multi-agent work packets ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [project-skill-audit](project-skill-audit/SKILL.md) | Audit project history, memory, and existing skills to recommend the highest-value skill additions or updates ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [react-component-performance](react-component-performance/SKILL.md) | Diagnose slow React components, re-render churn, and laggy lists, then suggest targeted optimizations ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [review-and-simplify-changes](review-and-simplify-changes/SKILL.md) | Review a diff for reuse, quality, efficiency, and clarity issues, then optionally apply safe simplifications ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
@@ -380,7 +376,6 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **soft-skill**: No dependencies (high-end visual design guidance skill; frontmatter name `high-end-visual-design`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **minimalist-skill**: No dependencies (minimalist UI guidance skill; frontmatter name `minimalist-ui`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **brutalist-skill**: No dependencies (industrial brutalist UI guidance skill; frontmatter name `industrial-brutalist-ui`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
-- **stitch-skill**: No dependencies (Google Stitch design guidance skill; frontmatter name `stitch-design-taste`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **imagegen-frontend-web**: No dependencies beyond an image-capable agent/model. From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **imagegen-frontend-mobile**: No dependencies beyond an image-capable agent/model. From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **brandkit**: No dependencies beyond an image-capable agent/model. From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
@@ -419,7 +414,6 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **research**: No dependencies beyond source access for the research task. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **resolving-merge-conflicts**: No dependencies beyond Git and the repo's normal verification commands. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **setup-matt-pocock-skills**: No dependencies (repo setup/configuration skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
-- **setup-pre-commit**: Requires Node.js and Husky. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **teach**: No external dependencies (stateful teaching workspace skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **tdd**: No dependencies (methodology/patterns skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **to-spec**: Requires a configured issue tracker if publishing the spec. From [mattpocock/skills](https://github.com/mattpocock/skills).
