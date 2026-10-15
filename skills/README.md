@@ -110,226 +110,40 @@ git clone https://github.com/matteo1222/agent-skills .factory/skills/agent-skill
 
 ### Claude Code
 
-Claude Code only looks one level deep for `SKILL.md` files, so each skill folder must be directly under the skills directory. Clone the repo somewhere, then symlink individual skills:
+Claude Code only looks one level deep for `SKILL.md` files, so each skill folder
+must be directly under the skills directory. Clone the repo, then run the linker:
 
 ```bash
 # Clone to a convenient location
 git clone https://github.com/matteo1222/agent-skills ~/agent-skills
+cd ~/agent-skills
 
-# Symlink individual skills (user-level)
-mkdir -p ~/.claude/skills
-ln -s ~/agent-skills/skills/brave-search ~/.claude/skills/brave-search
-ln -s ~/agent-skills/skills/browser-tools ~/.claude/skills/browser-tools
-ln -s ~/agent-skills/skills/gccli ~/.claude/skills/gccli
-ln -s ~/agent-skills/skills/gdcli ~/.claude/skills/gdcli
-ln -s ~/agent-skills/skills/gmcli ~/.claude/skills/gmcli
-ln -s ~/agent-skills/skills/transcribe ~/.claude/skills/transcribe
-ln -s ~/agent-skills/skills/vscode ~/.claude/skills/vscode
-ln -s ~/agent-skills/skills/youtube-transcript ~/.claude/skills/youtube-transcript
-ln -s ~/agent-skills/skills/youtube-cc ~/.claude/skills/youtube-cc
-ln -s ~/agent-skills/skills/nano-banana-pro ~/.claude/skills/nano-banana-pro
-ln -s ~/agent-skills/skills/autonomous-agent ~/.claude/skills/autonomous-agent
-ln -s ~/agent-skills/skills/twitter-tools ~/.claude/skills/twitter-tools
-ln -s ~/agent-skills/skills/last30days ~/.claude/skills/last30days
-ln -s ~/agent-skills/skills/learn-quiz ~/.claude/skills/learn-quiz
-ln -s ~/agent-skills/skills/learning-opportunities ~/.claude/skills/learning-opportunities
-ln -s ~/agent-skills/skills/learning-goal ~/.claude/skills/learning-goal
-ln -s ~/agent-skills/skills/explain-diff-html ~/.claude/skills/explain-diff-html
-ln -s ~/agent-skills/skills/explain-diff-html-recursive ~/.claude/skills/explain-diff-html-recursive
-ln -s ~/agent-skills/skills/explain-diff-notion ~/.claude/skills/explain-diff-notion
-ln -s ~/agent-skills/skills/show-me ~/.claude/skills/show-me
-ln -s ~/agent-skills/skills/show-me-recursive ~/.claude/skills/show-me-recursive
-ln -s ~/agent-skills/skills/source-driven-development ~/.claude/skills/source-driven-development
-ln -s ~/agent-skills/skills/ponytail ~/.claude/skills/ponytail
-ln -s ~/agent-skills/skills/ponytail-review ~/.claude/skills/ponytail-review
-ln -s ~/agent-skills/skills/ponytail-help ~/.claude/skills/ponytail-help
-ln -s ~/agent-skills/skills/taste-skill ~/.claude/skills/taste-skill
-ln -s ~/agent-skills/skills/taste-skill-v1 ~/.claude/skills/taste-skill-v1
-ln -s ~/agent-skills/skills/gpt-tasteskill ~/.claude/skills/gpt-tasteskill
-ln -s ~/agent-skills/skills/image-to-code-skill ~/.claude/skills/image-to-code-skill
-ln -s ~/agent-skills/skills/redesign-skill ~/.claude/skills/redesign-skill
-ln -s ~/agent-skills/skills/soft-skill ~/.claude/skills/soft-skill
-ln -s ~/agent-skills/skills/output-skill ~/.claude/skills/output-skill
-ln -s ~/agent-skills/skills/minimalist-skill ~/.claude/skills/minimalist-skill
-ln -s ~/agent-skills/skills/brutalist-skill ~/.claude/skills/brutalist-skill
-ln -s ~/agent-skills/skills/stitch-skill ~/.claude/skills/stitch-skill
-ln -s ~/agent-skills/skills/imagegen-frontend-web ~/.claude/skills/imagegen-frontend-web
-ln -s ~/agent-skills/skills/imagegen-frontend-mobile ~/.claude/skills/imagegen-frontend-mobile
-ln -s ~/agent-skills/skills/brandkit ~/.claude/skills/brandkit
-ln -s ~/agent-skills/skills/create-cli ~/.claude/skills/create-cli
-ln -s ~/agent-skills/skills/codex-review ~/.claude/skills/codex-review
-ln -s ~/agent-skills/skills/autoreview ~/.claude/skills/autoreview
-ln -s ~/agent-skills/skills/app-polish ~/.claude/skills/app-polish
-ln -s ~/agent-skills/skills/context-efficient ~/.claude/skills/context-efficient
-ln -s ~/agent-skills/skills/agent-browser ~/.claude/skills/agent-browser
-ln -s ~/agent-skills/skills/trellocli ~/.claude/skills/trellocli
-ln -s ~/agent-skills/skills/sec-context ~/.claude/skills/sec-context
-ln -s ~/agent-skills/skills/fly-logs ~/.claude/skills/fly-logs
-ln -s ~/agent-skills/skills/search-past-sessions ~/.claude/skills/search-past-sessions
-ln -s ~/agent-skills/skills/logging-best-practices ~/.claude/skills/logging-best-practices
-ln -s ~/agent-skills/skills/systematic-debugging ~/.claude/skills/systematic-debugging
-ln -s ~/agent-skills/skills/test-driven-development ~/.claude/skills/test-driven-development
-ln -s ~/agent-skills/skills/agent-device ~/.claude/skills/agent-device
-ln -s ~/agent-skills/skills/dogfood-device ~/.claude/skills/dogfood-device
-ln -s ~/agent-skills/skills/showboat-walkthrough ~/.claude/skills/showboat-walkthrough
-ln -s ~/agent-skills/skills/ghidra ~/.claude/skills/ghidra
-ln -s ~/agent-skills/skills/sentry ~/.claude/skills/sentry
-ln -s ~/agent-skills/skills/summarize ~/.claude/skills/summarize
-ln -s ~/agent-skills/skills/tmux ~/.claude/skills/tmux
-ln -s ~/agent-skills/skills/visual-explainer ~/.claude/skills/visual-explainer
-ln -s ~/agent-skills/skills/triad ~/.claude/skills/triad
-ln -s ~/agent-skills/skills/triad-review ~/.claude/skills/triad-review
-ln -s ~/agent-skills/skills/trycycle ~/.claude/skills/trycycle
-ln -s ~/agent-skills/skills/babysit-pr ~/.claude/skills/babysit-pr
-ln -s ~/agent-skills/skills/ask-matt ~/.claude/skills/ask-matt
-ln -s ~/agent-skills/skills/caveman ~/.claude/skills/caveman
-ln -s ~/agent-skills/skills/code-review ~/.claude/skills/code-review
-ln -s ~/agent-skills/skills/codebase-design ~/.claude/skills/codebase-design
-ln -s ~/agent-skills/skills/diagnose ~/.claude/skills/diagnose
-ln -s ~/agent-skills/skills/diagnosing-bugs ~/.claude/skills/diagnosing-bugs
-ln -s ~/agent-skills/skills/domain-modeling ~/.claude/skills/domain-modeling
-ln -s ~/agent-skills/skills/edit-article ~/.claude/skills/edit-article
-ln -s ~/agent-skills/skills/git-guardrails-claude-code ~/.claude/skills/git-guardrails-claude-code
-ln -s ~/agent-skills/skills/grill-me ~/.claude/skills/grill-me
-ln -s ~/agent-skills/skills/grill-with-docs ~/.claude/skills/grill-with-docs
-ln -s ~/agent-skills/skills/grilling ~/.claude/skills/grilling
-ln -s ~/agent-skills/skills/handoff ~/.claude/skills/handoff
-ln -s ~/agent-skills/skills/implement ~/.claude/skills/implement
-ln -s ~/agent-skills/skills/improve-codebase-architecture ~/.claude/skills/improve-codebase-architecture
-ln -s ~/agent-skills/skills/migrate-to-shoehorn ~/.claude/skills/migrate-to-shoehorn
-ln -s ~/agent-skills/skills/obsidian-vault ~/.claude/skills/obsidian-vault
-ln -s ~/agent-skills/skills/prototype ~/.claude/skills/prototype
-ln -s ~/agent-skills/skills/prd-to-plan ~/.claude/skills/prd-to-plan
-ln -s ~/agent-skills/skills/research ~/.claude/skills/research
-ln -s ~/agent-skills/skills/resolving-merge-conflicts ~/.claude/skills/resolving-merge-conflicts
-ln -s ~/agent-skills/skills/scaffold-exercises ~/.claude/skills/scaffold-exercises
-ln -s ~/agent-skills/skills/setup-matt-pocock-skills ~/.claude/skills/setup-matt-pocock-skills
-ln -s ~/agent-skills/skills/setup-pre-commit ~/.claude/skills/setup-pre-commit
-ln -s ~/agent-skills/skills/teach ~/.claude/skills/teach
-ln -s ~/agent-skills/skills/tdd ~/.claude/skills/tdd
-ln -s ~/agent-skills/skills/to-spec ~/.claude/skills/to-spec
-ln -s ~/agent-skills/skills/to-tickets ~/.claude/skills/to-tickets
-ln -s ~/agent-skills/skills/to-questionnaire ~/.claude/skills/to-questionnaire
-ln -s ~/agent-skills/skills/triage ~/.claude/skills/triage
-ln -s ~/agent-skills/skills/triage-issue ~/.claude/skills/triage-issue
-ln -s ~/agent-skills/skills/interview-coach ~/.claude/skills/interview-coach
-ln -s ~/agent-skills/skills/wayfinder ~/.claude/skills/wayfinder
-ln -s ~/agent-skills/skills/wait-what ~/.claude/skills/wait-what
-ln -s ~/agent-skills/skills/wizard ~/.claude/skills/wizard
-ln -s ~/agent-skills/skills/write-a-skill ~/.claude/skills/write-a-skill
-ln -s ~/agent-skills/skills/writing-for-agents ~/.claude/skills/writing-for-agents
-ln -s ~/agent-skills/skills/zoom-out ~/.claude/skills/zoom-out
-ln -s ~/agent-skills/skills/no-use-effect ~/.claude/skills/no-use-effect
-ln -s ~/agent-skills/skills/harness-engineering ~/.claude/skills/harness-engineering
-ln -s ~/agent-skills/skills/frontend-slides ~/.claude/skills/frontend-slides
+# Link every skill into ~/.claude/skills (user-level, available in all projects)
+./scripts/link-claude-skills.sh
 
-# Or project-level
-mkdir -p .claude/skills
-ln -s ~/agent-skills/skills/brave-search .claude/skills/brave-search
-ln -s ~/agent-skills/skills/browser-tools .claude/skills/browser-tools
-ln -s ~/agent-skills/skills/gccli .claude/skills/gccli
-ln -s ~/agent-skills/skills/gdcli .claude/skills/gdcli
-ln -s ~/agent-skills/skills/gmcli .claude/skills/gmcli
-ln -s ~/agent-skills/skills/transcribe .claude/skills/transcribe
-ln -s ~/agent-skills/skills/vscode .claude/skills/vscode
-ln -s ~/agent-skills/skills/youtube-transcript .claude/skills/youtube-transcript
-ln -s ~/agent-skills/skills/youtube-cc .claude/skills/youtube-cc
-ln -s ~/agent-skills/skills/nano-banana-pro .claude/skills/nano-banana-pro
-ln -s ~/agent-skills/skills/autonomous-agent .claude/skills/autonomous-agent
-ln -s ~/agent-skills/skills/twitter-tools .claude/skills/twitter-tools
-ln -s ~/agent-skills/skills/last30days .claude/skills/last30days
-ln -s ~/agent-skills/skills/learn-quiz .claude/skills/learn-quiz
-ln -s ~/agent-skills/skills/learning-opportunities .claude/skills/learning-opportunities
-ln -s ~/agent-skills/skills/learning-goal .claude/skills/learning-goal
-ln -s ~/agent-skills/skills/explain-diff-html .claude/skills/explain-diff-html
-ln -s ~/agent-skills/skills/explain-diff-html-recursive .claude/skills/explain-diff-html-recursive
-ln -s ~/agent-skills/skills/explain-diff-notion .claude/skills/explain-diff-notion
-ln -s ~/agent-skills/skills/show-me .claude/skills/show-me
-ln -s ~/agent-skills/skills/show-me-recursive .claude/skills/show-me-recursive
-ln -s ~/agent-skills/skills/source-driven-development .claude/skills/source-driven-development
-ln -s ~/agent-skills/skills/ponytail .claude/skills/ponytail
-ln -s ~/agent-skills/skills/ponytail-review .claude/skills/ponytail-review
-ln -s ~/agent-skills/skills/ponytail-help .claude/skills/ponytail-help
-ln -s ~/agent-skills/skills/taste-skill .claude/skills/taste-skill
-ln -s ~/agent-skills/skills/taste-skill-v1 .claude/skills/taste-skill-v1
-ln -s ~/agent-skills/skills/gpt-tasteskill .claude/skills/gpt-tasteskill
-ln -s ~/agent-skills/skills/image-to-code-skill .claude/skills/image-to-code-skill
-ln -s ~/agent-skills/skills/redesign-skill .claude/skills/redesign-skill
-ln -s ~/agent-skills/skills/soft-skill .claude/skills/soft-skill
-ln -s ~/agent-skills/skills/output-skill .claude/skills/output-skill
-ln -s ~/agent-skills/skills/minimalist-skill .claude/skills/minimalist-skill
-ln -s ~/agent-skills/skills/brutalist-skill .claude/skills/brutalist-skill
-ln -s ~/agent-skills/skills/stitch-skill .claude/skills/stitch-skill
-ln -s ~/agent-skills/skills/imagegen-frontend-web .claude/skills/imagegen-frontend-web
-ln -s ~/agent-skills/skills/imagegen-frontend-mobile .claude/skills/imagegen-frontend-mobile
-ln -s ~/agent-skills/skills/brandkit .claude/skills/brandkit
-ln -s ~/agent-skills/skills/create-cli .claude/skills/create-cli
-ln -s ~/agent-skills/skills/codex-review .claude/skills/codex-review
-ln -s ~/agent-skills/skills/autoreview .claude/skills/autoreview
-ln -s ~/agent-skills/skills/app-polish .claude/skills/app-polish
-ln -s ~/agent-skills/skills/context-efficient .claude/skills/context-efficient
-ln -s ~/agent-skills/skills/agent-browser .claude/skills/agent-browser
-ln -s ~/agent-skills/skills/trellocli .claude/skills/trellocli
-ln -s ~/agent-skills/skills/sec-context .claude/skills/sec-context
-ln -s ~/agent-skills/skills/fly-logs .claude/skills/fly-logs
-ln -s ~/agent-skills/skills/search-past-sessions .claude/skills/search-past-sessions
-ln -s ~/agent-skills/skills/logging-best-practices .claude/skills/logging-best-practices
-ln -s ~/agent-skills/skills/systematic-debugging .claude/skills/systematic-debugging
-ln -s ~/agent-skills/skills/test-driven-development .claude/skills/test-driven-development
-ln -s ~/agent-skills/skills/agent-device .claude/skills/agent-device
-ln -s ~/agent-skills/skills/dogfood-device .claude/skills/dogfood-device
-ln -s ~/agent-skills/skills/showboat-walkthrough .claude/skills/showboat-walkthrough
-ln -s ~/agent-skills/skills/ghidra .claude/skills/ghidra
-ln -s ~/agent-skills/skills/sentry .claude/skills/sentry
-ln -s ~/agent-skills/skills/summarize .claude/skills/summarize
-ln -s ~/agent-skills/skills/tmux .claude/skills/tmux
-ln -s ~/agent-skills/skills/visual-explainer .claude/skills/visual-explainer
-ln -s ~/agent-skills/skills/triad .claude/skills/triad
-ln -s ~/agent-skills/skills/triad-review .claude/skills/triad-review
-ln -s ~/agent-skills/skills/trycycle .claude/skills/trycycle
-ln -s ~/agent-skills/skills/babysit-pr .claude/skills/babysit-pr
-ln -s ~/agent-skills/skills/ask-matt .claude/skills/ask-matt
-ln -s ~/agent-skills/skills/caveman .claude/skills/caveman
-ln -s ~/agent-skills/skills/code-review .claude/skills/code-review
-ln -s ~/agent-skills/skills/codebase-design .claude/skills/codebase-design
-ln -s ~/agent-skills/skills/diagnose .claude/skills/diagnose
-ln -s ~/agent-skills/skills/diagnosing-bugs .claude/skills/diagnosing-bugs
-ln -s ~/agent-skills/skills/domain-modeling .claude/skills/domain-modeling
-ln -s ~/agent-skills/skills/edit-article .claude/skills/edit-article
-ln -s ~/agent-skills/skills/git-guardrails-claude-code .claude/skills/git-guardrails-claude-code
-ln -s ~/agent-skills/skills/grill-me .claude/skills/grill-me
-ln -s ~/agent-skills/skills/grill-with-docs .claude/skills/grill-with-docs
-ln -s ~/agent-skills/skills/grilling .claude/skills/grilling
-ln -s ~/agent-skills/skills/handoff .claude/skills/handoff
-ln -s ~/agent-skills/skills/implement .claude/skills/implement
-ln -s ~/agent-skills/skills/improve-codebase-architecture .claude/skills/improve-codebase-architecture
-ln -s ~/agent-skills/skills/migrate-to-shoehorn .claude/skills/migrate-to-shoehorn
-ln -s ~/agent-skills/skills/obsidian-vault .claude/skills/obsidian-vault
-ln -s ~/agent-skills/skills/prototype .claude/skills/prototype
-ln -s ~/agent-skills/skills/prd-to-plan .claude/skills/prd-to-plan
-ln -s ~/agent-skills/skills/research .claude/skills/research
-ln -s ~/agent-skills/skills/resolving-merge-conflicts .claude/skills/resolving-merge-conflicts
-ln -s ~/agent-skills/skills/scaffold-exercises .claude/skills/scaffold-exercises
-ln -s ~/agent-skills/skills/setup-matt-pocock-skills .claude/skills/setup-matt-pocock-skills
-ln -s ~/agent-skills/skills/setup-pre-commit .claude/skills/setup-pre-commit
-ln -s ~/agent-skills/skills/teach .claude/skills/teach
-ln -s ~/agent-skills/skills/tdd .claude/skills/tdd
-ln -s ~/agent-skills/skills/to-spec .claude/skills/to-spec
-ln -s ~/agent-skills/skills/to-tickets .claude/skills/to-tickets
-ln -s ~/agent-skills/skills/to-questionnaire .claude/skills/to-questionnaire
-ln -s ~/agent-skills/skills/triage .claude/skills/triage
-ln -s ~/agent-skills/skills/triage-issue .claude/skills/triage-issue
-ln -s ~/agent-skills/skills/interview-coach .claude/skills/interview-coach
-ln -s ~/agent-skills/skills/wayfinder .claude/skills/wayfinder
-ln -s ~/agent-skills/skills/wait-what .claude/skills/wait-what
-ln -s ~/agent-skills/skills/wizard .claude/skills/wizard
-ln -s ~/agent-skills/skills/write-a-skill .claude/skills/write-a-skill
-ln -s ~/agent-skills/skills/writing-for-agents .claude/skills/writing-for-agents
-ln -s ~/agent-skills/skills/zoom-out .claude/skills/zoom-out
-ln -s ~/agent-skills/skills/no-use-effect .claude/skills/no-use-effect
-ln -s ~/agent-skills/skills/harness-engineering .claude/skills/harness-engineering
-ln -s ~/agent-skills/skills/frontend-slides .claude/skills/frontend-slides
+# Or project-level, into ./.claude/skills of the current project
+./scripts/link-claude-skills.sh --project
 ```
+
+The links point back at the clone, so `git pull` updates every skill in place.
+Re-run the script after a pull to pick up skills that were added since.
+
+Other flags:
+
+```bash
+./scripts/link-claude-skills.sh --dry-run            # show what would change
+./scripts/link-claude-skills.sh code-review tmux     # link only these skills
+./scripts/link-claude-skills.sh --force              # replace conflicting entries
+./scripts/link-claude-skills.sh --prune              # drop links to skills that are gone
+./scripts/link-claude-skills.sh --target <dir>       # link into some other directory
+./scripts/link-claude-skills.sh --help
+```
+
+Skills already linked are left alone. A name that exists in the target directory
+but points somewhere else is reported as a conflict and skipped unless you pass
+`--force` — so a skill of your own under the same name is never overwritten by
+accident. Directories without a `SKILL.md` carrying `name` and `description`
+frontmatter are skipped and listed, since Claude Code cannot load them.
 
 **Optional: visual-explainer skill (external repo)**
 

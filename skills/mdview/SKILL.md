@@ -1,3 +1,8 @@
+---
+name: mdview
+description: Open a markdown file in the browser as a styled page with syntax-highlighted code, GFM tables and task lists, Mermaid diagrams, and relative images. Use when the user wants to view, preview, or render a .md file rather than read it as plain text.
+---
+
 # mdview
 
 Beautiful markdown file viewer in browser.

@@ -1,3 +1,8 @@
+---
+name: popup-book
+description: Generate printable pop-up book templates (v-fold, box, parallel) as PDFs from existing photos or AI-generated images, one page at a time or in batch. Use when the user wants a pop-up book, pop-up card, or printable paper-craft template from pictures.
+---
+
 # Pop-Up Book Generator Skill
 
 Generate printable pop-up book templates from photos or AI-generated images.
