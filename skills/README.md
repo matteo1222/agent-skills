@@ -37,7 +37,6 @@ Optional Explain Diff skill setup:
 ```bash
 ln -s ~/.codex/skills/agent-skills/skills/explain-diff-html ~/.codex/skills/explain-diff-html
 ln -s ~/.codex/skills/agent-skills/skills/explain-diff-html-recursive ~/.codex/skills/explain-diff-html-recursive
-ln -s ~/.codex/skills/agent-skills/skills/explain-diff-notion ~/.codex/skills/explain-diff-notion
 ```
 
 Optional Show Me setup:
@@ -145,21 +144,6 @@ but points somewhere else is reported as a conflict and skipped unless you pass
 accident. Directories without a `SKILL.md` carrying `name` and `description`
 frontmatter are skipped and listed, since Claude Code cannot load them.
 
-**Optional: visual-explainer skill (external repo)**
-
-Generates beautiful, self-contained HTML pages for diagrams, diff reviews, visual plans, slide decks, and data tables. Includes 7 slash commands.
-
-```bash
-# Clone into skills directory
-git clone https://github.com/nicobailon/visual-explainer ~/agent-skills/skills/visual-explainer
-
-# Copy slash commands to Claude Code commands directory
-mkdir -p ~/.claude/commands
-cp ~/agent-skills/skills/visual-explainer/prompts/*.md ~/.claude/commands/
-```
-
-Commands: `/generate-web-diagram`, `/generate-visual-plan`, `/generate-slides`, `/diff-review`, `/plan-review`, `/project-recap`, `/fact-check`. [More info](https://github.com/nicobailon/visual-explainer)
-
 **Optional: UI/UX Pro Max skill**
 
 For UI/UX design assistance (styles, colors, fonts, charts, UX guidelines):
@@ -203,7 +187,6 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [build-review-interface](build-review-interface/SKILL.md) | Build a browser-based annotation interface for reviewing LLM traces and collecting labels (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [explain-diff-html](explain-diff-html/SKILL.md) | Create a rich, interactive HTML explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
 | [explain-diff-html-recursive](explain-diff-html-recursive/SKILL.md) | Explain important or difficult code recursively in expandable HTML; uses [explain-diff-html](explain-diff-html/SKILL.md) for shared presentation rules |
-| [explain-diff-notion](explain-diff-notion/SKILL.md) | Create a rich Notion-page explanation of a diff, branch, or PR (from [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524)) |
 | [show-me](show-me/SKILL.md) | Explain the current topic visually with concise diagrams, code sketches, and focused HTML artifacts (from [humanlayer/skills](https://github.com/humanlayer/skills/tree/main/plugins/show-me/skills/show-me)) |
 | [show-me-recursive](show-me-recursive/SKILL.md) | Explain important or difficult parts of a topic with recursive visual drill-downs; uses [show-me](show-me/SKILL.md) for visual selection |
 | [source-driven-development](source-driven-development/SKILL.md) | Ground framework-specific implementation decisions in official documentation and source citations (from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) |
@@ -240,7 +223,6 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [image-to-code-skill](image-to-code-skill/SKILL.md) | Image-first website workflow: generate references, analyze them, then implement matching frontend code; install name `image-to-code` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [redesign-skill](redesign-skill/SKILL.md) | Audit and upgrade existing websites/apps without breaking functionality; install name `redesign-existing-projects` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [soft-skill](soft-skill/SKILL.md) | High-end visual design guidance for polished, calm, expensive-feeling UIs; install name `high-end-visual-design` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
-| [output-skill](output-skill/SKILL.md) | Enforce complete, unabridged output and clean continuation behavior; install name `full-output-enforcement` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [minimalist-skill](minimalist-skill/SKILL.md) | Editorial minimalist UI guidance with restrained palettes and crisp structure; install name `minimalist-ui` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [brutalist-skill](brutalist-skill/SKILL.md) | Industrial brutalist UI guidance for raw mechanical interfaces and tactical telemetry aesthetics; install name `industrial-brutalist-ui` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
 | [stitch-skill](stitch-skill/SKILL.md) | Google Stitch-compatible semantic design system rules with optional `DESIGN.md` export format; install name `stitch-design-taste` (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)) |
@@ -262,10 +244,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [showboat-walkthrough](showboat-walkthrough/SKILL.md) | Build linear, executable code walkthroughs using showboat |
 | [triad](triad/SKILL.md) | Three-agent adversarial analysis (Finder/Adversary/Referee) for any code dimension |
 | [triad-review](triad-review/SKILL.md) | Multi-dimensional code review running triad across bugs, security, performance, maintainability, and simplicity |
-| [trycycle](trycycle/SKILL.md) | Iterative plan-build-review workflow with hill-climbing refinement ([danshapiro/trycycle](https://github.com/danshapiro/trycycle)) |
-| [visual-explainer](https://github.com/nicobailon/visual-explainer) | Generate beautiful HTML pages for diagrams, diff reviews, visual plans, slide decks, and data tables (external) |
 | [ask-matt](ask-matt/SKILL.md) | Router for choosing the right Matt Pocock skill or flow for the situation ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [caveman](caveman/SKILL.md) | Ultra-compressed communication mode for terse, low-token collaboration ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [code-review](code-review/SKILL.md) | Review a diff against repo standards and the originating spec in parallel axes ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [codebase-design](codebase-design/SKILL.md) | Shared vocabulary for designing deep modules with small interfaces and clean seams ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [diagnose](diagnose/SKILL.md) | Legacy local diagnosis skill; prefer `diagnosing-bugs` for the current upstream flow ([mattpocock/skills](https://github.com/mattpocock/skills)) |
@@ -279,13 +258,11 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [handoff](handoff/SKILL.md) | Write a compact handoff document for continuing work in a fresh session ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [implement](implement/SKILL.md) | Implement work from a spec or ticket set using TDD and code review ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [improve-codebase-architecture](improve-codebase-architecture/SKILL.md) | Find deepening opportunities informed by `CONTEXT.md` and `docs/adr/` ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [migrate-to-shoehorn](migrate-to-shoehorn/SKILL.md) | Convert test files from `as` assertions to @total-typescript/shoehorn ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [obsidian-vault](obsidian-vault/SKILL.md) | Manage Obsidian vault notes with wikilinks support ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [prototype](prototype/SKILL.md) | Build a shareable single-file HTML prototype to answer a design question ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [prd-to-plan](prd-to-plan/SKILL.md) | Transform product requirements into phased implementation strategies (local derivative; no direct current upstream equivalent) ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [research](research/SKILL.md) | Investigate questions against primary sources and capture cited findings in repo markdown ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [resolving-merge-conflicts](resolving-merge-conflicts/SKILL.md) | Resolve in-progress merge or rebase conflicts by preserving both sides' intent ([mattpocock/skills](https://github.com/mattpocock/skills)) |
-| [scaffold-exercises](scaffold-exercises/SKILL.md) | Create exercise directory structures with sections, problems, solutions, and explainers ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [setup-matt-pocock-skills](setup-matt-pocock-skills/SKILL.md) | Scaffold per-repo issue tracker and triage-label configuration for the Matt Pocock skill set ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [setup-pre-commit](setup-pre-commit/SKILL.md) | Configure Husky hooks with linting, formatting, type checking, and testing ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [teach](teach/SKILL.md) | Create a stateful teaching workspace with missions, learning records, references, and interactive lessons ([mattpocock/skills](https://github.com/mattpocock/skills)) |
@@ -322,7 +299,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [swiftui-ui-patterns](swiftui-ui-patterns/SKILL.md) | Apply best-practice SwiftUI patterns for navigation, state, layouts, and reusable components ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 | [swiftui-view-refactor](swiftui-view-refactor/SKILL.md) | Refactor SwiftUI view files toward smaller subviews, stable view trees, and cleaner MV-style data flow ([Dimillian/Skills](https://github.com/Dimillian/Skills)) |
 
-> **Matt Pocock sync:** promoted skills match upstream `main` at `0986ebaf5d29e812162702b2633a2942c30200d2` (plugin `1.2.1`, August 5, 2026), except `writing-for-agents` retains this repo's spaced-repetition prompt branch. Upstream renamed `writing-great-skills` to `writing-for-agents`, `to-prd` to `to-spec`, and replaced `to-issues` with `to-tickets`. Legacy local snapshots such as `caveman`, `edit-article`, `obsidian-vault`, `write-a-skill`, and `zoom-out` remain available but are no longer in upstream.
+> **Matt Pocock sync:** promoted skills match upstream `main` at `0986ebaf5d29e812162702b2633a2942c30200d2` (plugin `1.2.1`, August 5, 2026), except `writing-for-agents` retains this repo's spaced-repetition prompt branch. Upstream renamed `writing-great-skills` to `writing-for-agents`, `to-prd` to `to-spec`, and replaced `to-issues` with `to-tickets`. Legacy local snapshots such as `edit-article`, `obsidian-vault`, `write-a-skill`, and `zoom-out` remain available but are no longer in upstream.
 
 ## Autonomous Agent (Ralph)
 
@@ -401,7 +378,6 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **image-to-code-skill**: No dependencies beyond the chosen coding/image-generation environment; frontmatter name `image-to-code`. From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **redesign-skill**: No dependencies (existing-project redesign guidance skill; frontmatter name `redesign-existing-projects`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **soft-skill**: No dependencies (high-end visual design guidance skill; frontmatter name `high-end-visual-design`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
-- **output-skill**: No dependencies (full-output enforcement skill; frontmatter name `full-output-enforcement`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **minimalist-skill**: No dependencies (minimalist UI guidance skill; frontmatter name `minimalist-ui`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **brutalist-skill**: No dependencies (industrial brutalist UI guidance skill; frontmatter name `industrial-brutalist-ui`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
 - **stitch-skill**: No dependencies (Google Stitch design guidance skill; frontmatter name `stitch-design-taste`). From [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).
@@ -423,10 +399,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **showboat-walkthrough**: Requires Python 3.x and `uvx` (from [uv](https://docs.astral.sh/uv/)). Showboat is auto-installed via `uvx`.
 - **triad**: Requires `claude` CLI in PATH. Runs 3 separate `claude -p` processes per analysis (Finder → Adversary → Referee).
 - **triad-review**: Requires `claude` CLI in PATH. Wrapper that runs triad across multiple lenses.
-- **trycycle**: Requires Python 3. Iterative plan-build-review workflow from [danshapiro/trycycle](https://github.com/danshapiro/trycycle) (MIT, by Dan Shapiro; adapted from Jesse Vincent's "superpowers").
-- **visual-explainer**: No build dependencies (generates self-contained HTML). Optional: `surf` CLI for AI-generated images. Clone separately from [nicobailon/visual-explainer](https://github.com/nicobailon/visual-explainer).
 - **ask-matt**: No dependencies (routing/reference skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
-- **caveman**: No dependencies (communication mode skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **code-review**: No dependencies beyond Git, the configured issue tracker for spec lookup, and normal repo inspection. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **codebase-design**: No dependencies (architecture vocabulary/reference skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **diagnose**: No dependencies (legacy debugging/diagnosis skill). Prefer `diagnosing-bugs` for the current upstream flow. From [mattpocock/skills](https://github.com/mattpocock/skills).
@@ -440,13 +413,11 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **handoff**: No dependencies (session handoff skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **implement**: Uses the repo's normal typecheck/test commands and the configured issue/spec workflow. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **improve-codebase-architecture**: No dependencies (architecture review skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
-- **migrate-to-shoehorn**: Requires `@total-typescript/shoehorn` package. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **obsidian-vault**: Requires an Obsidian vault directory. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **prototype**: No dependencies beyond the current repo's runtime for any throwaway prototype it creates. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **prd-to-plan**: No dependencies (planning skill). Local derivative of Matt Pocock's tracer-bullet planning workflow; no direct current upstream equivalent.
 - **research**: No dependencies beyond source access for the research task. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **resolving-merge-conflicts**: No dependencies beyond Git and the repo's normal verification commands. From [mattpocock/skills](https://github.com/mattpocock/skills).
-- **scaffold-exercises**: No dependencies (scaffolding skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **setup-matt-pocock-skills**: No dependencies (repo setup/configuration skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **setup-pre-commit**: Requires Node.js and Husky. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **teach**: No external dependencies (stateful teaching workspace skill). From [mattpocock/skills](https://github.com/mattpocock/skills).

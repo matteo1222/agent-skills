@@ -4,8 +4,6 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 
 > **Attribution:** Forked from [badlogic/pi-skills](https://github.com/badlogic/pi-skills)
 >
-> **Includes:** [danshapiro/trycycle](https://github.com/danshapiro/trycycle) — an iterative plan-build-review skill for Claude Code and Codex CLI (MIT, by Dan Shapiro; adapted from Jesse Vincent's "superpowers" project)
->
 > **Includes:** [mattpocock/skills](https://github.com/mattpocock/skills) — planning, design, development, and writing skills for Claude Code (MIT, by Matt Pocock)
 >
 > **Includes:** [openai/codex](https://github.com/openai/codex) — babysit-pr skill for autonomous PR monitoring (Apache 2.0, by OpenAI)
@@ -26,7 +24,7 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills) — LLM evaluation audit, error analysis, synthetic data, judge design and validation, RAG evaluation, and trace review skills (MIT, by Hamel Husain)
 >
-> **Includes:** [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) — anti-slop frontend design, redesign, image-to-code, output enforcement, and image-generation skills (MIT, by Leonxlnx)
+> **Includes:** [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) — anti-slop frontend design, redesign, image-to-code, and image-generation skills (MIT, by Leonxlnx)
 >
 > **Includes:** [elayadesign/ai-design-skills](https://github.com/elayadesign/ai-design-skills) — landing-page strategy, conversion copy, SEO, and visual-system guidance (MIT, by elayadesign)
 >
@@ -38,7 +36,7 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 >
 > **Includes:** [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — skill-only port of Ponytail lazy senior developer mode, review, and help skills without plugin lifecycle hooks (MIT, by Dietrich Gebert)
 >
-> **Includes:** [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) — rich HTML and Notion explanations of diffs, branches, and PRs (by Geoffrey Litt)
+> **Includes:** [geoffreylitt/explain-diff gist](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) — rich HTML explanations of diffs, branches, and PRs (by Geoffrey Litt)
 >
 > **Includes:** [humanlayer/skills](https://github.com/humanlayer/skills) — Show Me visual explanations with diagrams, code sketches, and focused HTML artifacts (MIT, by HumanLayer)
 >
