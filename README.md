@@ -53,6 +53,20 @@ A collection of skills and extensions for AI coding agents, compatible with Clau
 | [skills/](skills/README.md) | Agent skills (tool definitions, CLI wrappers, reference docs) |
 | [agents/](agents/README.md) | Reusable `AGENTS.md` files for different development situations |
 | [pi-extensions/](pi-extensions/README.md) | Pi-coding-agent extensions (lifecycle hooks, tool overrides) |
+| [scripts/](scripts/) | Setup scripts (link skills into an agent's skills directory) |
+
+## Quick start
+
+Claude Code, user-level (every skill available in all projects):
+
+```bash
+git clone https://github.com/matteo1222/agent-skills ~/agent-skills
+cd ~/agent-skills && ./scripts/link-claude-skills.sh
+```
+
+The links point back at the clone, so `git pull` updates every skill in place.
+See [skills/README.md](skills/README.md#installation) for the other flags and
+for pi-coding-agent, Codex CLI, Amp, and Droid.
 
 ## License
 
