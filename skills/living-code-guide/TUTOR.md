@@ -7,7 +7,8 @@ Reference for steps 6 and 7 of [`SKILL.md`](SKILL.md): an agent in a side panel 
 - Runs entirely in the reader's browser on a small agent harness (the original uses Pi's `pi-durable`, vendored as one bundle). The agent bundle loads only when the panel opens.
 - One conversation spans the whole guide; navigation must not reload the page (see "One long-lived page" in `AUTHORING.md`).
 - **Durable**: persist every question, answer and tool call (IndexedDB) before showing it, so a reload mid-answer resumes and finishes it. Tools that only read are safe to replay after a reload; tools that change things come back as interrupted instead of re-running. Allow one active tab (a Web Lock) and offer takeover in others.
-- **Keys**: either the dev server injects a provider key from its environment (the browser never sees it), or the reader pastes one into settings, stored only in that browser and sent straight to the provider. Settings also pick the model, show spend, start over, and forget everything.
+- **No key at all, inside Claude**: published as a claude.ai Artifact with the `sample` capability, the page calls Claude on the viewer's own subscription, passing its tools as page functions. Calls are memoryless, so the page keeps the turns and sends the teaching rules as a leading user turn plus the `<page>` block with each message; the viewer consents once, and the `quick` tier keeps tool rounds snappy.
+- **Keys**: elsewhere, either the dev server injects a provider key from its environment (the browser never sees it), or the reader pastes one into settings, stored only in that browser and sent straight to the provider. Settings also pick the model, show spend, start over, and forget everything.
 - The tutor needs no update when slides change or rooms are added: it reads pages and code live. Only its teaching prompt is maintained by hand.
 
 ## Context it gets without asking
