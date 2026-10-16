@@ -1,0 +1,3 @@
+interface:
+  display_name: "Living Code Guide"
+  short_description: "Interactive code-linked guide with a tutor agent"
