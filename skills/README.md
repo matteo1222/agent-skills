@@ -178,6 +178,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [learn-quiz](learn-quiz/SKILL.md) | Incremental teaching, restatement, and quiz workflow for deeply understanding an agent session (inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b)) |
 | [learning-opportunities](learning-opportunities/SKILL.md) | Offer evidence-based deliberate-practice exercises after architectural work (from [DrCatHicks/learning-opportunities](https://github.com/DrCatHicks/learning-opportunities)) |
 | [learning-goal](learning-goal/SKILL.md) | Facilitate structured learning goals with SMART goals and mental contrasting (from [DrCatHicks/learning-goal](https://github.com/DrCatHicks/learning-goal)) |
+| [living-code-guide](living-code-guide/SKILL.md) | Build and maintain an interactive guide that reads the real code, tracks drift as agents edit it, and embeds a tutor agent that can drive the running app (inspired by [mitsuhiko/dungeon-crawler](https://github.com/mitsuhiko/dungeon-crawler) and [Teaching Kids Programming with Pi](https://youtu.be/_35OxmSp5EM)) |
 | [eval-audit](eval-audit/SKILL.md) | Audit an LLM eval pipeline and surface prioritized problems (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [error-analysis](error-analysis/SKILL.md) | Identify and categorize failure modes by systematically reviewing LLM traces (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
 | [generate-synthetic-data](generate-synthetic-data/SKILL.md) | Create diverse synthetic eval inputs with dimension-based tuple generation (from [hamelsmu/evals-skills](https://github.com/hamelsmu/evals-skills)) |
@@ -349,6 +350,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **learn-quiz**: No dependencies (teaching/checklist/quiz workflow). Inspired by [ThariqS/Learn Quiz gist](https://gist.github.com/ThariqS/1389dcdff9eba4789887a2211370f06b).
 - **learning-opportunities**: No dependencies (interactive deliberate-practice workflow). From [DrCatHicks/learning-opportunities](https://github.com/DrCatHicks/learning-opportunities), licensed CC-BY-4.0.
 - **learning-goal**: No dependencies (interactive SMART/MCII goal-setting workflow). From [DrCatHicks/learning-goal](https://github.com/DrCatHicks/learning-goal), licensed CC-BY-4.0.
+- **living-code-guide**: No dependencies for the skill itself; the guide it builds is plain HTML/ES modules, and the optional tutor needs an LLM API key. Inspired by [mitsuhiko/dungeon-crawler](https://github.com/mitsuhiko/dungeon-crawler).
 - **source-driven-development**: No dependencies (documentation/source-citation workflow). From [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
 - **grilling-frontend-prototyping**: No dependencies beyond the current frontend/runtime needed to render prototypes. From [will-ness-ai/skills](https://github.com/will-ness-ai/skills).
 - **emil-design-eng**: No dependencies (frontend design-engineering guidance skill). From [emilkowalski/skill](https://github.com/emilkowalski/skill).
