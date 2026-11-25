@@ -275,6 +275,7 @@ Requires Python 3.x. [More info](https://github.com/nextlevelbuilder/ui-ux-pro-m
 | [wait-what](wait-what/SKILL.md) | Re-pitch the previous message in plain English with the missing context ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [wizard](wizard/SKILL.md) | Generate an interactive Bash wizard for manual setup, secrets, dashboards, and cutovers ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [write-a-skill](write-a-skill/SKILL.md) | Create new skills with proper structure and bundled resources ([mattpocock/skills](https://github.com/mattpocock/skills)) |
+| [first-principles](first-principles/SKILL.md) | Reason from fundamental truths instead of analogy: tag claims, find the physical floor and the "idiot index", rebuild the answer, then test it (from Musk's interviews and Isaacson's biography) |
 | [five-step](five-step/SKILL.md) | Improve a process or system with Musk's five-step algorithm: question requirements, delete, simplify, accelerate, then automate (from Musk's own account of his "5步工作法") |
 | [writing-for-agents](writing-for-agents/SKILL.md) | Write predictable agent-facing docs and focused spaced-repetition prompts ([mattpocock/skills](https://github.com/mattpocock/skills)) |
 | [zoom-out](zoom-out/SKILL.md) | Ask the agent for a broader map of the relevant code and callers using the project's domain glossary ([mattpocock/skills](https://github.com/mattpocock/skills)) |
@@ -427,6 +428,7 @@ Some skills require additional setup. Generally, the agent will walk you through
 - **wait-what**: No dependencies (plain-language re-pitch skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **wizard**: Requires Bash; generated wizards may also use `gh` and project-specific CLIs. From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **write-a-skill**: No dependencies (meta skill for creating skills). From [mattpocock/skills](https://github.com/mattpocock/skills).
+- **first-principles**: No dependencies (reasoning method skill). Distilled from Musk's Kevin Rose (2012) and Wired (2012) interviews and the "idiot index" in Isaacson's *Elon Musk* (2023).
 - **five-step**: No dependencies (process-improvement method skill). Distilled from Musk's own account of the method (book chapter "5步工作法").
 - **writing-for-agents**: No dependencies (agent-document and spaced-repetition prompt reference). From [mattpocock/skills](https://github.com/mattpocock/skills).
 - **zoom-out**: No dependencies (navigation/context skill). From [mattpocock/skills](https://github.com/mattpocock/skills).
